@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { LoginRequest } from '../models/auth.model';
+
+interface LoginRequest {
+  userName: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root',

@@ -1,0 +1,38 @@
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: #111827;
+  color: white;
+  padding: 24px 16px;
+}
+
+.logo {
+  padding: 0 12px 25px;
+}
+
+.logo h2 {
+  margin: 0;
+}
+
+.logo span {
+  color: #9ca3af;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+nav a {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 7px;
+}
+
+nav a:hover,
+nav a.active {
+  background: #2563eb;
+  color: white;
+}
