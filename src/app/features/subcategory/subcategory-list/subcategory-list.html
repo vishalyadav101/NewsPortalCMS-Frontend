@@ -1,0 +1,73 @@
+<div class="page-header">
+  <div>
+    <h1>Sub Categories</h1>
+    <p>Manage news sub categories</p>
+  </div>
+
+  <a routerLink="/subcategories/add" class="add-btn"> + Add Sub Category </a>
+</div>
+
+<div class="table-card">
+  <div *ngIf="isLoading" class="message">Loading sub categories...</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && subCategories.length === 0" class="message">
+    No sub categories found.
+  </div>
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && subCategories.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Name</th>
+          <th>Slug</th>
+          <th>Description</th>
+          <th>Order</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let subCategory of subCategories">
+          <td>{{ subCategory.id }}</td>
+
+          <td>
+            {{ subCategory.categoryName }}
+          </td>
+
+          <td>
+            <strong>{{ subCategory.name }}</strong>
+          </td>
+
+          <td>{{ subCategory.slug }}</td>
+
+          <td>{{ subCategory.description }}</td>
+
+          <td>{{ subCategory.displayOrder }}</td>
+
+          <td>
+            <span [class.active]="subCategory.isActive" [class.inactive]="!subCategory.isActive">
+              {{ subCategory.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/subcategories/edit', subCategory.id]" class="edit-btn"> Edit </a>
+
+              <button type="button" class="delete-btn" (click)="deleteSubCategory(subCategory.id)">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

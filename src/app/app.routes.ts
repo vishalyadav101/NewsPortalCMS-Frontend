@@ -5,7 +5,11 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { authGuard } from './core/guards/auth-guard';
 import { CategoryList } from './features/category/category-list/category-list';
 import { CategoryForm } from './features/category/category-form/category-form';
+
 import { NewsList } from './features/news/news-list/news-list';
+
+import { SubcategoryList } from './features/subcategory/subcategory-list/subcategory-list';
+import { SubcategoryForm } from './features/subcategory/subcategory-form/subcategory-form';
 
 export const routes: Routes = [
   {
@@ -33,6 +37,18 @@ export const routes: Routes = [
       {
         path: 'categories/edit/:id',
         component: CategoryForm,
+      },
+      {
+        path: 'subcategories',
+        component: SubcategoryList,
+      },
+      {
+        path: 'subcategories/add',
+        component: SubcategoryForm,
+      },
+      {
+        path: 'subcategories/edit/:id',
+        component: SubcategoryForm,
       },
       {
         path: 'news',

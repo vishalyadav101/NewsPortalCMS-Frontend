@@ -1,0 +1,103 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Sub Category' : 'Add Sub Category' }}
+    </h1>
+
+    <p>
+      {{ isEditMode ? 'Update news sub category' : 'Create a new news sub category' }}
+    </p>
+  </div>
+
+  <a routerLink="/subcategories" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <p *ngIf="isLoading">Loading...</p>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <!-- Category -->
+    <div class="form-group">
+      <label for="categoryId"> Category * </label>
+
+      <select id="categoryId" name="categoryId" [(ngModel)]="subCategory.categoryId">
+        <option [ngValue]="0">Select Category</option>
+
+        <option *ngFor="let category of categories" [ngValue]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name"> Sub Category Name * </label>
+
+      <input
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="subCategory.name"
+        placeholder="Enter sub category name"
+      />
+    </div>
+
+    <!-- Slug -->
+    <div class="form-group">
+      <label for="slug"> Slug * </label>
+
+      <input
+        id="slug"
+        type="text"
+        name="slug"
+        [(ngModel)]="subCategory.slug"
+        placeholder="example: artificial-intelligence"
+      />
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description"> Description </label>
+
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="subCategory.description"
+        rows="5"
+        placeholder="Enter description"
+      ></textarea>
+    </div>
+
+    <!-- Display Order -->
+    <div class="form-group">
+      <label for="displayOrder"> Display Order </label>
+
+      <input
+        id="displayOrder"
+        type="number"
+        name="displayOrder"
+        [(ngModel)]="subCategory.displayOrder"
+        min="0"
+      />
+    </div>
+
+    <!-- Active -->
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="subCategory.isActive" />
+
+      <label for="isActive"> Active </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/subcategories" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Sub Category' : 'Save Sub Category' }}
+      </button>
+    </div>
+  </form>
+</div>
