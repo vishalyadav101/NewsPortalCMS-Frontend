@@ -11,6 +11,8 @@ import { SubcategoryForm } from './features/subcategory/subcategory-form/subcate
 import { NewsForm } from './features/news/news-form/news-form';
 import { TagList } from './features/tag/tag-list/tag-list';
 import { TagForm } from './features/tag/tag-form/tag-form';
+import { MediaList } from './features/media/media-list/media-list';
+import { MediaForm } from './features/media/media-form/media-form';
 
 export const routes: Routes = [
   {
@@ -73,6 +75,18 @@ export const routes: Routes = [
       {
         path: 'tags/edit/:id',
         component: TagForm,
+      },
+      {
+        path: 'media',
+        component: MediaList,
+      },
+      {
+        path: 'media/add',
+        component: MediaForm,
+      },
+      {
+        path: 'media/edit/:id',
+        component: MediaForm,
       },
       {
         path: '',
