@@ -1,0 +1,63 @@
+<div class="page-header">
+  <div>
+    <h1>Tags</h1>
+    <p>Manage news tags</p>
+  </div>
+
+  <a routerLink="/tags/add" class="add-btn"> + Add Tag </a>
+</div>
+
+<div class="table-card">
+  <div *ngIf="isLoading" class="message">Loading tags...</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && tags.length === 0" class="message">No tags found.</div>
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && tags.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Slug</th>
+          <th>Status</th>
+          <th>Created Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let tag of tags">
+          <td>{{ tag.id }}</td>
+
+          <td>
+            <strong>{{ tag.name }}</strong>
+          </td>
+
+          <td>{{ tag.slug }}</td>
+
+          <td>
+            <span [class.active]="tag.isActive" [class.inactive]="!tag.isActive">
+              {{ tag.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            {{ tag.createdDate | date: 'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/tags/edit', tag.id]" class="edit-btn"> Edit </a>
+
+              <button type="button" class="delete-btn" (click)="deleteTag(tag.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

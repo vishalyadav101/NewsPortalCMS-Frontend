@@ -9,6 +9,8 @@ import { NewsList } from './features/news/news-list/news-list';
 import { SubcategoryList } from './features/subcategory/subcategory-list/subcategory-list';
 import { SubcategoryForm } from './features/subcategory/subcategory-form/subcategory-form';
 import { NewsForm } from './features/news/news-form/news-form';
+import { TagList } from './features/tag/tag-list/tag-list';
+import { TagForm } from './features/tag/tag-form/tag-form';
 
 export const routes: Routes = [
   {
@@ -59,6 +61,18 @@ export const routes: Routes = [
       {
         path: 'news/edit/:id',
         component: NewsForm,
+      },
+      {
+        path: 'tags',
+        component: TagList,
+      },
+      {
+        path: 'tags/add',
+        component: TagForm,
+      },
+      {
+        path: 'tags/edit/:id',
+        component: TagForm,
       },
       {
         path: '',

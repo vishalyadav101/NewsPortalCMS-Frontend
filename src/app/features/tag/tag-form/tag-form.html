@@ -1,0 +1,59 @@
+<div class="page-header">
+  <div>
+    <h1>{{ isEditMode ? 'Edit Tag' : 'Add Tag' }}</h1>
+
+    <p>
+      {{ isEditMode ? 'Update news tag' : 'Create a new news tag' }}
+    </p>
+  </div>
+
+  <a routerLink="/tags" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <p *ngIf="isLoading">Loading tag...</p>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="name"> Tag Name * </label>
+
+      <input
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="tag.name"
+        placeholder="Enter tag name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="slug"> Slug * </label>
+
+      <input
+        id="slug"
+        type="text"
+        name="slug"
+        [(ngModel)]="tag.slug"
+        placeholder="example: artificial-intelligence"
+      />
+    </div>
+
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="tag.isActive" />
+
+      <label for="isActive"> Active </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/tags" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Tag' : 'Save Tag' }}
+      </button>
+    </div>
+  </form>
+</div>
