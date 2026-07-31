@@ -5,6 +5,7 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { authGuard } from './core/guards/auth-guard';
 import { CategoryList } from './features/category/category-list/category-list';
 import { CategoryForm } from './features/category/category-form/category-form';
+import { NewsList } from './features/news/news-list/news-list';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,10 @@ export const routes: Routes = [
       {
         path: 'categories/edit/:id',
         component: CategoryForm,
+      },
+      {
+        path: 'news',
+        component: NewsList,
       },
       {
         path: '',

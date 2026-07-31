@@ -1,0 +1,90 @@
+<div class="page-header">
+  <div>
+    <h1>News</h1>
+    <p>Manage news articles</p>
+  </div>
+
+  <a routerLink="/news/add" class="add-btn"> + Add News </a>
+</div>
+
+<div class="table-card">
+  <div *ngIf="isLoading" class="message">Loading news...</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && newsList.length === 0" class="message">
+    No news found.
+  </div>
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && newsList.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Author</th>
+          <th>Publish Date</th>
+          <th>Views</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let news of newsList">
+          <td>{{ news.id }}</td>
+
+          <td>
+            <img
+              *ngIf="news.featuredImage"
+              [src]="news.featuredImage"
+              [alt]="news.title"
+              class="news-image"
+            />
+          </td>
+
+          <td>
+            <strong>{{ news.title }}</strong>
+            <div class="slug">
+              {{ news.slug }}
+            </div>
+          </td>
+
+          <td>
+            {{ news.categoryName }}
+          </td>
+
+          <td>
+            {{ news.author }}
+          </td>
+
+          <td>
+            {{ news.publishDate | date: 'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            {{ news.viewCount }}
+          </td>
+
+          <td>
+            <span [class.published]="news.isPublished" [class.draft]="!news.isPublished">
+              {{ news.isPublished ? 'Published' : 'Draft' }}
+            </span>
+          </td>
+
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/news/edit', news.id]" class="edit-btn"> Edit </a>
+
+              <button type="button" class="delete-btn" (click)="deleteNews(news.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
