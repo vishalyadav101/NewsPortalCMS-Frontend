@@ -1,0 +1,89 @@
+<div class="page-header">
+  <div>
+    <h1>Media Library</h1>
+    <p>Manage media files and metadata</p>
+  </div>
+
+  <a routerLink="/media/add" class="add-btn"> + Add Media </a>
+</div>
+
+<div class="table-card">
+  <div *ngIf="isLoading" class="message">Loading media...</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && mediaList.length === 0" class="message">
+    No media found.
+  </div>
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && mediaList.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>File Name</th>
+          <th>Original Name</th>
+          <th>Type</th>
+          <th>Content Type</th>
+          <th>Size</th>
+          <th>Uploaded By</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let media of mediaList">
+          <td>{{ media.id }}</td>
+
+          <td>
+            <strong>
+              {{ media.fileName }}
+            </strong>
+          </td>
+
+          <td>
+            {{ media.originalFileName }}
+          </td>
+
+          <td>
+            {{ media.fileType }}
+          </td>
+
+          <td>
+            {{ media.contentType }}
+          </td>
+
+          <td>{{ media.fileSize | number }} bytes</td>
+
+          <td>
+            {{ media.uploadedBy }}
+          </td>
+
+          <td>
+            {{ media.uploadedDate | date: 'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            <span [class.active]="media.isActive" [class.inactive]="!media.isActive">
+              {{ media.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/media/edit', media.id]" class="edit-btn"> Edit </a>
+
+              <button type="button" class="delete-btn" (click)="deleteMedia(media.id)">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

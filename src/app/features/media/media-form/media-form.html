@@ -1,0 +1,123 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Media' : 'Add Media' }}
+    </h1>
+
+    <p>
+      {{ isEditMode ? 'Update media information' : 'Add media information' }}
+    </p>
+  </div>
+
+  <a routerLink="/media" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <div *ngIf="isLoading" class="loading">Loading media...</div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="fileName"> File Name * </label>
+
+      <input
+        id="fileName"
+        type="text"
+        name="fileName"
+        [(ngModel)]="media.fileName"
+        placeholder="example: technology-news.jpg"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="originalFileName"> Original File Name * </label>
+
+      <input
+        id="originalFileName"
+        type="text"
+        name="originalFileName"
+        [(ngModel)]="media.originalFileName"
+        placeholder="example: photo.jpg"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="filePath"> File Path * </label>
+
+      <input
+        id="filePath"
+        type="text"
+        name="filePath"
+        [(ngModel)]="media.filePath"
+        placeholder="/uploads/media/photo.jpg"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="fileType"> File Type * </label>
+
+      <select id="fileType" name="fileType" [(ngModel)]="media.fileType">
+        <option value="">Select File Type</option>
+
+        <option value="Image">Image</option>
+        <option value="PDF">PDF</option>
+        <option value="Video Thumbnail">Video Thumbnail</option>
+        <option value="Document">Document</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="contentType"> Content Type * </label>
+
+      <input
+        id="contentType"
+        type="text"
+        name="contentType"
+        [(ngModel)]="media.contentType"
+        placeholder="example: image/jpeg"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="fileSize"> File Size (bytes) </label>
+
+      <input
+        id="fileSize"
+        type="number"
+        name="fileSize"
+        [(ngModel)]="media.fileSize"
+        min="0"
+        placeholder="300000"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="uploadedBy"> Uploaded By * </label>
+
+      <input
+        id="uploadedBy"
+        type="text"
+        name="uploadedBy"
+        [(ngModel)]="media.uploadedBy"
+        placeholder="Admin"
+      />
+    </div>
+
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="media.isActive" />
+
+      <label for="isActive"> Active </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/media" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Media' : 'Save Media' }}
+      </button>
+    </div>
+  </form>
+</div>
