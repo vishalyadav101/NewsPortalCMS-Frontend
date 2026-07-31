@@ -1,0 +1,136 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit News' : 'Add News' }}
+    </h1>
+
+    <p>
+      {{ isEditMode ? 'Update news article' : 'Create a new news article' }}
+    </p>
+  </div>
+
+  <a routerLink="/news" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="categoryId"> Category * </label>
+
+      <select id="categoryId" name="categoryId" [(ngModel)]="news.categoryId">
+        <option [ngValue]="0">Select Category</option>
+
+        <option *ngFor="let category of categories" [ngValue]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="title"> Title * </label>
+
+      <input
+        id="title"
+        type="text"
+        name="title"
+        [(ngModel)]="news.title"
+        placeholder="Enter news title"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="slug"> Slug * </label>
+
+      <input
+        id="slug"
+        type="text"
+        name="slug"
+        [(ngModel)]="news.slug"
+        placeholder="example: angular-21-released"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="shortDescription"> Short Description </label>
+
+      <textarea
+        id="shortDescription"
+        name="shortDescription"
+        [(ngModel)]="news.shortDescription"
+        rows="3"
+        placeholder="Enter short description"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="content"> Content </label>
+
+      <textarea
+        id="content"
+        name="content"
+        [(ngModel)]="news.content"
+        rows="8"
+        placeholder="Enter news content"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="featuredImage"> Featured Image URL </label>
+
+      <input
+        id="featuredImage"
+        type="text"
+        name="featuredImage"
+        [(ngModel)]="news.featuredImage"
+        placeholder="https://example.com/image.jpg"
+      />
+    </div>
+
+    <div class="image-preview" *ngIf="news.featuredImage">
+      <img [src]="news.featuredImage" alt="Featured image preview" />
+    </div>
+
+    <div class="form-group">
+      <label for="author"> Author * </label>
+
+      <input
+        id="author"
+        type="text"
+        name="author"
+        [(ngModel)]="news.author"
+        placeholder="Enter author name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="publishDate"> Publish Date * </label>
+
+      <input
+        id="publishDate"
+        type="datetime-local"
+        name="publishDate"
+        [(ngModel)]="news.publishDate"
+      />
+    </div>
+
+    <div class="checkbox-group">
+      <input id="isPublished" type="checkbox" name="isPublished" [(ngModel)]="news.isPublished" />
+
+      <label for="isPublished"> Published </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/news" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update News' : 'Save News' }}
+      </button>
+    </div>
+  </form>
+</div>

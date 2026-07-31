@@ -5,18 +5,16 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { authGuard } from './core/guards/auth-guard';
 import { CategoryList } from './features/category/category-list/category-list';
 import { CategoryForm } from './features/category/category-form/category-form';
-
 import { NewsList } from './features/news/news-list/news-list';
-
 import { SubcategoryList } from './features/subcategory/subcategory-list/subcategory-list';
 import { SubcategoryForm } from './features/subcategory/subcategory-form/subcategory-form';
+import { NewsForm } from './features/news/news-form/news-form';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: Login,
   },
-
   {
     path: '',
     component: AdminLayout,
@@ -53,6 +51,14 @@ export const routes: Routes = [
       {
         path: 'news',
         component: NewsList,
+      },
+      {
+        path: 'news/add',
+        component: NewsForm,
+      },
+      {
+        path: 'news/edit/:id',
+        component: NewsForm,
       },
       {
         path: '',
