@@ -1,0 +1,109 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0 0 5px;
+}
+
+.page-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.add-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.table-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+th {
+  background: #f9fafb;
+}
+
+.news-image {
+  width: 70px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.slug {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.published {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.draft {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  background: #f59e0b;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.delete-btn {
+  border: 0;
+  background: #dc2626;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.message {
+  padding: 30px;
+  text-align: center;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 6px;
+}
