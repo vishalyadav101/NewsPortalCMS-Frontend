@@ -1,0 +1,92 @@
+<div class="page-header">
+  <div>
+    <h1>{{ isEditMode ? 'Edit Category' : 'Add Category' }}</h1>
+
+    <p>
+      {{ isEditMode ? 'Update news category' : 'Create a new news category' }}
+    </p>
+  </div>
+
+  <a routerLink="/categories" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <!-- Loading -->
+  <p *ngIf="isLoading">Loading category...</p>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Form -->
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <!-- Category Name -->
+    <div class="form-group">
+      <label for="name">Category Name *</label>
+
+      <input
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="category.name"
+        placeholder="Enter category name"
+      />
+    </div>
+
+    <!-- Slug -->
+    <div class="form-group">
+      <label for="slug">Slug *</label>
+
+      <input
+        id="slug"
+        type="text"
+        name="slug"
+        [(ngModel)]="category.slug"
+        placeholder="example: sports"
+      />
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="category.description"
+        rows="5"
+        placeholder="Enter category description"
+      ></textarea>
+    </div>
+
+    <!-- Display Order -->
+    <div class="form-group">
+      <label for="displayOrder">Display Order</label>
+
+      <input
+        id="displayOrder"
+        type="number"
+        name="displayOrder"
+        [(ngModel)]="category.displayOrder"
+        min="0"
+      />
+    </div>
+
+    <!-- Active -->
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="category.isActive" />
+
+      <label for="isActive">Active</label>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-actions">
+      <a routerLink="/categories" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Category' : 'Save Category' }}
+      </button>
+    </div>
+  </form>
+</div>
