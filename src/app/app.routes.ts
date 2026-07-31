@@ -3,6 +3,8 @@ import { Login } from './features/auth/login/login';
 import { Dashboard } from './features/dashboard/dashboard';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { authGuard } from './core/guards/auth-guard';
+import { CategoryList } from './features/category/category-list/category-list';
+import { CategoryForm } from './features/category/category-form/category-form';
 
 export const routes: Routes = [
   {
@@ -18,6 +20,18 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: Dashboard,
+      },
+      {
+        path: 'categories',
+        component: CategoryList,
+      },
+      {
+        path: 'categories/add',
+        component: CategoryForm,
+      },
+      {
+        path: 'categories/edit/:id',
+        component: CategoryForm,
       },
       {
         path: '',
