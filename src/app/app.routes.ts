@@ -13,6 +13,8 @@ import { TagList } from './features/tag/tag-list/tag-list';
 import { TagForm } from './features/tag/tag-form/tag-form';
 import { MediaList } from './features/media/media-list/media-list';
 import { MediaForm } from './features/media/media-form/media-form';
+import { StaticpageList } from './features/static-page/staticpage-list/staticpage-list';
+import { StaticpageForm } from './features/static-page/staticpage-form/staticpage-form';
 
 export const routes: Routes = [
   {
@@ -87,6 +89,18 @@ export const routes: Routes = [
       {
         path: 'media/edit/:id',
         component: MediaForm,
+      },
+      {
+        path: 'static-pages',
+        component: StaticpageList,
+      },
+      {
+        path: 'static-pages/add',
+        component: StaticpageForm,
+      },
+      {
+        path: 'static-pages/edit/:id',
+        component: StaticpageForm,
       },
       {
         path: '',
