@@ -15,6 +15,14 @@ import { MediaList } from './features/media/media-list/media-list';
 import { MediaForm } from './features/media/media-form/media-form';
 import { StaticpageList } from './features/static-page/staticpage-list/staticpage-list';
 import { StaticpageForm } from './features/static-page/staticpage-form/staticpage-form';
+import { AdvertisementList } from './features/advertisement/advertisement-list/advertisement-list';
+import { AdvertisementForm } from './features/advertisement/advertisement-form/advertisement-form';
+import { MenuList } from './features/menu/menu-list/menu-list';
+import { MenuForm } from './features/menu/menu-form/menu-form';
+import { MenuItemList } from './features/menu-item/menu-item-list/menu-item-list';
+import { MenuItemForm } from './features/menu-item/menu-item-form/menu-item-form';
+import { UserList } from './pages/users/user-list/user-list';
+import { UserForm } from './pages/users/user-form/user-form';
 
 export const routes: Routes = [
   {
@@ -101,6 +109,51 @@ export const routes: Routes = [
       {
         path: 'static-pages/edit/:id',
         component: StaticpageForm,
+      },
+      {
+        path: 'advertisements',
+        component: AdvertisementList,
+      },
+      {
+        path: 'advertisements/add',
+        component: AdvertisementForm,
+      },
+      {
+        path: 'advertisements/edit/:id',
+        component: AdvertisementForm,
+      },
+      {
+        path: 'menus',
+        component: MenuList,
+      },
+      {
+        path: 'menus/add',
+        component: MenuForm,
+      },
+      {
+        path: 'menus/edit/:id',
+        component: MenuForm,
+      },
+      {
+        path: 'menu-items',
+        component: MenuItemList,
+      },
+      {
+        path: 'menu-items/add',
+        component: MenuItemForm,
+      },
+      {
+        path: 'menu-items/edit/:id',
+        component: MenuItemForm,
+      },
+      {
+        path: 'users',
+        component: UserList,
+      },
+
+      {
+        path: 'users/edit/:id',
+        component: UserForm,
       },
       {
         path: '',

@@ -1,0 +1,91 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Menu Item' : 'Add Menu Item' }}
+    </h1>
+
+    <p>Manage Website Menu Item</p>
+  </div>
+
+  <a routerLink="/menu-items" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <div class="form-group">
+      <label>Menu *</label>
+
+      <select name="menuId" [(ngModel)]="menuItem.menuId" (change)="loadParentItems()">
+        <option [ngValue]="0">Select Menu</option>
+
+        <option *ngFor="let menu of menus" [ngValue]="menu.id">
+          {{ menu.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Parent Menu Item</label>
+
+      <select name="parentId" [(ngModel)]="menuItem.parentId">
+        <option [ngValue]="null">None</option>
+
+        <option *ngFor="let item of parentItems" [ngValue]="item.id">
+          {{ item.title }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Title *</label>
+
+      <input type="text" name="title" [(ngModel)]="menuItem.title" />
+    </div>
+
+    <div class="form-group">
+      <label>URL *</label>
+
+      <input type="text" name="url" [(ngModel)]="menuItem.url" />
+    </div>
+
+    <div class="form-group">
+      <label>Icon</label>
+
+      <input type="text" name="icon" [(ngModel)]="menuItem.icon" placeholder="house" />
+    </div>
+
+    <div class="form-group">
+      <label>Target</label>
+
+      <select name="target" [(ngModel)]="menuItem.target">
+        <option value="_self">Same Tab</option>
+
+        <option value="_blank">New Tab</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Display Order</label>
+
+      <input type="number" name="displayOrder" [(ngModel)]="menuItem.displayOrder" />
+    </div>
+
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="menuItem.isActive" />
+
+      <label for="isActive"> Active </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/menu-items" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Menu Item' : 'Save Menu Item' }}
+      </button>
+    </div>
+  </form>
+</div>

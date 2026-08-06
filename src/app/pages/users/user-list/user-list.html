@@ -1,0 +1,110 @@
+<div class="page-header">
+  <div>
+    <h1>Users</h1>
+    <p>Manage system users</p>
+  </div>
+</div>
+
+<div class="table-card">
+  <div *ngIf="isLoading" class="message">
+    Loading users...
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div
+    *ngIf="!isLoading && !errorMessage && users.length === 0"
+    class="message"
+  >
+    No users found.
+  </div>
+
+  <div
+    class="table-wrapper"
+    *ngIf="!isLoading && !errorMessage && users.length > 0"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Profile</th>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+
+          <td>
+            <img
+              *ngIf="user.profileImage"
+              [src]="'https://localhost:7103/uploads/profile/' + user.profileImage"
+              class="profile-image"
+              [alt]="user.firstName"
+            />
+
+            <span *ngIf="!user.profileImage">
+              No Image
+            </span>
+          </td>
+
+          <td>
+            {{ user.firstName }}
+            {{ user.lastName }}
+          </td>
+
+          <td>
+            {{ user.userName }}
+          </td>
+
+          <td>
+            {{ user.email }}
+          </td>
+
+          <td>
+            <button
+              type="button"
+              class="status-btn"
+              [class.active]="user.isActive"
+              [class.inactive]="!user.isActive"
+              (click)="toggleStatus(user)"
+            >
+              {{ user.isActive ? 'Active' : 'Inactive' }}
+            </button>
+          </td>
+
+          <td>
+            {{ user.createdDate | date:'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            <div class="actions">
+              <a
+                [routerLink]="['/users/edit', user.id]"
+                class="edit-btn"
+              >
+                Edit
+              </a>
+
+              <button
+                type="button"
+                class="delete-btn"
+                (click)="deleteUser(user.id)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

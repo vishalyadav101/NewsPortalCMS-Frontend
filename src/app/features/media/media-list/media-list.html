@@ -23,6 +23,7 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Preview</th>
           <th>File Name</th>
           <th>Original Name</th>
           <th>Type</th>
@@ -39,39 +40,73 @@
         <tr *ngFor="let media of mediaList">
           <td>{{ media.id }}</td>
 
+          <!-- Preview -->
           <td>
-            <strong>
-              {{ media.fileName }}
-            </strong>
+            <!-- Image -->
+            <a *ngIf="isImage(media)" [href]="getFileUrl(media.filePath)" target="_blank">
+              <img [src]="getFileUrl(media.filePath)" class="media-preview" alt="Image" />
+            </a>
+
+            <!-- PDF -->
+            <a *ngIf="isPdf(media)" [href]="getFileUrl(media.filePath)" target="_blank">
+              <img src="assets/icons/pdf.png" class="media-preview" alt="PDF" />
+            </a>
+
+            <!-- Video -->
+            <a *ngIf="isVideo(media)" [href]="getFileUrl(media.filePath)" target="_blank">
+              <img src="assets/icons/video.png" class="media-preview" alt="Video" />
+            </a>
           </td>
+
+          <!-- File Name -->
+
+          <td>
+            <strong>{{ media.fileName }}</strong>
+          </td>
+
+          <!-- Original Name -->
 
           <td>
             {{ media.originalFileName }}
           </td>
 
+          <!-- Type -->
+
           <td>
             {{ media.fileType }}
           </td>
+
+          <!-- Content Type -->
 
           <td>
             {{ media.contentType }}
           </td>
 
+          <!-- Size -->
+
           <td>{{ media.fileSize | number }} bytes</td>
+
+          <!-- Uploaded By -->
 
           <td>
             {{ media.uploadedBy }}
           </td>
 
+          <!-- Date -->
+
           <td>
             {{ media.uploadedDate | date: 'dd MMM yyyy' }}
           </td>
+
+          <!-- Status -->
 
           <td>
             <span [class.active]="media.isActive" [class.inactive]="!media.isActive">
               {{ media.isActive ? 'Active' : 'Inactive' }}
             </span>
           </td>
+
+          <!-- Actions -->
 
           <td>
             <div class="actions">

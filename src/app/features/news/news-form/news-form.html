@@ -20,8 +20,10 @@
   </div>
 
   <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <!-- Category -->
+
     <div class="form-group">
-      <label for="categoryId"> Category * </label>
+      <label for="categoryId">Category *</label>
 
       <select id="categoryId" name="categoryId" [(ngModel)]="news.categoryId">
         <option [ngValue]="0">Select Category</option>
@@ -31,6 +33,8 @@
         </option>
       </select>
     </div>
+
+    <!-- Title -->
 
     <div class="form-group">
       <label for="title"> Title * </label>
@@ -44,6 +48,8 @@
       />
     </div>
 
+    <!-- Slug -->
+
     <div class="form-group">
       <label for="slug"> Slug * </label>
 
@@ -52,9 +58,11 @@
         type="text"
         name="slug"
         [(ngModel)]="news.slug"
-        placeholder="example: angular-21-released"
+        placeholder="example-angular-news"
       />
     </div>
+
+    <!-- Short Description -->
 
     <div class="form-group">
       <label for="shortDescription"> Short Description </label>
@@ -65,8 +73,11 @@
         [(ngModel)]="news.shortDescription"
         rows="3"
         placeholder="Enter short description"
-      ></textarea>
+      >
+      </textarea>
     </div>
+
+    <!-- Content -->
 
     <div class="form-group">
       <label for="content"> Content </label>
@@ -77,24 +88,56 @@
         [(ngModel)]="news.content"
         rows="8"
         placeholder="Enter news content"
-      ></textarea>
+      >
+      </textarea>
     </div>
 
+    <!-- Featured Image -->
+
     <div class="form-group">
-      <label for="featuredImage"> Featured Image URL </label>
+      <label for="featuredImage"> Featured Image </label>
+
+      <input id="featuredImage" type="file" accept="image/*" (change)="onFileSelected($event)" />
+    </div>
+
+    <!-- Image Preview -->
+
+    <div class="image-preview" *ngIf="selectedImagePreview">
+      <img [src]="selectedImagePreview" alt="Preview" />
+    </div>
+
+    <!-- Featured Video -->
+
+    <div class="form-group">
+      <label for="featuredVideo"> Featured Video </label>
 
       <input
-        id="featuredImage"
-        type="text"
-        name="featuredImage"
-        [(ngModel)]="news.featuredImage"
-        placeholder="https://example.com/image.jpg"
+        id="featuredVideo"
+        type="file"
+        accept="video/*,.pdf"
+        (change)="onVideoSelected($event)"
       />
     </div>
 
-    <div class="image-preview" *ngIf="news.featuredImage">
-      <img [src]="news.featuredImage" alt="Featured image preview" />
+    <!-- Video Preview -->
+
+    <div
+      class="video-preview"
+      *ngIf="selectedVideoPreview && !selectedVideoPreview.toLowerCase().endsWith('.pdf')"
+    >
+      <video [src]="selectedVideoPreview" controls></video>
     </div>
+
+    <!-- PDF Preview -->
+
+    <div
+      class="image-preview"
+      *ngIf="selectedVideoPreview && selectedVideoPreview.toLowerCase().endsWith('.pdf')"
+    >
+      <img src="assets/icons/pdf.png" alt="PDF" class="news-image" />
+    </div>
+
+    <!-- Author -->
 
     <div class="form-group">
       <label for="author"> Author * </label>
@@ -108,6 +151,8 @@
       />
     </div>
 
+    <!-- Publish Date -->
+
     <div class="form-group">
       <label for="publishDate"> Publish Date * </label>
 
@@ -119,11 +164,23 @@
       />
     </div>
 
+    <!-- Published -->
+
     <div class="checkbox-group">
       <input id="isPublished" type="checkbox" name="isPublished" [(ngModel)]="news.isPublished" />
 
       <label for="isPublished"> Published </label>
     </div>
+
+    <!-- Featured -->
+
+    <div class="checkbox-group">
+      <input id="isFeatured" type="checkbox" name="isFeatured" [(ngModel)]="news.isFeatured" />
+
+      <label for="isFeatured"> Featured News </label>
+    </div>
+
+    <!-- Buttons -->
 
     <div class="form-actions">
       <a routerLink="/news" class="cancel-btn"> Cancel </a>

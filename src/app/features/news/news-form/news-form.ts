@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -31,10 +30,12 @@ export class NewsForm implements OnInit {
     slug: '',
     shortDescription: '',
     content: '',
-    featuredImage: '',
+    featuredImage: null,
+    featuredVideo: null,
     author: '',
     publishDate: '',
     isPublished: true,
+    isFeatured: false,
     categoryId: 0,
   };
 
@@ -45,6 +46,9 @@ export class NewsForm implements OnInit {
   isSaving = false;
 
   errorMessage = '';
+
+  selectedImagePreview = '';
+  selectedVideoPreview = '';
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -66,16 +70,20 @@ export class NewsForm implements OnInit {
           this.loadNews();
         } else {
           this.setDefaultPublishDate();
+
           this.isLoading = false;
+
           this.cdr.detectChanges();
         }
       },
 
       error: (error) => {
-        console.error('Category GET error:', error);
+        console.error(error);
 
         this.errorMessage = 'Unable to load categories.';
+
         this.isLoading = false;
+
         this.cdr.detectChanges();
       },
     });
@@ -93,22 +101,35 @@ export class NewsForm implements OnInit {
           slug: data.slug,
           shortDescription: data.shortDescription ?? '',
           content: data.content ?? '',
-          featuredImage: data.featuredImage ?? '',
+          featuredImage: null,
+          featuredVideo: null,
           author: data.author ?? '',
           publishDate: this.formatDateForInput(data.publishDate),
           isPublished: data.isPublished,
+          isFeatured: data.isFeatured,
           categoryId: data.categoryId,
         };
 
+        this.selectedImagePreview = data.featuredImage
+          ? `https://localhost:7103${data.featuredImage}`
+          : '';
+
+        this.selectedVideoPreview = data.featuredVideo
+          ? `https://localhost:7103${data.featuredVideo}`
+          : '';
+
         this.isLoading = false;
+
         this.cdr.detectChanges();
       },
 
       error: (error) => {
-        console.error('News GET error:', error);
+        console.error(error);
 
         this.errorMessage = 'Unable to load news.';
+
         this.isLoading = false;
+
         this.cdr.detectChanges();
       },
     });
@@ -128,6 +149,41 @@ export class NewsForm implements OnInit {
     }
 
     return date.slice(0, 16);
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    this.news.featuredImage = input.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.selectedImagePreview = reader.result as string;
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  onVideoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    this.news.featuredVideo = input.files[0];
+
+    const file = input.files[0];
+
+    if (file.type === 'application/pdf') {
+      this.selectedVideoPreview = 'assets/icons/pdf.png';
+    } else {
+      this.selectedVideoPreview = URL.createObjectURL(file);
+    }
   }
 
   save(): void {
@@ -162,6 +218,7 @@ export class NewsForm implements OnInit {
 
     const request: NewsRequest = {
       ...this.news,
+
       publishDate: new Date(this.news.publishDate).toISOString(),
     };
 
@@ -171,16 +228,17 @@ export class NewsForm implements OnInit {
       this.createNews(request);
     }
   }
-
   private createNews(request: NewsRequest): void {
     this.newsService.create(request).subscribe({
       next: () => {
         this.isSaving = false;
+
         this.router.navigate(['/news']);
       },
 
       error: (error) => {
         console.error('Create News error:', error);
+
         this.handleError(error);
       },
     });
@@ -194,11 +252,13 @@ export class NewsForm implements OnInit {
     this.newsService.update(this.newsId, request).subscribe({
       next: () => {
         this.isSaving = false;
+
         this.router.navigate(['/news']);
       },
 
       error: (error) => {
         console.error('Update News error:', error);
+
         this.handleError(error);
       },
     });

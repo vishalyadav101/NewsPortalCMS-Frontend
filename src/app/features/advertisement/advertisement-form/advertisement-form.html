@@ -1,0 +1,93 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Advertisement' : 'Add Advertisement' }}
+    </h1>
+
+    <p>Manage Advertisement</p>
+  </div>
+
+  <a routerLink="/advertisements" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <div class="form-group">
+      <label>Title *</label>
+
+      <input type="text" name="title" [(ngModel)]="advertisement.title" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+
+      <textarea rows="4" name="description" [(ngModel)]="advertisement.description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Media *</label>
+
+      <select name="mediaId" [(ngModel)]="advertisement.mediaId">
+        <option [value]="0">Select Media</option>
+
+        <option *ngFor="let media of mediaList" [value]="media.id">
+          {{ media.fileName }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Redirect URL</label>
+
+      <input type="text" name="redirectUrl" [(ngModel)]="advertisement.redirectUrl" />
+    </div>
+
+    <div class="form-group">
+      <label>Position</label>
+
+      <select name="position" [(ngModel)]="advertisement.position">
+        <option [value]="1">Top Banner</option>
+
+        <option [value]="2">Sidebar</option>
+
+        <option [value]="3">Footer</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Start Date</label>
+
+      <input type="datetime-local" name="startDate" [(ngModel)]="advertisement.startDate" />
+    </div>
+
+    <div class="form-group">
+      <label>End Date</label>
+
+      <input type="datetime-local" name="endDate" [(ngModel)]="advertisement.endDate" />
+    </div>
+
+    <div class="form-group">
+      <label>Display Order</label>
+
+      <input type="number" name="displayOrder" [(ngModel)]="advertisement.displayOrder" />
+    </div>
+
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="advertisement.isActive" />
+
+      <label for="isActive"> Active </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/advertisements" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Advertisement' : 'Save Advertisement' }}
+      </button>
+    </div>
+  </form>
+</div>
