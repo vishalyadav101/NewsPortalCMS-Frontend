@@ -1,0 +1,81 @@
+<div class="page-header">
+  <div>
+    <h1>Menus</h1>
+
+    <p>Manage Website Menus</p>
+  </div>
+
+  <a routerLink="/menus/add" class="add-btn"> + Add Menu </a>
+</div>
+
+<div class="table-card">
+  <div class="message" *ngIf="isLoading">Loading menus...</div>
+
+  <div class="error-message" *ngIf="!isLoading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="message" *ngIf="!isLoading && !errorMessage && menus.length == 0">
+    No menus found.
+  </div>
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && menus.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+
+          <th>Name</th>
+
+          <th>Location</th>
+
+          <th>Description</th>
+
+          <th>Status</th>
+
+          <th>Created</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let menu of menus">
+          <td>{{ menu.id }}</td>
+
+          <td>
+            <strong>
+              {{ menu.name }}
+            </strong>
+          </td>
+
+          <td>
+            {{ menu.location }}
+          </td>
+
+          <td>
+            {{ menu.description }}
+          </td>
+
+          <td>
+            <span [class.active]="menu.isActive" [class.inactive]="!menu.isActive">
+              {{ menu.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            {{ menu.createdDate | date: 'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            <div class="actions">
+              <a class="edit-btn" [routerLink]="['/menus/edit', menu.id]"> Edit </a>
+
+              <button class="delete-btn" (click)="deleteMenu(menu.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

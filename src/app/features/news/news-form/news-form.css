@@ -104,3 +104,52 @@
   text-align: center;
   padding: 30px;
 }
+/* Image Preview */
+
+.image-preview {
+  margin-top: 15px;
+}
+
+.image-preview img {
+  width: 250px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  display: block;
+}
+
+/* Video Preview */
+
+.video-preview {
+  margin-top: 15px;
+}
+
+.video-preview video {  
+  width: 500px;
+  height: 260px;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #000;
+}
+
+/* PDF Icon */
+
+.news-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .image-preview img,
+  .video-preview video {
+    width: 100%;
+    height: auto;
+  }
+}

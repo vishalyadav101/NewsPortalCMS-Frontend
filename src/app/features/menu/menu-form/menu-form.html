@@ -1,0 +1,56 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Menu' : 'Add Menu' }}
+    </h1>
+
+    <p>Website Menu Information</p>
+  </div>
+
+  <a routerLink="/menus" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <div class="form-group">
+      <label>Name *</label>
+
+      <input type="text" name="name" [(ngModel)]="menu.name" />
+    </div>
+
+    <div class="form-group">
+      <label>Location *</label>
+
+      <input
+        type="text"
+        name="location"
+        [(ngModel)]="menu.location"
+        placeholder="Header / Footer / Sidebar"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+
+      <textarea rows="5" name="description" [(ngModel)]="menu.description"></textarea>
+    </div>
+
+    <div class="checkbox-group">
+      <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="menu.isActive" />
+
+      <label for="isActive"> Active </label>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/menus" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Menu' : 'Save Menu' }}
+      </button>
+    </div>
+  </form>
+</div>

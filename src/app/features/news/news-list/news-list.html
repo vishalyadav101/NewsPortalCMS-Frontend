@@ -23,7 +23,7 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Image</th>
+          <th>Image / PDF / Video</th>
           <th>Title</th>
           <th>Category</th>
           <th>Author</th>
@@ -39,16 +39,45 @@
           <td>{{ news.id }}</td>
 
           <td>
+            <!-- PDF -->
             <img
-              *ngIf="news.featuredImage"
-              [src]="news.featuredImage"
+              *ngIf="news.featuredImage && news.featuredImage.toLowerCase().endsWith('.pdf')"
+              src="assets/icons/pdf.png"
+              alt="PDF"
+              class="news-image"
+            />
+
+            <!-- Image -->
+            <img
+              *ngIf="
+                news.featuredImage &&
+                (news.featuredImage.toLowerCase().endsWith('.jpg') ||
+                  news.featuredImage.toLowerCase().endsWith('.jpeg') ||
+                  news.featuredImage.toLowerCase().endsWith('.png') ||
+                  news.featuredImage.toLowerCase().endsWith('.gif') ||
+                  news.featuredImage.toLowerCase().endsWith('.webp') ||
+                  news.featuredImage.toLowerCase().endsWith('.bmp'))
+              "
+              [src]="'https://localhost:7103' + news.featuredImage"
               [alt]="news.title"
               class="news-image"
             />
+
+            <!-- Video -->
+            <img
+              *ngIf="news.featuredVideo"
+              src="assets/icons/video.png"
+              alt="Video"
+              class="news-image"
+            />
+
+            <!-- No Media -->
+            <span *ngIf="!news.featuredImage && !news.featuredVideo"> No Media </span>
           </td>
 
           <td>
             <strong>{{ news.title }}</strong>
+
             <div class="slug">
               {{ news.slug }}
             </div>

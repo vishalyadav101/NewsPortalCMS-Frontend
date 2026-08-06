@@ -1,0 +1,69 @@
+<div class="page-header">
+  <div>
+    <h1>Menu Items</h1>
+
+    <p>Manage Menu Items</p>
+  </div>
+
+  <a routerLink="/menu-items/add" class="add-btn"> + Add Menu Item </a>
+</div>
+
+<div class="filter-card">
+  <label> Select Menu </label>
+
+  <select [(ngModel)]="selectedMenuId" (change)="loadMenuItems()">
+    <option [value]="0">Select Menu</option>
+
+    <option *ngFor="let menu of menus" [value]="menu.id">
+      {{ menu.name }}
+    </option>
+  </select>
+</div>
+
+<div class="table-card">
+  <div class="message" *ngIf="isLoading">Loading...</div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <table *ngIf="menuItems.length">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>URL</th>
+        <th>Icon</th>
+        <th>Target</th>
+        <th>Order</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of menuItems">
+        <td>{{ item.title }}</td>
+
+        <td>{{ item.url }}</td>
+
+        <td>{{ item.icon }}</td>
+
+        <td>{{ item.target }}</td>
+
+        <td>{{ item.displayOrder }}</td>
+
+        <td>
+          <span [class.active]="item.isActive" [class.inactive]="!item.isActive">
+            {{ item.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+
+        <td>
+          <a class="edit-btn" [routerLink]="['/menu-items/edit', item.id]"> Edit </a>
+
+          <button class="delete-btn" (click)="deleteMenuItem(item.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

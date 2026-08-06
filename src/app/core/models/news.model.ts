@@ -4,13 +4,22 @@ export interface News {
   slug: string;
   shortDescription: string;
   content: string;
-  featuredImage: string;
+
+  // API se path aayega
+  featuredImage: string | null;
+  featuredVideo: string | null;
+
   author: string;
   publishDate: string;
+
   isPublished: boolean;
+  isFeatured: boolean;
+
   viewCount: number;
+
   categoryId: number;
   categoryName: string;
+
   createdAt: string;
   updatedAt: string | null;
 }
@@ -20,9 +29,16 @@ export interface NewsRequest {
   slug: string;
   shortDescription: string;
   content: string;
-  featuredImage: string;
+
+  // Upload ke liye
+  featuredImage: File | null;
+  featuredVideo: File | null;
+
   author: string;
   publishDate: string;
+
   isPublished: boolean;
+  isFeatured: boolean;
+
   categoryId: number;
 }
