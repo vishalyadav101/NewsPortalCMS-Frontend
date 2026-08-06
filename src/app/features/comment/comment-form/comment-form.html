@@ -1,0 +1,86 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Comment' : 'Add Comment' }}
+    </h1>
+
+    <p>
+      {{ isEditMode ? 'Update comment' : 'Create new comment' }}
+    </p>
+  </div>
+
+  <a routerLink="/comments" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <!-- News Id -->
+
+    <div class="form-group" *ngIf="!isEditMode">
+      <label>News Id *</label>
+
+      <input type="number" [(ngModel)]="comment.newsId" name="newsId" placeholder="Enter News Id" />
+    </div>
+
+    <!-- Name -->
+
+    <div class="form-group">
+      <label>Name *</label>
+
+      <input type="text" [(ngModel)]="comment.name" name="name" placeholder="Enter Name" />
+    </div>
+
+    <!-- Email -->
+
+    <div class="form-group">
+      <label>Email *</label>
+
+      <input type="email" [(ngModel)]="comment.email" name="email" placeholder="Enter Email" />
+    </div>
+
+    <!-- Comment -->
+
+    <div class="form-group">
+      <label>Comment *</label>
+
+      <textarea
+        rows="5"
+        [(ngModel)]="comment.content"
+        name="content"
+        placeholder="Write comment..."
+      ></textarea>
+    </div>
+
+    <!-- Edit Only -->
+
+    <div *ngIf="isEditMode">
+      <div class="checkbox-group">
+        <input type="checkbox" [(ngModel)]="isApproved" name="isApproved" />
+
+        <label>Approved</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" [(ngModel)]="isActive" name="isActive" />
+
+        <label>Active</label>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="form-actions">
+      <a routerLink="/comments" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Comment' : 'Save Comment' }}
+      </button>
+    </div>
+  </form>
+</div>

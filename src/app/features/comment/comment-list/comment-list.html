@@ -1,0 +1,80 @@
+<div class="page-header">
+  <div>
+    <h1>Comments</h1>
+    <p>Manage news comments</p>
+  </div>
+
+  <a routerLink="/comments/add" class="add-btn"> + Add Comment </a>
+</div>
+
+<div class="table-card">
+  <div *ngIf="isLoading" class="message">Loading comments...</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && comments.length === 0" class="message">
+    No comments found.
+  </div>
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && comments.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>News ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Comment</th>
+          <th>Approved</th>
+          <th>Active</th>
+          <th>Created Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let comment of comments">
+          <td>{{ comment.id }}</td>
+
+          <td>{{ comment.newsId }}</td>
+
+          <td>
+            <strong>{{ comment.name }}</strong>
+          </td>
+
+          <td>{{ comment.email }}</td>
+
+          <td>{{ comment.content }}</td>
+
+          <td>
+            <span [class.active]="comment.isApproved" [class.inactive]="!comment.isApproved">
+              {{ comment.isApproved ? 'Approved' : 'Pending' }}
+            </span>
+          </td>
+
+          <td>
+            <span [class.active]="comment.isActive" [class.inactive]="!comment.isActive">
+              {{ comment.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            {{ comment.createdDate | date: 'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/comments/edit', comment.id]" class="edit-btn"> Edit </a>
+
+              <button type="button" class="delete-btn" (click)="deleteComment(comment.id)">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
