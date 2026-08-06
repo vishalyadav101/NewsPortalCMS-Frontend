@@ -23,6 +23,8 @@ import { MenuItemList } from './features/menu-item/menu-item-list/menu-item-list
 import { MenuItemForm } from './features/menu-item/menu-item-form/menu-item-form';
 import { UserList } from './pages/users/user-list/user-list';
 import { UserForm } from './pages/users/user-form/user-form';
+import { CommentList } from './features/comment/comment-list/comment-list';
+import { CommentForm } from './features/comment/comment-form/comment-form';
 
 export const routes: Routes = [
   {
@@ -154,6 +156,18 @@ export const routes: Routes = [
       {
         path: 'users/edit/:id',
         component: UserForm,
+      },
+      {
+        path: 'comments',
+        component: CommentList,
+      },
+      {
+        path: 'comments/add',
+        component: CommentForm,
+      },
+      {
+        path: 'comments/edit/:id',
+        component: CommentForm,
       },
       {
         path: '',
