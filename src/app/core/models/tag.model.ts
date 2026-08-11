@@ -5,6 +5,8 @@ export interface Tag {
   isActive: boolean;
   createdDate: string;
   updatedDate: string | null;
+
+  selected?: boolean;
 }
 
 export interface TagRequest {

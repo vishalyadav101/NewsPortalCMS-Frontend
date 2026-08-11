@@ -1,0 +1,104 @@
+<div class="page-header">
+  <div>
+    <h1>News Tags</h1>
+    <p>Assign tags to news articles</p>
+  </div>
+</div>
+
+<div class="form-card">
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading">
+    Loading...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Main Form -->
+  <div *ngIf="!isLoading && !errorMessage">
+
+    <!-- News Dropdown -->
+    <div class="form-group">
+
+      <label for="newsSelect">
+        Select News *
+      </label>
+
+      <select
+        id="newsSelect"
+        [(ngModel)]="selectedNewsId"
+        (ngModelChange)="onNewsChange()"
+      >
+
+        <option [ngValue]="0">
+          Select News
+        </option>
+
+        <option
+          *ngFor="let news of newsList"
+          [ngValue]="news.id"
+        >
+          {{ news.title }}
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- Tags -->
+    <div class="form-group">
+
+      <label>
+        Available Tags
+      </label>
+
+      <div class="tag-list">
+
+        <label
+          class="tag-item"
+          *ngFor="let tag of tagList"
+        >
+
+          <input
+            type="checkbox"
+            [(ngModel)]="tag.selected"
+            (ngModelChange)="toggleTag(tag.id, $event)"
+          />
+
+          <span>
+            {{ tag.name }}
+          </span>
+
+        </label>
+
+      </div>
+
+    </div>
+
+    <!-- Save -->
+    <div class="form-actions">
+
+      <button
+        type="button"
+        (click)="save()"
+        [disabled]="isSaving || selectedNewsId === 0"
+      >
+
+        <span *ngIf="!isSaving">
+          Save Tags
+        </span>
+
+        <span *ngIf="isSaving">
+          Saving...
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
