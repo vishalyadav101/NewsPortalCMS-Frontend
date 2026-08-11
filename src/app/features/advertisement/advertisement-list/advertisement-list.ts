@@ -8,6 +8,7 @@ import { Advertisement } from '../../../core/models/advertisement.model';
 
 @Component({
   selector: 'app-advertisement-list',
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './advertisement-list.html',
   styleUrl: './advertisement-list.css',
@@ -29,7 +30,6 @@ export class AdvertisementList implements OnInit {
 
   loadAdvertisements(): void {
     this.isLoading = true;
-
     this.errorMessage = '';
 
     this.advertisementService.getAll().subscribe({
@@ -42,7 +42,7 @@ export class AdvertisementList implements OnInit {
       },
 
       error: (error) => {
-        console.error(error);
+        console.error('Advertisement loading error:', error);
 
         this.errorMessage = 'Unable to load advertisements.';
 
@@ -54,19 +54,25 @@ export class AdvertisementList implements OnInit {
   }
 
   deleteAdvertisement(id: string): void {
-    const confirmed = confirm('Delete this advertisement?');
+    const confirmed = confirm('Are you sure you want to delete this advertisement?');
 
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
 
     this.advertisementService.delete(id).subscribe({
       next: () => {
-        this.advertisements = this.advertisements.filter((x) => x.id !== id);
+        this.advertisements = this.advertisements.filter(
+          (advertisement) => advertisement.id !== id,
+        );
 
         this.cdr.detectChanges();
+
+        alert('Advertisement deleted successfully.');
       },
 
       error: (error) => {
-        console.error(error);
+        console.error('Advertisement delete error:', error);
 
         alert(error.error?.message ?? 'Unable to delete advertisement.');
       },

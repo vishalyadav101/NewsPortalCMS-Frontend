@@ -8,22 +8,26 @@
 </div>
 
 <div class="table-card">
+  <!-- Loading -->
   <div class="message" *ngIf="isLoading">Loading advertisements...</div>
 
+  <!-- Error -->
   <div class="error-message" *ngIf="!isLoading && errorMessage">
     {{ errorMessage }}
   </div>
 
+  <!-- Empty -->
   <div class="message" *ngIf="!isLoading && !errorMessage && advertisements.length === 0">
     No advertisements found.
   </div>
 
+  <!-- Table -->
   <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && advertisements.length > 0">
     <table>
       <thead>
         <tr>
           <th>Title</th>
-          <th>Media</th>
+          <th>Banner</th>
           <th>Position</th>
           <th>Start Date</th>
           <th>End Date</th>
@@ -35,30 +39,44 @@
 
       <tbody>
         <tr *ngFor="let advertisement of advertisements">
+          <!-- Title -->
           <td>
             <strong>
               {{ advertisement.title }}
             </strong>
           </td>
 
+          <!-- Banner -->
           <td>
-            {{ advertisement.mediaId }}
+            <div class="banner-preview" *ngIf="advertisement.bannerUrl">
+              <img
+                [src]="'https://localhost:7103' + advertisement.bannerUrl"
+                [alt]="advertisement.title"
+              />
+            </div>
+
+            <span class="no-banner" *ngIf="!advertisement.bannerUrl"> No Banner </span>
           </td>
 
+          <!-- Position -->
           <td>
-            {{ advertisement.position }}
+            {{ advertisement.positionName }}
           </td>
 
+          <!-- Start Date -->
           <td>
             {{ advertisement.startDate | date: 'dd MMM yyyy' }}
           </td>
 
+          <!-- End Date -->
           <td>
             {{ advertisement.endDate | date: 'dd MMM yyyy' }}
           </td>
 
+          <!-- Status -->
           <td>
             <span
+              class="status"
               [class.active]="advertisement.isActive"
               [class.inactive]="!advertisement.isActive"
             >
@@ -66,17 +84,23 @@
             </span>
           </td>
 
+          <!-- Display Order -->
           <td>
             {{ advertisement.displayOrder }}
           </td>
 
+          <!-- Actions -->
           <td>
             <div class="actions">
               <a class="edit-btn" [routerLink]="['/advertisements/edit', advertisement.id]">
                 Edit
               </a>
 
-              <button class="delete-btn" (click)="deleteAdvertisement(advertisement.id)">
+              <button
+                type="button"
+                class="delete-btn"
+                (click)="deleteAdvertisement(advertisement.id)"
+              >
                 Delete
               </button>
             </div>

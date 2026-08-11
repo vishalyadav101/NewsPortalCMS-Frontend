@@ -11,77 +11,152 @@
 </div>
 
 <div class="form-card">
+  <!-- Error -->
   <div class="error-message" *ngIf="errorMessage">
     {{ errorMessage }}
   </div>
 
+  <!-- Loading -->
+  <div class="loading" *ngIf="isLoading">Loading advertisement...</div>
+
   <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <!-- Title -->
     <div class="form-group">
-      <label>Title *</label>
+      <label for="title"> Title * </label>
 
-      <input type="text" name="title" [(ngModel)]="advertisement.title" />
+      <input
+        id="title"
+        type="text"
+        name="title"
+        [(ngModel)]="advertisement.title"
+        placeholder="Enter advertisement title"
+      />
     </div>
 
+    <!-- Description -->
     <div class="form-group">
-      <label>Description</label>
+      <label for="description"> Description </label>
 
-      <textarea rows="4" name="description" [(ngModel)]="advertisement.description"></textarea>
+      <textarea
+        id="description"
+        rows="4"
+        name="description"
+        [(ngModel)]="advertisement.description"
+        placeholder="Enter advertisement description"
+      ></textarea>
     </div>
 
+    <!-- Advertisement Banner -->
     <div class="form-group">
-      <label>Media *</label>
+      <label for="bannerFile"> Upload Advertisement Banner * </label>
 
-      <select name="mediaId" [(ngModel)]="advertisement.mediaId">
-        <option [value]="0">Select Media</option>
+      <input
+        id="bannerFile"
+        type="file"
+        name="bannerFile"
+        accept="image/jpeg,image/jpg,image/png,image/webp"
+        (change)="onBannerSelected($event)"
+      />
 
-        <option *ngFor="let media of mediaList" [value]="media.id">
-          {{ media.fileName }}
-        </option>
+      <small class="file-help"> Allowed: JPG, JPEG, PNG, WEBP | Maximum size: 5 MB </small>
+    </div>
+
+    <!-- Banner Preview -->
+    <div class="form-group banner-preview-section" *ngIf="previewUrl || existingBannerUrl">
+      <label> Preview </label>
+
+      <div class="banner-preview">
+        <!-- New selected image -->
+        <img *ngIf="previewUrl" [src]="previewUrl" alt="Advertisement Banner Preview" />
+
+        <!-- Existing image while editing -->
+        <img
+          *ngIf="!previewUrl && existingBannerUrl"
+          [src]="existingBannerUrl"
+          alt="Existing Advertisement Banner"
+        />
+      </div>
+
+      <p class="preview-info" *ngIf="previewUrl">
+        New banner selected. This image will be uploaded when you save.
+      </p>
+
+      <p class="preview-info" *ngIf="!previewUrl && existingBannerUrl">
+        Existing advertisement banner.
+      </p>
+    </div>
+
+    <!-- Redirect URL -->
+    <div class="form-group">
+      <label for="redirectUrl"> Redirect URL </label>
+
+      <input
+        id="redirectUrl"
+        type="text"
+        name="redirectUrl"
+        [(ngModel)]="advertisement.redirectUrl"
+        placeholder="https://example.com"
+      />
+    </div>
+
+    <!-- Position -->
+    <div class="form-group">
+      <label for="position"> Position </label>
+
+      <select id="position" name="position" [(ngModel)]="advertisement.position">
+        <option [ngValue]="1">Top Banner</option>
+
+        <option [ngValue]="2">Sidebar</option>
+
+        <option [ngValue]="3">Footer</option>
       </select>
     </div>
 
+    <!-- Start Date -->
     <div class="form-group">
-      <label>Redirect URL</label>
+      <label for="startDate"> Start Date </label>
 
-      <input type="text" name="redirectUrl" [(ngModel)]="advertisement.redirectUrl" />
+      <input
+        id="startDate"
+        type="datetime-local"
+        name="startDate"
+        [(ngModel)]="advertisement.startDate"
+      />
     </div>
 
+    <!-- End Date -->
     <div class="form-group">
-      <label>Position</label>
+      <label for="endDate"> End Date </label>
 
-      <select name="position" [(ngModel)]="advertisement.position">
-        <option [value]="1">Top Banner</option>
-
-        <option [value]="2">Sidebar</option>
-
-        <option [value]="3">Footer</option>
-      </select>
+      <input
+        id="endDate"
+        type="datetime-local"
+        name="endDate"
+        [(ngModel)]="advertisement.endDate"
+      />
     </div>
 
+    <!-- Display Order -->
     <div class="form-group">
-      <label>Start Date</label>
+      <label for="displayOrder"> Display Order </label>
 
-      <input type="datetime-local" name="startDate" [(ngModel)]="advertisement.startDate" />
+      <input
+        id="displayOrder"
+        type="number"
+        name="displayOrder"
+        min="1"
+        [(ngModel)]="advertisement.displayOrder"
+      />
     </div>
 
-    <div class="form-group">
-      <label>End Date</label>
-
-      <input type="datetime-local" name="endDate" [(ngModel)]="advertisement.endDate" />
-    </div>
-
-    <div class="form-group">
-      <label>Display Order</label>
-
-      <input type="number" name="displayOrder" [(ngModel)]="advertisement.displayOrder" />
-    </div>
-
+    <!-- Active -->
     <div class="checkbox-group">
       <input id="isActive" type="checkbox" name="isActive" [(ngModel)]="advertisement.isActive" />
 
       <label for="isActive"> Active </label>
     </div>
 
+    <!-- Actions -->
     <div class="form-actions">
       <a routerLink="/advertisements" class="cancel-btn"> Cancel </a>
 
