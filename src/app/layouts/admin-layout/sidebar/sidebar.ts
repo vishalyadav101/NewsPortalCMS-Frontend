@@ -1,10 +1,28 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive],
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar {}
+export class Sidebar {
+  userOpen = false;
+  newsOpen = true;
+  contentOpen = false;
+
+  toggleUser() {
+    this.userOpen = !this.userOpen;
+  }
+
+  toggleNews() {
+    this.newsOpen = !this.newsOpen;
+  }
+
+  toggleContent() {
+    this.contentOpen = !this.contentOpen;
+  }
+}

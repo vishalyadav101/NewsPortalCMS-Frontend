@@ -25,6 +25,7 @@ import { UserList } from './pages/users/user-list/user-list';
 import { UserForm } from './pages/users/user-form/user-form';
 import { CommentList } from './features/comment/comment-list/comment-list';
 import { CommentForm } from './features/comment/comment-form/comment-form';
+import { NewsTag } from './features/news-tag/news-tag/news-tag';
 
 export const routes: Routes = [
   {
@@ -168,6 +169,10 @@ export const routes: Routes = [
       {
         path: 'comments/edit/:id',
         component: CommentForm,
+      },
+      {
+        path: 'news-tags',
+        component: NewsTag,
       },
       {
         path: '',

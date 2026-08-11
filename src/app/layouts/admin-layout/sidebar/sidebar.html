@@ -1,28 +1,90 @@
-<aside class="sidebar">
+<div class="sidebar">
   <div class="logo">
     <h2>NewsPortal</h2>
     <span>CMS</span>
   </div>
 
   <nav>
-    <a routerLink="/dashboard" routerLinkActive="active"> Dashboard </a>
+    <!-- Dashboard -->
+    <a routerLink="/dashboard" routerLinkActive="active"> 🏠 Dashboard </a>
 
-    <a routerLink="/categories" routerLinkActive="active"> Categories </a>
+    <!-- User Management -->
+    <div class="menu-group">
+      <div class="menu-title" (click)="toggleUser()">
+        <span>📁 User Management</span>
 
-    <a routerLink="/subcategories" routerLinkActive="active"> Sub Categories </a>
+        <span class="arrow">
+          {{ userOpen ? '▾' : '▸' }}
+        </span>
+      </div>
 
-    <a routerLink="/news" routerLinkActive="active"> News </a>
+      <div class="submenu" *ngIf="userOpen">
+        <a routerLink="/users" routerLinkActive="active"> Users </a>
 
-    <a routerLink="/tags" routerLinkActive="active"> Tags </a>
+        <a routerLink="/roles"> Roles </a>
 
-    <a routerLink="/media" routerLinkActive="active"> Media Library </a>
+        <a routerLink="/permissions"> Permissions </a>
+      </div>
+    </div>
 
-    <a routerLink="/static-pages" routerLinkActive="active"> Static Pages </a>
+    <!-- News Management -->
 
-    <a routerLink="/advertisements" routerLinkActive="active"> Advertisements </a>
-    <a routerLink="/menus" routerLinkActive="active"> Menus </a>
-    <a routerLink="/menu-items" routerLinkActive="active"> Menu Items </a>
-    <a routerLink="/users" routerLinkActive="active"> Users </a>
-    <a routerLink="/comments" routerLinkActive="active"> Comments </a>
+    <div class="menu-group">
+      <div class="menu-title" (click)="toggleNews()">
+        <span>📁 News Management</span>
+
+        <span class="arrow">
+          {{ newsOpen ? '▾' : '▸' }}
+        </span>
+      </div>
+
+      <div class="submenu" *ngIf="newsOpen">
+        <a routerLink="/news" routerLinkActive="active"> News </a>
+
+        <a routerLink="/categories" routerLinkActive="active"> Categories </a>
+
+        <a routerLink="/subcategories" routerLinkActive="active"> Sub Categories </a>
+
+        <a routerLink="/tags" routerLinkActive="active"> Tags </a>
+
+        <a routerLink="/news-tags"> News Tags </a>
+      </div>
+    </div>
+
+    <!-- Content Management -->
+
+    <div class="menu-group">
+      <div class="menu-title" (click)="toggleContent()">
+        <span>📁 Content Management</span>
+
+        <span class="arrow">
+          {{ contentOpen ? '▾' : '▸' }}
+        </span>
+      </div>
+
+      <div class="submenu" *ngIf="contentOpen">
+        <a routerLink="/media" routerLinkActive="active"> Media Library </a>
+
+        <a routerLink="/static-pages" routerLinkActive="active"> Static Pages </a>
+
+        <a routerLink="/menus" routerLinkActive="active"> Menus </a>
+
+        <a routerLink="/menu-items" routerLinkActive="active"> Menu Items </a>
+      </div>
+    </div>
+
+    <!-- Single Menus -->
+
+    <a routerLink="/advertisements" routerLinkActive="active"> 📢 Advertisement </a>
+
+    <a routerLink="/comments" routerLinkActive="active"> 💬 Comments </a>
+
+    <a routerLink="/notifications"> 🔔 Notifications </a>
+
+    <a routerLink="/settings"> ⚙ Website Settings </a>
+
+    <a routerLink="/profile"> 👤 Profile </a>
+
+    <a routerLink="/login"> 🚪 Logout </a>
   </nav>
-</aside>
+</div>
