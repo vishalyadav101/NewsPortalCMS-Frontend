@@ -26,6 +26,8 @@ import { UserForm } from './pages/users/user-form/user-form';
 import { CommentList } from './features/comment/comment-list/comment-list';
 import { CommentForm } from './features/comment/comment-form/comment-form';
 import { NewsTag } from './features/news-tag/news-tag/news-tag';
+import { NotificationList } from './features/notifications/notification-list/notification-list';
+import { NotificationForm } from './features/notifications/notification-form/notification-form';
 
 export const routes: Routes = [
   {
@@ -173,6 +175,18 @@ export const routes: Routes = [
       {
         path: 'news-tags',
         component: NewsTag,
+      },
+      {
+        path: 'notifications',
+        component: NotificationList,
+      },
+      {
+        path: 'notifications/add',
+        component: NotificationForm,
+      },
+      {
+        path: 'notifications/edit/:id',
+        component: NotificationForm,
       },
       {
         path: '',
