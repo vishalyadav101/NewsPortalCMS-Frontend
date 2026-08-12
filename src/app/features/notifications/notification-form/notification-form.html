@@ -1,0 +1,113 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Notification' : 'Add Notification' }}
+    </h1>
+
+    <p>Manage system notification</p>
+  </div>
+
+  <a routerLink="/notifications" class="back-btn"> Back </a>
+</div>
+
+<div class="form-card">
+  <!-- Error -->
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="isLoading">Loading notification...</div>
+
+  <form *ngIf="!isLoading" (ngSubmit)="save()">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="title"> Title * </label>
+
+      <input
+        id="title"
+        type="text"
+        name="title"
+        [(ngModel)]="notification.title"
+        placeholder="Enter notification title"
+      />
+    </div>
+
+    <!-- Message -->
+    <div class="form-group">
+      <label for="message"> Message * </label>
+
+      <textarea
+        id="message"
+        name="message"
+        rows="5"
+        [(ngModel)]="notification.message"
+        placeholder="Enter notification message"
+      ></textarea>
+    </div>
+
+    <!-- Type -->
+    <div class="form-group">
+      <label for="type"> Type * </label>
+
+      <select id="type" name="type" [(ngModel)]="notification.type">
+        <option value="Info">Info</option>
+
+        <option value="Success">Success</option>
+
+        <option value="Warning">Warning</option>
+
+        <option value="Error">Error</option>
+      </select>
+    </div>
+
+    <!-- Module -->
+    <div class="form-group">
+      <label for="module"> Module </label>
+
+      <input
+        id="module"
+        type="text"
+        name="module"
+        [(ngModel)]="notification.module"
+        placeholder="Example: News"
+      />
+    </div>
+
+    <!-- Entity ID -->
+    <div class="form-group">
+      <label for="entityId"> Entity ID </label>
+
+      <input
+        id="entityId"
+        type="text"
+        name="entityId"
+        [(ngModel)]="notification.entityId"
+        placeholder="Example: 1"
+      />
+    </div>
+
+    <!-- Read Status - Edit only -->
+    <div class="checkbox-group" *ngIf="isEditMode">
+      <input id="isRead" type="checkbox" name="isRead" [(ngModel)]="isRead" />
+
+      <label for="isRead"> Mark as Read </label>
+    </div>
+
+    <!-- Read Date - Edit only -->
+    <div class="form-group" *ngIf="isEditMode">
+      <label for="readDate"> Read Date </label>
+
+      <input id="readDate" type="datetime-local" name="readDate" [(ngModel)]="readDate" />
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <a routerLink="/notifications" class="cancel-btn"> Cancel </a>
+
+      <button type="submit" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update Notification' : 'Save Notification' }}
+      </button>
+    </div>
+  </form>
+</div>

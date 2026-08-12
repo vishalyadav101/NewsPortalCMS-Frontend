@@ -1,0 +1,113 @@
+<div class="page-header">
+  <div>
+    <h1>Notifications</h1>
+    <p>Manage system notifications</p>
+  </div>
+
+  <a routerLink="/notifications/add" class="add-btn"> + Add Notification </a>
+</div>
+
+<div class="table-card">
+  <!-- Loading -->
+  <div class="message" *ngIf="isLoading">Loading notifications...</div>
+
+  <!-- Error -->
+  <div class="error-message" *ngIf="!isLoading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Empty -->
+  <div class="message" *ngIf="!isLoading && !errorMessage && notifications.length === 0">
+    No notifications found.
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && notifications.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Message</th>
+          <th>Type</th>
+          <th>Module</th>
+          <th>Entity ID</th>
+          <th>Status</th>
+          <th>Created Date</th>
+          <th>Read Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let notification of notifications">
+          <!-- Title -->
+          <td>
+            <strong>
+              {{ notification.title }}
+            </strong>
+          </td>
+
+          <!-- Message -->
+          <td class="message-cell">
+            {{ notification.message }}
+          </td>
+
+          <!-- Type -->
+          <td>
+            <span class="type-badge">
+              {{ notification.type }}
+            </span>
+          </td>
+
+          <!-- Module -->
+          <td>
+            {{ notification.module || '-' }}
+          </td>
+
+          <!-- Entity ID -->
+          <td>
+            {{ notification.entityId || '-' }}
+          </td>
+
+          <!-- Status -->
+          <td>
+            <span
+              class="status"
+              [class.read]="notification.isRead"
+              [class.unread]="!notification.isRead"
+            >
+              {{ notification.isRead ? 'Read' : 'Unread' }}
+            </span>
+          </td>
+
+          <!-- Created Date -->
+          <td>
+            {{ notification.createdDate | date: 'dd MMM yyyy, hh:mm a' }}
+          </td>
+
+          <!-- Read Date -->
+          <td>
+            {{
+              notification.readDate ? (notification.readDate | date: 'dd MMM yyyy, hh:mm a') : '-'
+            }}
+          </td>
+
+          <!-- Actions -->
+          <td>
+            <div class="actions">
+              <a class="edit-btn" [routerLink]="['/notifications/edit', notification.id]"> Edit </a>
+
+              <button
+                type="button"
+                class="delete-btn"
+                (click)="deleteNotification(notification.id)"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
