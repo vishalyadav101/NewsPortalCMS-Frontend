@@ -1,0 +1,395 @@
+<div class="page-header">
+  <div>
+    <h1>Website Settings</h1>
+    <p>Manage your website general settings, branding, SEO and social media links</p>
+  </div>
+
+  <button type="button" class="save-top-btn" (click)="save()" [disabled]="isSaving || isLoading">
+    {{ isSaving ? 'Saving...' : 'Save Settings' }}
+  </button>
+</div>
+
+<!-- Loading -->
+<div class="loading-card" *ngIf="isLoading">Loading website settings...</div>
+
+<div class="settings-container" *ngIf="!isLoading">
+  <!-- Error -->
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Success -->
+  <div class="success-message" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+
+  <form (ngSubmit)="save()" #settingsForm="ngForm">
+    <!-- ================= GENERAL ================= -->
+
+    <div class="settings-grid">
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon">🌐</div>
+
+          <div>
+            <h2>General Information</h2>
+            <p>Basic information about your website</p>
+          </div>
+        </div>
+
+        <!-- Website Name -->
+
+        <div class="form-group">
+          <label for="websiteName"> Website Name <span>*</span> </label>
+
+          <input
+            id="websiteName"
+            type="text"
+            name="websiteName"
+            [(ngModel)]="settings.websiteName"
+            placeholder="Enter website name"
+          />
+        </div>
+
+        <!-- Website Description -->
+
+        <div class="form-group">
+          <label for="websiteDescription"> Website Description </label>
+
+          <textarea
+            id="websiteDescription"
+            name="websiteDescription"
+            rows="4"
+            [(ngModel)]="settings.websiteDescription"
+            placeholder="Enter website description"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- ================= BRANDING ================= -->
+
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon">🖼️</div>
+
+          <div>
+            <h2>Branding</h2>
+            <p>Manage website logo and favicon</p>
+          </div>
+        </div>
+
+        <!-- ================= LOGO ================= -->
+
+        <div class="form-group">
+          <label for="logoFile"> Website Logo </label>
+
+          <div class="file-upload-box">
+            <input
+              id="logoFile"
+              type="file"
+              accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+              (change)="onLogoSelected($event)"
+            />
+
+            <label for="logoFile" class="file-select-btn"> 📁 Choose Logo </label>
+
+            <span class="file-name" *ngIf="logoFile">
+              {{ logoFile.name }}
+            </span>
+
+            <span class="file-hint" *ngIf="!logoFile"> PNG, JPG, JPEG or WEBP • Maximum 5 MB </span>
+          </div>
+        </div>
+
+        <!-- Logo Preview -->
+
+        <div class="preview-section" *ngIf="logoPreviewUrl">
+          <div class="preview-header">
+            <span>Logo Preview</span>
+
+            <span class="preview-status" *ngIf="logoFile"> New logo selected </span>
+
+            <span class="preview-status existing" *ngIf="!logoFile"> Current logo </span>
+          </div>
+
+          <div class="logo-preview">
+            <img [src]="logoPreviewUrl" [alt]="settings.websiteName || 'Website Logo'" />
+          </div>
+        </div>
+
+        <!-- ================= FAVICON ================= -->
+
+        <div class="form-group favicon-upload-group">
+          <label for="faviconFile"> Website Favicon </label>
+
+          <div class="file-upload-box">
+            <input
+              id="faviconFile"
+              type="file"
+              accept=".png,.ico,image/png,image/x-icon,image/vnd.microsoft.icon"
+              (change)="onFaviconSelected($event)"
+            />
+
+            <label for="faviconFile" class="file-select-btn"> 📁 Choose Favicon </label>
+
+            <span class="file-name" *ngIf="faviconFile">
+              {{ faviconFile.name }}
+            </span>
+
+            <span class="file-hint" *ngIf="!faviconFile"> PNG or ICO • Maximum 5 MB </span>
+          </div>
+        </div>
+
+        <!-- Favicon Preview -->
+
+        <div class="preview-section" *ngIf="faviconPreviewUrl">
+          <div class="preview-header">
+            <span>Favicon Preview</span>
+
+            <span class="preview-status" *ngIf="faviconFile"> New favicon selected </span>
+
+            <span class="preview-status existing" *ngIf="!faviconFile"> Current favicon </span>
+          </div>
+
+          <div class="favicon-preview">
+            <img [src]="faviconPreviewUrl" alt="Website Favicon" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= CONTACT ================= -->
+
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon">📞</div>
+
+          <div>
+            <h2>Contact Information</h2>
+            <p>Website contact details</p>
+          </div>
+        </div>
+
+        <div class="two-column">
+          <!-- Email -->
+
+          <div class="form-group">
+            <label for="contactEmail"> Contact Email <span>*</span> </label>
+
+            <input
+              id="contactEmail"
+              type="email"
+              name="contactEmail"
+              [(ngModel)]="settings.contactEmail"
+              placeholder="contact@example.com"
+            />
+          </div>
+
+          <!-- Phone -->
+
+          <div class="form-group">
+            <label for="contactPhone"> Contact Phone </label>
+
+            <input
+              id="contactPhone"
+              type="text"
+              name="contactPhone"
+              [(ngModel)]="settings.contactPhone"
+              placeholder="9999999999"
+            />
+          </div>
+        </div>
+
+        <!-- Address -->
+
+        <div class="form-group">
+          <label for="address"> Address </label>
+
+          <textarea
+            id="address"
+            name="address"
+            rows="3"
+            [(ngModel)]="settings.address"
+            placeholder="Enter website address"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- ================= SEO ================= -->
+
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon">🔍</div>
+
+          <div>
+            <h2>SEO Settings</h2>
+            <p>Search engine optimization settings</p>
+          </div>
+        </div>
+
+        <!-- Meta Title -->
+
+        <div class="form-group">
+          <label for="metaTitle"> Meta Title </label>
+
+          <input
+            id="metaTitle"
+            type="text"
+            name="metaTitle"
+            [(ngModel)]="settings.metaTitle"
+            placeholder="Enter meta title"
+          />
+        </div>
+
+        <!-- Meta Description -->
+
+        <div class="form-group">
+          <label for="metaDescription"> Meta Description </label>
+
+          <textarea
+            id="metaDescription"
+            name="metaDescription"
+            rows="4"
+            [(ngModel)]="settings.metaDescription"
+            placeholder="Enter meta description"
+          ></textarea>
+        </div>
+
+        <!-- Meta Keywords -->
+
+        <div class="form-group">
+          <label for="metaKeywords"> Meta Keywords </label>
+
+          <input
+            id="metaKeywords"
+            type="text"
+            name="metaKeywords"
+            [(ngModel)]="settings.metaKeywords"
+            placeholder="news, updates, latest news"
+          />
+        </div>
+      </div>
+
+      <!-- ================= SOCIAL MEDIA ================= -->
+
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon">🔗</div>
+
+          <div>
+            <h2>Social Media Links</h2>
+            <p>Connect your social media profiles</p>
+          </div>
+        </div>
+
+        <div class="two-column">
+          <!-- Facebook -->
+
+          <div class="form-group">
+            <label for="facebookUrl"> Facebook URL </label>
+
+            <input
+              id="facebookUrl"
+              type="url"
+              name="facebookUrl"
+              [(ngModel)]="settings.facebookUrl"
+              placeholder="https://facebook.com/yourpage"
+            />
+          </div>
+
+          <!-- Twitter -->
+
+          <div class="form-group">
+            <label for="twitterUrl"> Twitter / X URL </label>
+
+            <input
+              id="twitterUrl"
+              type="url"
+              name="twitterUrl"
+              [(ngModel)]="settings.twitterUrl"
+              placeholder="https://x.com/yourpage"
+            />
+          </div>
+
+          <!-- Instagram -->
+
+          <div class="form-group">
+            <label for="instagramUrl"> Instagram URL </label>
+
+            <input
+              id="instagramUrl"
+              type="url"
+              name="instagramUrl"
+              [(ngModel)]="settings.instagramUrl"
+              placeholder="https://instagram.com/yourpage"
+            />
+          </div>
+
+          <!-- YouTube -->
+
+          <div class="form-group">
+            <label for="youTubeUrl"> YouTube URL </label>
+
+            <input
+              id="youTubeUrl"
+              type="url"
+              name="youTubeUrl"
+              [(ngModel)]="settings.youTubeUrl"
+              placeholder="https://youtube.com/@yourchannel"
+            />
+          </div>
+        </div>
+
+        <!-- LinkedIn -->
+
+        <div class="form-group">
+          <label for="linkedInUrl"> LinkedIn URL </label>
+
+          <input
+            id="linkedInUrl"
+            type="url"
+            name="linkedInUrl"
+            [(ngModel)]="settings.linkedInUrl"
+            placeholder="https://linkedin.com/company/yourcompany"
+          />
+        </div>
+      </div>
+
+      <!-- ================= FOOTER ================= -->
+
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon">📄</div>
+
+          <div>
+            <h2>Footer</h2>
+            <p>Website footer content</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="footerText"> Footer Text </label>
+
+          <textarea
+            id="footerText"
+            name="footerText"
+            rows="4"
+            [(ngModel)]="settings.footerText"
+            placeholder="© 2026 NewsPortal"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= BOTTOM ACTION ================= -->
+
+    <div class="bottom-actions">
+      <div class="settings-info">
+        <span *ngIf="settingId"> Settings ID: {{ settingId }} </span>
+      </div>
+
+      <button type="submit" class="save-btn" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : 'Save Settings' }}
+      </button>
+    </div>
+  </form>
+</div>

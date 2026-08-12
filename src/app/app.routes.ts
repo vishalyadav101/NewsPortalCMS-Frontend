@@ -28,6 +28,7 @@ import { CommentForm } from './features/comment/comment-form/comment-form';
 import { NewsTag } from './features/news-tag/news-tag/news-tag';
 import { NotificationList } from './features/notifications/notification-list/notification-list';
 import { NotificationForm } from './features/notifications/notification-form/notification-form';
+import { WebsiteSettings } from './features/website-settings/website-settings/website-settings';
 
 export const routes: Routes = [
   {
@@ -187,6 +188,10 @@ export const routes: Routes = [
       {
         path: 'notifications/edit/:id',
         component: NotificationForm,
+      },
+      {
+        path: 'website-settings',
+        component: WebsiteSettings,
       },
       {
         path: '',
