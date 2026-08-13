@@ -70,6 +70,15 @@
         <a routerLink="/menus" routerLinkActive="active"> Menus </a>
 
         <a routerLink="/menu-items" routerLinkActive="active"> Menu Items </a>
+        <a
+          routerLink="/seo"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="sidebar-link"
+        >
+          <span class="sidebar-icon">🔍</span>
+          <span>SEO</span>
+        </a>
       </div>
     </div>
 

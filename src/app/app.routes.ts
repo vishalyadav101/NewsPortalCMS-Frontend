@@ -29,6 +29,8 @@ import { NewsTag } from './features/news-tag/news-tag/news-tag';
 import { NotificationList } from './features/notifications/notification-list/notification-list';
 import { NotificationForm } from './features/notifications/notification-form/notification-form';
 import { WebsiteSettings } from './features/website-settings/website-settings/website-settings';
+import { SeoList } from './pages/seo/seo-list/seo-list';
+import { SeoForm } from './pages/seo/seo-form/seo-form';
 
 export const routes: Routes = [
   {
@@ -192,6 +194,18 @@ export const routes: Routes = [
       {
         path: 'website-settings',
         component: WebsiteSettings,
+      },
+      {
+        path: 'seo',
+        component: SeoList,
+      },
+      {
+        path: 'seo/add',
+        component: SeoForm,
+      },
+      {
+        path: 'seo/edit/:id',
+        component: SeoForm,
       },
       {
         path: '',

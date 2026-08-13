@@ -1,0 +1,323 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit SEO Settings' : 'Add SEO Settings' }}
+    </h1>
+
+    <p>Manage meta information, social sharing and structured data for your page</p>
+  </div>
+</div>
+
+<!-- Loading -->
+
+<div class="loading-card" *ngIf="isLoading">Loading SEO settings...</div>
+
+<!-- Form -->
+
+<div class="form-container" *ngIf="!isLoading">
+  <!-- Error -->
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Success -->
+
+  <div class="success-message" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+
+  <form #seoForm="ngForm" (ngSubmit)="save()">
+    <!-- =========================
+         BASIC SEO
+    ========================== -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">🔍</div>
+
+        <div>
+          <h2>Basic SEO</h2>
+
+          <p>Configure basic search engine information</p>
+        </div>
+      </div>
+
+      <div class="two-column">
+        <!-- Page Name -->
+
+        <div class="form-group">
+          <label for="pageName">
+            Page Name
+            <span>*</span>
+          </label>
+
+          <input
+            id="pageName"
+            type="text"
+            name="pageName"
+            [(ngModel)]="seo.pageName"
+            placeholder="Home Page"
+            required
+          />
+        </div>
+
+        <!-- Canonical URL -->
+
+        <div class="form-group">
+          <label for="canonicalUrl"> Canonical URL </label>
+
+          <input
+            id="canonicalUrl"
+            type="url"
+            name="canonicalUrl"
+            [(ngModel)]="seo.canonicalUrl"
+            placeholder="https://www.newsportal.com/"
+          />
+        </div>
+      </div>
+
+      <!-- Meta Title -->
+
+      <div class="form-group">
+        <label for="metaTitle">
+          Meta Title
+          <span>*</span>
+        </label>
+
+        <input
+          id="metaTitle"
+          type="text"
+          name="metaTitle"
+          [(ngModel)]="seo.metaTitle"
+          placeholder="Latest News Portal - Breaking News"
+          required
+        />
+
+        <small> Recommended length: 50–60 characters </small>
+      </div>
+
+      <!-- Meta Description -->
+
+      <div class="form-group">
+        <label for="metaDescription"> Meta Description </label>
+
+        <textarea
+          id="metaDescription"
+          name="metaDescription"
+          rows="4"
+          [(ngModel)]="seo.metaDescription"
+          placeholder="Enter a short description of this page..."
+        ></textarea>
+
+        <small> Recommended length: 150–160 characters </small>
+      </div>
+
+      <!-- Meta Keywords -->
+
+      <div class="form-group">
+        <label for="metaKeywords"> Meta Keywords </label>
+
+        <input
+          id="metaKeywords"
+          type="text"
+          name="metaKeywords"
+          [(ngModel)]="seo.metaKeywords"
+          placeholder="news, breaking news, latest updates"
+        />
+      </div>
+
+      <!-- Robots -->
+
+      <div class="form-group">
+        <label for="robots"> Robots </label>
+
+        <input
+          id="robots"
+          type="text"
+          name="robots"
+          [(ngModel)]="seo.robots"
+          placeholder="index, follow"
+        />
+      </div>
+    </div>
+
+    <!-- =========================
+         OPEN GRAPH
+    ========================== -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">🌐</div>
+
+        <div>
+          <h2>Open Graph</h2>
+
+          <p>Control how your page appears when shared</p>
+        </div>
+      </div>
+
+      <!-- OG Title -->
+
+      <div class="form-group">
+        <label for="ogTitle"> OG Title </label>
+
+        <input
+          id="ogTitle"
+          type="text"
+          name="ogTitle"
+          [(ngModel)]="seo.ogTitle"
+          placeholder="NewsPortal - Latest News and Updates"
+        />
+      </div>
+
+      <!-- OG Description -->
+
+      <div class="form-group">
+        <label for="ogDescription"> OG Description </label>
+
+        <textarea
+          id="ogDescription"
+          name="ogDescription"
+          rows="4"
+          [(ngModel)]="seo.ogDescription"
+          placeholder="Enter Open Graph description..."
+        ></textarea>
+      </div>
+
+      <!-- OG Image -->
+
+      <div class="form-group">
+        <label for="ogImage"> OG Image URL </label>
+
+        <input
+          id="ogImage"
+          type="text"
+          name="ogImage"
+          [(ngModel)]="seo.ogImage"
+          placeholder="/uploads/seo/home-og-image.jpg"
+        />
+      </div>
+    </div>
+
+    <!-- =========================
+         TWITTER / X
+    ========================== -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">🐦</div>
+
+        <div>
+          <h2>Twitter / X</h2>
+
+          <p>Configure Twitter card information</p>
+        </div>
+      </div>
+
+      <!-- Twitter Title -->
+
+      <div class="form-group">
+        <label for="twitterTitle"> Twitter Title </label>
+
+        <input
+          id="twitterTitle"
+          type="text"
+          name="twitterTitle"
+          [(ngModel)]="seo.twitterTitle"
+          placeholder="NewsPortal - Latest News and Updates"
+        />
+      </div>
+
+      <!-- Twitter Description -->
+
+      <div class="form-group">
+        <label for="twitterDescription"> Twitter Description </label>
+
+        <textarea
+          id="twitterDescription"
+          name="twitterDescription"
+          rows="4"
+          [(ngModel)]="seo.twitterDescription"
+          placeholder="Enter Twitter description..."
+        ></textarea>
+      </div>
+
+      <!-- Twitter Image -->
+
+      <div class="form-group">
+        <label for="twitterImage"> Twitter Image URL </label>
+
+        <input
+          id="twitterImage"
+          type="text"
+          name="twitterImage"
+          [(ngModel)]="seo.twitterImage"
+          placeholder="/uploads/seo/twitter-home-image.jpg"
+        />
+      </div>
+    </div>
+
+    <!-- =========================
+         SCHEMA MARKUP
+    ========================== -->
+
+    <div class="form-card">
+      <div class="card-header">
+        <div class="card-icon">📋</div>
+
+        <div>
+          <h2>Schema Markup</h2>
+
+          <p>Add structured data for search engines</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="schemaMarkup"> Schema Markup </label>
+
+        <textarea
+          id="schemaMarkup"
+          name="schemaMarkup"
+          rows="10"
+          [(ngModel)]="seo.schemaMarkup"
+          placeholder='{"@context":"https://schema.org","@type":"NewsMediaOrganization"}'
+        ></textarea>
+
+        <small> Enter valid JSON-LD schema markup. </small>
+      </div>
+    </div>
+
+    <!-- =========================
+         STATUS
+    ========================== -->
+
+    <div class="form-card status-card">
+      <div class="status-content">
+        <div>
+          <h3>SEO Status</h3>
+
+          <p>Enable or disable these SEO settings</p>
+        </div>
+
+        <label class="switch">
+          <input type="checkbox" name="isActive" [(ngModel)]="seo.isActive" />
+
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- =========================
+         ACTIONS
+    ========================== -->
+
+    <div class="bottom-actions">
+      <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+
+      <button type="submit" class="save-btn" [disabled]="isSaving">
+        {{ isSaving ? 'Saving...' : isEditMode ? 'Update SEO' : 'Save SEO' }}
+      </button>
+    </div>
+  </form>
+</div>
