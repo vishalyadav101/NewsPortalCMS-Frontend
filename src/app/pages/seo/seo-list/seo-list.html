@@ -1,0 +1,151 @@
+<div class="page-header">
+  <div>
+    <h1>SEO Management</h1>
+
+    <p>Manage search engine optimization settings for your website pages</p>
+  </div>
+
+  <button type="button" class="add-btn" (click)="addSeo()">+ Add SEO</button>
+</div>
+
+<!-- Loading -->
+
+<div class="loading-card" *ngIf="isLoading">Loading SEO settings...</div>
+
+<!-- Error -->
+
+<div class="error-message" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
+
+<!-- Main Content -->
+
+<div class="seo-container" *ngIf="!isLoading && !errorMessage">
+  <!-- Toolbar -->
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon"> 🔍 </span>
+
+      <input type="text" [(ngModel)]="searchText" placeholder="Search page or meta title..." />
+    </div>
+
+    <div class="seo-count">
+      Total SEO:
+
+      <strong>
+        {{ filteredSeo.length }}
+      </strong>
+    </div>
+  </div>
+
+  <!-- Table -->
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+
+          <th>Page</th>
+
+          <th>Meta Title</th>
+
+          <th>Canonical URL</th>
+
+          <th>Robots</th>
+
+          <th>Status</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of filteredSeo">
+          <!-- ID -->
+
+          <td>
+            <span class="id-badge"> #{{ item.id }} </span>
+          </td>
+
+          <!-- Page -->
+
+          <td>
+            <div class="page-info">
+              <div class="page-icon">📄</div>
+
+              <div>
+                <strong>
+                  {{ item.pageName }}
+                </strong>
+              </div>
+            </div>
+          </td>
+
+          <!-- Meta Title -->
+
+          <td>
+            <div class="meta-title">
+              {{ item.metaTitle }}
+            </div>
+          </td>
+
+          <!-- Canonical URL -->
+
+          <td>
+            <span class="url-text" [title]="item.canonicalUrl">
+              {{ item.canonicalUrl }}
+            </span>
+          </td>
+
+          <!-- Robots -->
+
+          <td>
+            <span class="robots-badge">
+              {{ item.robots }}
+            </span>
+          </td>
+
+          <!-- Status -->
+
+          <td>
+            <span
+              class="status-badge"
+              [class.active]="item.isActive"
+              [class.inactive]="!item.isActive"
+            >
+              {{ item.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <!-- Actions -->
+
+          <td>
+            <div class="actions">
+              <button type="button" class="edit-btn" title="Edit SEO" (click)="editSeo(item.id)">
+                ✏️
+              </button>
+
+              <button type="button" class="delete-btn" title="Delete SEO" (click)="deleteSeo(item)">
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- Empty State -->
+
+        <tr *ngIf="filteredSeo.length === 0">
+          <td colspan="7" class="empty-state">
+            <div class="empty-icon">🔍</div>
+
+            <strong> No SEO settings found </strong>
+
+            <p>Try changing your search.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
