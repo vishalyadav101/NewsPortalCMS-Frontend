@@ -1,0 +1,202 @@
+<div class="page-header">
+  <div>
+    <h1>Reports</h1>
+    <p>Overview and statistics of your NewsPortal CMS</p>
+  </div>
+
+  <button type="button" class="refresh-btn" (click)="loadDashboard()" [disabled]="isLoading">
+    {{ isLoading ? 'Refreshing...' : '↻ Refresh' }}
+  </button>
+</div>
+
+<!-- Loading -->
+
+<div class="loading-card" *ngIf="isLoading && !dashboard">Loading reports...</div>
+
+<!-- Error -->
+
+<div class="error-message" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
+
+<!-- Dashboard -->
+
+<div class="reports-container" *ngIf="dashboard">
+  <!-- =========================
+       SUMMARY CARDS
+  ========================== -->
+
+  <div class="stats-grid">
+    <!-- News -->
+
+    <div class="stat-card">
+      <div class="stat-icon news-icon">📰</div>
+
+      <div class="stat-content">
+        <span>Total News</span>
+
+        <strong>
+          {{ dashboard.totalNews }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Categories -->
+
+    <div class="stat-card">
+      <div class="stat-icon category-icon">📂</div>
+
+      <div class="stat-content">
+        <span>Categories</span>
+
+        <strong>
+          {{ dashboard.totalCategories }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Sub Categories -->
+
+    <div class="stat-card">
+      <div class="stat-icon subcategory-icon">📁</div>
+
+      <div class="stat-content">
+        <span>Sub Categories</span>
+
+        <strong>
+          {{ dashboard.totalSubCategories }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Tags -->
+
+    <div class="stat-card">
+      <div class="stat-icon tag-icon">🏷️</div>
+
+      <div class="stat-content">
+        <span>Total Tags</span>
+
+        <strong>
+          {{ dashboard.totalTags }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Users -->
+
+    <div class="stat-card">
+      <div class="stat-icon user-icon">👥</div>
+
+      <div class="stat-content">
+        <span>Total Users</span>
+
+        <strong>
+          {{ dashboard.totalUsers }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Comments -->
+
+    <div class="stat-card">
+      <div class="stat-icon comment-icon">💬</div>
+
+      <div class="stat-content">
+        <span>Comments</span>
+
+        <strong>
+          {{ dashboard.totalComments }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Advertisements -->
+
+    <div class="stat-card">
+      <div class="stat-icon ads-icon">📢</div>
+
+      <div class="stat-content">
+        <span>Advertisements</span>
+
+        <strong>
+          {{ dashboard.totalAdvertisements }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+
+    <div class="stat-card">
+      <div class="stat-icon notification-icon">🔔</div>
+
+      <div class="stat-content">
+        <span>Notifications</span>
+
+        <strong>
+          {{ dashboard.totalNotifications }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Static Pages -->
+
+    <div class="stat-card">
+      <div class="stat-icon page-icon">📄</div>
+
+      <div class="stat-content">
+        <span>Static Pages</span>
+
+        <strong>
+          {{ dashboard.totalStaticPages }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Menus -->
+
+    <div class="stat-card">
+      <div class="stat-icon menu-icon">📋</div>
+
+      <div class="stat-content">
+        <span>Total Menus</span>
+
+        <strong>
+          {{ dashboard.totalMenus }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- Audit Logs -->
+
+    <div class="stat-card">
+      <div class="stat-icon audit-icon">🛡️</div>
+
+      <div class="stat-content">
+        <span>Audit Logs</span>
+
+        <strong>
+          {{ dashboard.totalAuditLogs }}
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       REPORT INFORMATION
+  ========================== -->
+
+  <div class="info-card">
+    <div class="info-header">
+      <div class="info-icon">📊</div>
+
+      <div>
+        <h2>Reports Overview</h2>
+
+        <p>
+          Select detailed reports from the Reports menu to view news, comments and user activity.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

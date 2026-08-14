@@ -83,7 +83,15 @@
     </div>
 
     <!-- Single Menus -->
-
+    <a
+      routerLink="/reports"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="sidebar-link"
+    >
+      <span class="sidebar-icon">📊</span>
+      <span>Reports</span>
+    </a>
     <a routerLink="/advertisements" routerLinkActive="active"> 📢 Advertisement </a>
 
     <a routerLink="/comments" routerLinkActive="active"> 💬 Comments </a>

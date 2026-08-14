@@ -31,7 +31,7 @@ import { NotificationForm } from './features/notifications/notification-form/not
 import { WebsiteSettings } from './features/website-settings/website-settings/website-settings';
 import { SeoList } from './pages/seo/seo-list/seo-list';
 import { SeoForm } from './pages/seo/seo-form/seo-form';
-
+import { ReportsDashboard } from './pages/reports/reports-dashboard/reports-dashboard';
 export const routes: Routes = [
   {
     path: 'login',
@@ -206,6 +206,10 @@ export const routes: Routes = [
       {
         path: 'seo/edit/:id',
         component: SeoForm,
+      },
+      {
+        path: 'reports',
+        component: ReportsDashboard,
       },
       {
         path: '',
