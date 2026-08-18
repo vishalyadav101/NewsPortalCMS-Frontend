@@ -4,16 +4,6 @@ import { Observable } from 'rxjs';
 
 import { WebsiteSetting, WebsiteSettingRequest } from '../models/website-setting.model';
 
-interface LogoUploadResponse {
-  message: string;
-  logoUrl: string;
-}
-
-interface FaviconUploadResponse {
-  message: string;
-  faviconUrl: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -22,67 +12,74 @@ export class WebsiteSettingService {
 
   private readonly apiUrl = 'https://localhost:7103/api/WebsiteSetting';
 
-  // =========================
-  // GET
-  // =========================
+  // ==========================================
+  // GET SETTINGS
+  // GET /api/WebsiteSetting
+  // ==========================================
 
-  get(): Observable<WebsiteSetting> {
+  getSettings(): Observable<WebsiteSetting> {
     return this.http.get<WebsiteSetting>(this.apiUrl);
   }
 
-  // =========================
+  // ==========================================
   // GET BY ID
-  // =========================
+  // GET /api/WebsiteSetting/{id}
+  // ==========================================
 
   getById(id: number): Observable<WebsiteSetting> {
     return this.http.get<WebsiteSetting>(`${this.apiUrl}/${id}`);
   }
 
-  // =========================
+  // ==========================================
   // CREATE
-  // =========================
+  // POST /api/WebsiteSetting
+  // ==========================================
 
   create(data: WebsiteSettingRequest): Observable<WebsiteSetting> {
     return this.http.post<WebsiteSetting>(this.apiUrl, data);
   }
 
-  // =========================
+  // ==========================================
   // UPDATE
-  // =========================
+  // PUT /api/WebsiteSetting/{id}
+  // ==========================================
 
-  update(id: number, data: WebsiteSettingRequest): Observable<unknown> {
-    return this.http.put(`${this.apiUrl}/${id}`, data);
+  update(id: number, data: WebsiteSettingRequest): Observable<WebsiteSetting> {
+    return this.http.put<WebsiteSetting>(`${this.apiUrl}/${id}`, data);
   }
 
-  // =========================
+  // ==========================================
   // DELETE
-  // =========================
+  // DELETE /api/WebsiteSetting/{id}
+  // ==========================================
 
-  delete(id: number): Observable<unknown> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  // =========================
-  // UPLOAD LOGO
-  // =========================
+  // ==========================================
+  // LOGO UPLOAD
+  // POST /api/WebsiteSetting/{id}/logo
+  // ==========================================
 
-  uploadLogo(id: number, file: File): Observable<LogoUploadResponse> {
+  uploadLogo(id: number, file: File): Observable<any> {
     const formData = new FormData();
 
     formData.append('file', file);
 
-    return this.http.post<LogoUploadResponse>(`${this.apiUrl}/${id}/logo`, formData);
+    return this.http.post(`${this.apiUrl}/${id}/logo`, formData);
   }
 
-  // =========================
-  // UPLOAD FAVICON
-  // =========================
+  // ==========================================
+  // FAVICON UPLOAD
+  // POST /api/WebsiteSetting/{id}/favicon
+  // ==========================================
 
-  uploadFavicon(id: number, file: File): Observable<FaviconUploadResponse> {
+  uploadFavicon(id: number, file: File): Observable<any> {
     const formData = new FormData();
 
     formData.append('file', file);
 
-    return this.http.post<FaviconUploadResponse>(`${this.apiUrl}/${id}/favicon`, formData);
+    return this.http.post(`${this.apiUrl}/${id}/favicon`, formData);
   }
 }

@@ -1,0 +1,160 @@
+<div class="news-report-page">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h2>News Report</h2>
+      <p>View and analyze all news published in the portal.</p>
+    </div>
+
+    <div class="header-count">
+      <span>Total News</span>
+      <strong>{{ news.length }}</strong>
+    </div>
+  </div>
+
+  <!-- SUMMARY CARDS -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-content">
+        <span>Total News</span>
+        <strong>{{ news.length }}</strong>
+      </div>
+    </div>
+
+    <div class="summary-card published-card">
+      <div class="summary-content">
+        <span>Published</span>
+        <strong>{{ publishedCount }}</strong>
+      </div>
+    </div>
+
+    <div class="summary-card unpublished-card">
+      <div class="summary-content">
+        <span>Unpublished</span>
+        <strong>{{ unpublishedCount }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER SECTION -->
+  <div class="filter-card">
+    <div class="search-wrapper">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="applyFilters()"
+        placeholder="Search news, category or author..."
+      />
+    </div>
+
+    <div class="status-wrapper">
+      <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+        <option value="all">All Status</option>
+
+        <option value="published">Published</option>
+
+        <option value="unpublished">Unpublished</option>
+      </select>
+    </div>
+
+    <button type="button" class="clear-btn" (click)="clearFilters()">Clear</button>
+  </div>
+
+  <!-- ERROR -->
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+
+      <button type="button" (click)="loadNewsReport()">Retry</button>
+    </div>
+  }
+
+  <!-- LOADING -->
+  @if (loading) {
+    <div class="state-card">
+      <div class="spinner"></div>
+
+      <p>Loading news report...</p>
+    </div>
+  }
+
+  <!-- TABLE -->
+  @if (!loading && !errorMessage) {
+    <div class="table-card">
+      <div class="table-header">
+        <div>
+          <h3>News Records</h3>
+          <span> Showing {{ filteredNews.length }} of {{ news.length }} records </span>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>News Title</th>
+              <th>Category</th>
+              <th>Author</th>
+              <th>Published Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (item of filteredNews; track item.id; let i = $index) {
+              <tr>
+                <td>
+                  {{ i + 1 }}
+                </td>
+
+                <td>
+                  <div class="news-title">
+                    {{ item.title }}
+                  </div>
+                </td>
+
+                <td>
+                  <span class="category-badge">
+                    {{ item.categoryName }}
+                  </span>
+                </td>
+
+                <td>
+                  {{ item.authorName }}
+                </td>
+
+                <td>
+                  @if (item.isPublished) {
+                    {{ item.publishedDate | date: 'dd MMM yyyy, hh:mm a' }}
+                  } @else {
+                    <span class="not-published"> - </span>
+                  }
+                </td>
+
+                <td>
+                  @if (item.isPublished) {
+                    <span class="status-badge published"> Published </span>
+                  } @else {
+                    <span class="status-badge unpublished"> Unpublished </span>
+                  }
+                </td>
+              </tr>
+            }
+
+            @if (filteredNews.length === 0) {
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <div>
+                    <strong>No news found</strong>
+                    <p>Try changing your search or filter.</p>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

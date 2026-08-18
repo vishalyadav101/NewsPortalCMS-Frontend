@@ -83,15 +83,30 @@
     </div>
 
     <!-- Single Menus -->
-    <a
-      routerLink="/reports"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="sidebar-link"
-    >
-      <span class="sidebar-icon">📊</span>
-      <span>Reports</span>
-    </a>
+    <!-- Reports Management -->
+
+    <div class="menu-group">
+      <div class="menu-title" (click)="toggleReports()">
+        <span>📊 Reports</span>
+
+        <span class="arrow">
+          {{ reportsOpen ? '▾' : '▸' }}
+        </span>
+      </div>
+
+      <div class="submenu" *ngIf="reportsOpen">
+        <a
+          routerLink="/reports"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Dashboard
+        </a>
+
+        <a routerLink="/reports/news" routerLinkActive="active"> News Report </a>
+      </div>
+    </div>
+
     <a routerLink="/advertisements" routerLinkActive="active"> 📢 Advertisement </a>
 
     <a routerLink="/comments" routerLinkActive="active"> 💬 Comments </a>

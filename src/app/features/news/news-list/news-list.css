@@ -1,109 +1,326 @@
-.page-header {
+/* =========================
+   FILTERS
+========================= */
+
+.filter-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-}
+  gap: 12px;
 
-.page-header h1 {
-  margin: 0 0 5px;
-}
+  padding: 16px;
+  margin-bottom: 20px;
 
-.page-header p {
-  margin: 0;
-  color: #6b7280;
-}
+  background: #ffffff;
 
-.add-btn {
-  background: #2563eb;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-.table-card {
-  background: white;
-  padding: 20px;
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
 }
 
-.table-wrapper {
+.search-box {
+  flex: 1;
+}
+
+.search-box input {
   width: 100%;
-  overflow-x: auto;
+  box-sizing: border-box;
+
+  padding: 10px 13px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  outline: none;
+
+  font-size: 14px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1000px;
+.search-box input:focus {
+  border-color: #2563eb;
 }
 
-th,
-td {
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-  vertical-align: middle;
+.filter-item select {
+  min-width: 145px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  outline: none;
+
+  font-size: 14px;
 }
 
-th {
-  background: #f9fafb;
+.clear-btn {
+  padding: 10px 15px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #6b7280;
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+/* =========================
+   MEDIA
+========================= */
+
+.media-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 65px;
+  min-height: 45px;
 }
 
 .news-image {
-  width: 70px;
-  height: 45px;
+  width: 55px;
+  height: 42px;
+
   object-fit: cover;
-  border-radius: 5px;
+
+  border-radius: 6px;
+
+  border: 1px solid #e5e7eb;
+}
+
+.no-media {
+  color: #9ca3af;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.title-wrapper {
+  max-width: 240px;
+}
+
+.title-wrapper strong {
+  display: block;
+
+  color: #111827;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .slug {
   margin-top: 4px;
+
+  color: #9ca3af;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category-badge {
+  display: inline-block;
+
+  padding: 5px 9px;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  border-radius: 5px;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status-badge {
+  display: inline-block;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-badge.published {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.draft {
+  background: #f3f4f6;
   color: #6b7280;
-  font-size: 13px;
 }
 
-.published {
-  color: #15803d;
+/* =========================
+   FEATURED
+========================= */
+
+.featured-badge {
+  font-size: 12px;
   font-weight: 600;
 }
 
-.draft {
-  color: #b45309;
-  font-weight: 600;
+.featured-badge.featured {
+  color: #16a34a;
 }
+
+.featured-badge.not-featured {
+  color: #9ca3af;
+}
+
+/* =========================
+   ACTIONS
+========================= */
 
 .actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 7px;
 }
 
 .edit-btn {
-  background: #f59e0b;
-  color: white;
-  padding: 7px 12px;
+  padding: 6px 10px;
+
   border-radius: 5px;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-size: 12px;
+
   text-decoration: none;
 }
 
 .delete-btn {
-  border: 0;
-  background: #dc2626;
-  color: white;
-  padding: 7px 12px;
+  padding: 6px 10px;
+
+  border: none;
   border-radius: 5px;
+
+  background: #fef2f2;
+  color: #dc2626;
+
+  font-size: 12px;
+
   cursor: pointer;
 }
 
-.message {
-  padding: 30px;
-  text-align: center;
+/* =========================
+   PAGINATION
+========================= */
+
+.pagination {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 18px;
+
+  padding: 16px 20px;
+
+  border-top: 1px solid #e5e7eb;
 }
 
-.error-message {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 12px;
+.pagination button {
+  padding: 7px 13px;
+
+  border: 1px solid #d1d5db;
   border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #374151;
+
+  cursor: pointer;
+
+  font-size: 13px;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: #4b5563;
+
+  font-size: 13px;
+}
+
+.total-records {
+  color: #9ca3af;
+
+  margin-left: 4px;
+}
+
+/* =========================
+   ERROR RETRY
+========================= */
+
+.error-message {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 16px;
+
+  color: #b91c1c;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 8px;
+}
+
+.error-message button {
+  padding: 7px 12px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: #dc2626;
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+/* =========================
+   TABLE RESPONSIVE
+========================= */
+
+.table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+table {
+  min-width: 1200px;
 }

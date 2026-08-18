@@ -1,395 +1,622 @@
-<div class="page-header">
-  <div>
-    <h1>Website Settings</h1>
-    <p>Manage your website general settings, branding, SEO and social media links</p>
+<div class="settings-page">
+  <!-- =========================
+       PAGE HEADER
+  ========================== -->
+
+  <div class="page-header">
+    <div>
+      <h1>Website Settings</h1>
+
+      <p>Manage your website general settings, branding, contact, social media and SEO</p>
+    </div>
+
+    <button type="button" class="save-btn" (click)="save()" [disabled]="isSaving">
+      {{ isSaving ? 'Saving...' : 'Save Settings' }}
+    </button>
   </div>
 
-  <button type="button" class="save-top-btn" (click)="save()" [disabled]="isSaving || isLoading">
-    {{ isSaving ? 'Saving...' : 'Save Settings' }}
-  </button>
-</div>
+  <!-- =========================
+       LOADING
+  ========================== -->
 
-<!-- Loading -->
-<div class="loading-card" *ngIf="isLoading">Loading website settings...</div>
+  <div *ngIf="isLoading" class="message">Loading website settings...</div>
 
-<div class="settings-container" *ngIf="!isLoading">
-  <!-- Error -->
-  <div class="error-message" *ngIf="errorMessage">
+  <!-- =========================
+       ERROR
+  ========================== -->
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
-  <!-- Success -->
-  <div class="success-message" *ngIf="successMessage">
+  <!-- =========================
+       SUCCESS
+  ========================== -->
+
+  <div *ngIf="successMessage" class="success-message">
     {{ successMessage }}
   </div>
 
-  <form (ngSubmit)="save()" #settingsForm="ngForm">
-    <!-- ================= GENERAL ================= -->
+  <!-- =========================
+       MAIN SETTINGS
+  ========================== -->
 
-    <div class="settings-grid">
-      <div class="settings-card">
-        <div class="card-header">
-          <div class="card-icon">🌐</div>
+  <div class="settings-container" *ngIf="!isLoading">
+    <!-- =========================
+         TABS
+    ========================== -->
 
-          <div>
-            <h2>General Information</h2>
-            <p>Basic information about your website</p>
-          </div>
+    <div class="settings-tabs">
+      <!-- General -->
+
+      <button
+        type="button"
+        class="settings-tab"
+        [class.active]="activeTab === 'general'"
+        (click)="setActiveTab('general')"
+      >
+        <span class="tab-icon">🌐</span>
+
+        <span>General</span>
+      </button>
+
+      <!-- Branding -->
+
+      <button
+        type="button"
+        class="settings-tab"
+        [class.active]="activeTab === 'branding'"
+        (click)="setActiveTab('branding')"
+      >
+        <span class="tab-icon">🖼️</span>
+
+        <span>Branding</span>
+      </button>
+
+      <!-- Contact -->
+
+      <button
+        type="button"
+        class="settings-tab"
+        [class.active]="activeTab === 'contact'"
+        (click)="setActiveTab('contact')"
+      >
+        <span class="tab-icon">📞</span>
+
+        <span>Contact</span>
+      </button>
+
+      <!-- Social Media -->
+
+      <button
+        type="button"
+        class="settings-tab"
+        [class.active]="activeTab === 'social'"
+        (click)="setActiveTab('social')"
+      >
+        <span class="tab-icon">🔗</span>
+
+        <span>Social Media</span>
+      </button>
+
+      <!-- SEO -->
+
+      <button
+        type="button"
+        class="settings-tab"
+        [class.active]="activeTab === 'seo'"
+        (click)="setActiveTab('seo')"
+      >
+        <span class="tab-icon">🔍</span>
+
+        <span>Basic SEO</span>
+      </button>
+
+      <!-- Footer -->
+
+      <button
+        type="button"
+        class="settings-tab"
+        [class.active]="activeTab === 'footer'"
+        (click)="setActiveTab('footer')"
+      >
+        <span class="tab-icon">📄</span>
+
+        <span>Footer</span>
+      </button>
+    </div>
+
+    <!-- ==================================================
+         GENERAL TAB
+    =================================================== -->
+
+    <div class="settings-card" *ngIf="activeTab === 'general'">
+      <div class="section-header">
+        <div class="section-icon">🌐</div>
+
+        <div>
+          <h2>General Information</h2>
+
+          <p>Basic information about your website</p>
         </div>
+      </div>
 
+      <div class="form-grid">
         <!-- Website Name -->
 
         <div class="form-group">
-          <label for="websiteName"> Website Name <span>*</span> </label>
+          <label> Website Name <span>*</span> </label>
+
+          <input type="text" [(ngModel)]="settings.websiteName" placeholder="Enter website name" />
+        </div>
+
+        <!-- Website Tagline -->
+
+        <div class="form-group">
+          <label> Website Tagline </label>
 
           <input
-            id="websiteName"
             type="text"
-            name="websiteName"
-            [(ngModel)]="settings.websiteName"
-            placeholder="Enter website name"
+            [(ngModel)]="settings.websiteTagline"
+            placeholder="Enter website tagline"
           />
+        </div>
+
+        <!-- Organization -->
+
+        <div class="form-group">
+          <label> Company / Organization Name <span>*</span> </label>
+
+          <input
+            type="text"
+            [(ngModel)]="settings.organizationName"
+            placeholder="Enter organization name"
+          />
+        </div>
+
+        <!-- Website URL -->
+
+        <div class="form-group">
+          <label> Website URL <span>*</span> </label>
+
+          <input
+            type="url"
+            [(ngModel)]="settings.websiteUrl"
+            placeholder="https://www.example.com"
+          />
+        </div>
+
+        <!-- Language -->
+
+        <div class="form-group">
+          <label> Default Language <span>*</span> </label>
+
+          <select [(ngModel)]="settings.defaultLanguage">
+            <option *ngFor="let language of languages" [value]="language">
+              {{ language }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Time Zone -->
+
+        <div class="form-group">
+          <label> Time Zone <span>*</span> </label>
+
+          <select [(ngModel)]="settings.timeZone">
+            <option *ngFor="let zone of timeZones" [value]="zone">
+              {{ zone }}
+            </option>
+          </select>
         </div>
 
         <!-- Website Description -->
 
-        <div class="form-group">
-          <label for="websiteDescription"> Website Description </label>
+        <div class="form-group full-width">
+          <label> Website Description <span>*</span> </label>
 
           <textarea
-            id="websiteDescription"
-            name="websiteDescription"
-            rows="4"
+            rows="5"
             [(ngModel)]="settings.websiteDescription"
             placeholder="Enter website description"
           ></textarea>
         </div>
-      </div>
 
-      <!-- ================= BRANDING ================= -->
-
-      <div class="settings-card">
-        <div class="card-header">
-          <div class="card-icon">🖼️</div>
-
-          <div>
-            <h2>Branding</h2>
-            <p>Manage website logo and favicon</p>
-          </div>
-        </div>
-
-        <!-- ================= LOGO ================= -->
+        <!-- Copyright -->
 
         <div class="form-group">
-          <label for="logoFile"> Website Logo </label>
+          <label> Copyright Text <span>*</span> </label>
 
-          <div class="file-upload-box">
+          <input
+            type="text"
+            [(ngModel)]="settings.copyrightText"
+            placeholder="© 2026 NewsPortal Media. All Rights Reserved."
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         BRANDING TAB
+    =================================================== -->
+
+    <div class="settings-card" *ngIf="activeTab === 'branding'">
+      <div class="section-header">
+        <div class="section-icon">🖼️</div>
+
+        <div>
+          <h2>Branding</h2>
+
+          <p>Manage website logo, favicon and colors</p>
+        </div>
+      </div>
+
+      <div class="branding-grid">
+        <!-- LOGO -->
+
+        <div class="branding-box">
+          <label> Website Logo <span>*</span> </label>
+
+          <div class="upload-box">
             <input
-              id="logoFile"
               type="file"
-              accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+              id="logo"
+              accept="image/png,image/jpeg,image/jpg,image/webp"
               (change)="onLogoSelected($event)"
             />
 
-            <label for="logoFile" class="file-select-btn"> 📁 Choose Logo </label>
+            <label for="logo" class="upload-btn"> 📁 Choose Logo </label>
 
-            <span class="file-name" *ngIf="logoFile">
-              {{ logoFile.name }}
-            </span>
+            <span> PNG, JPG, JPEG or WEBP • Maximum 5 MB </span>
+          </div>
 
-            <span class="file-hint" *ngIf="!logoFile"> PNG, JPG, JPEG or WEBP • Maximum 5 MB </span>
+          <div class="preview-box" *ngIf="logoPreviewUrl">
+            <div class="preview-header">
+              <strong>Logo Preview</strong>
+
+              <span>
+                {{ logoFile ? 'New logo' : 'Current logo' }}
+              </span>
+            </div>
+
+            <img [src]="logoPreviewUrl" alt="Website Logo" />
           </div>
         </div>
 
-        <!-- Logo Preview -->
+        <!-- FAVICON -->
 
-        <div class="preview-section" *ngIf="logoPreviewUrl">
-          <div class="preview-header">
-            <span>Logo Preview</span>
+        <div class="branding-box">
+          <label> Website Favicon <span>*</span> </label>
 
-            <span class="preview-status" *ngIf="logoFile"> New logo selected </span>
-
-            <span class="preview-status existing" *ngIf="!logoFile"> Current logo </span>
-          </div>
-
-          <div class="logo-preview">
-            <img [src]="logoPreviewUrl" [alt]="settings.websiteName || 'Website Logo'" />
-          </div>
-        </div>
-
-        <!-- ================= FAVICON ================= -->
-
-        <div class="form-group favicon-upload-group">
-          <label for="faviconFile"> Website Favicon </label>
-
-          <div class="file-upload-box">
+          <div class="upload-box">
             <input
-              id="faviconFile"
               type="file"
-              accept=".png,.ico,image/png,image/x-icon,image/vnd.microsoft.icon"
+              id="favicon"
+              accept="image/png,image/x-icon,image/jpeg"
               (change)="onFaviconSelected($event)"
             />
 
-            <label for="faviconFile" class="file-select-btn"> 📁 Choose Favicon </label>
+            <label for="favicon" class="upload-btn"> 📁 Choose Favicon </label>
 
-            <span class="file-name" *ngIf="faviconFile">
-              {{ faviconFile.name }}
-            </span>
-
-            <span class="file-hint" *ngIf="!faviconFile"> PNG or ICO • Maximum 5 MB </span>
-          </div>
-        </div>
-
-        <!-- Favicon Preview -->
-
-        <div class="preview-section" *ngIf="faviconPreviewUrl">
-          <div class="preview-header">
-            <span>Favicon Preview</span>
-
-            <span class="preview-status" *ngIf="faviconFile"> New favicon selected </span>
-
-            <span class="preview-status existing" *ngIf="!faviconFile"> Current favicon </span>
+            <span> PNG or ICO • Maximum 5 MB </span>
           </div>
 
-          <div class="favicon-preview">
+          <div class="preview-box favicon-preview" *ngIf="faviconPreviewUrl">
+            <div class="preview-header">
+              <strong> Favicon Preview </strong>
+
+              <span>
+                {{ faviconFile ? 'New favicon' : 'Current favicon' }}
+              </span>
+            </div>
+
             <img [src]="faviconPreviewUrl" alt="Website Favicon" />
           </div>
         </div>
+
+        <!-- COLORS -->
+
+        <div class="color-section">
+          <div class="color-field">
+            <label> Primary Color </label>
+
+            <div class="color-input">
+              <input type="color" [(ngModel)]="settings.primaryColor" />
+
+              <input type="text" [(ngModel)]="settings.primaryColor" />
+            </div>
+          </div>
+
+          <div class="color-field">
+            <label> Secondary Color </label>
+
+            <div class="color-input">
+              <input type="color" [(ngModel)]="settings.secondaryColor" />
+
+              <input type="text" [(ngModel)]="settings.secondaryColor" />
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <!-- ================= CONTACT ================= -->
+    <!-- ==================================================
+         CONTACT TAB
+    =================================================== -->
 
-      <div class="settings-card">
-        <div class="card-header">
-          <div class="card-icon">📞</div>
+    <div class="settings-card" *ngIf="activeTab === 'contact'">
+      <div class="section-header">
+        <div class="section-icon">📞</div>
 
-          <div>
-            <h2>Contact Information</h2>
-            <p>Website contact details</p>
-          </div>
-        </div>
+        <div>
+          <h2>Contact Information</h2>
 
-        <div class="two-column">
-          <!-- Email -->
-
-          <div class="form-group">
-            <label for="contactEmail"> Contact Email <span>*</span> </label>
-
-            <input
-              id="contactEmail"
-              type="email"
-              name="contactEmail"
-              [(ngModel)]="settings.contactEmail"
-              placeholder="contact@example.com"
-            />
-          </div>
-
-          <!-- Phone -->
-
-          <div class="form-group">
-            <label for="contactPhone"> Contact Phone </label>
-
-            <input
-              id="contactPhone"
-              type="text"
-              name="contactPhone"
-              [(ngModel)]="settings.contactPhone"
-              placeholder="9999999999"
-            />
-          </div>
-        </div>
-
-        <!-- Address -->
-
-        <div class="form-group">
-          <label for="address"> Address </label>
-
-          <textarea
-            id="address"
-            name="address"
-            rows="3"
-            [(ngModel)]="settings.address"
-            placeholder="Enter website address"
-          ></textarea>
+          <p>Manage your website contact details</p>
         </div>
       </div>
 
-      <!-- ================= SEO ================= -->
-
-      <div class="settings-card">
-        <div class="card-header">
-          <div class="card-icon">🔍</div>
-
-          <div>
-            <h2>SEO Settings</h2>
-            <p>Search engine optimization settings</p>
-          </div>
-        </div>
-
-        <!-- Meta Title -->
-
+      <div class="form-grid">
         <div class="form-group">
-          <label for="metaTitle"> Meta Title </label>
+          <label> Contact Email <span>*</span> </label>
 
           <input
-            id="metaTitle"
-            type="text"
-            name="metaTitle"
-            [(ngModel)]="settings.metaTitle"
-            placeholder="Enter meta title"
+            type="email"
+            [(ngModel)]="settings.contactEmail"
+            placeholder="contact@example.com"
           />
         </div>
 
-        <!-- Meta Description -->
+        <div class="form-group">
+          <label> Editorial Email </label>
+
+          <input
+            type="email"
+            [(ngModel)]="settings.editorialEmail"
+            placeholder="editorial@example.com"
+          />
+        </div>
 
         <div class="form-group">
-          <label for="metaDescription"> Meta Description </label>
+          <label> Advertising Email </label>
+
+          <input
+            type="email"
+            [(ngModel)]="settings.advertisingEmail"
+            placeholder="advertising@example.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label> Contact Phone </label>
+
+          <input type="text" [(ngModel)]="settings.contactPhone" placeholder="+91 9876543210" />
+        </div>
+
+        <div class="form-group">
+          <label> WhatsApp Number </label>
+
+          <input type="text" [(ngModel)]="settings.whatsAppNumber" placeholder="+91 9876543210" />
+        </div>
+
+        <div class="form-group full-width">
+          <label> Office Address </label>
 
           <textarea
-            id="metaDescription"
-            name="metaDescription"
             rows="4"
-            [(ngModel)]="settings.metaDescription"
-            placeholder="Enter meta description"
+            [(ngModel)]="settings.officeAddress"
+            placeholder="Enter office address"
           ></textarea>
         </div>
 
-        <!-- Meta Keywords -->
-
-        <div class="form-group">
-          <label for="metaKeywords"> Meta Keywords </label>
+        <div class="form-group full-width">
+          <label> Google Maps URL </label>
 
           <input
-            id="metaKeywords"
-            type="text"
-            name="metaKeywords"
-            [(ngModel)]="settings.metaKeywords"
-            placeholder="news, updates, latest news"
+            type="url"
+            [(ngModel)]="settings.googleMapsUrl"
+            placeholder="https://maps.google.com/..."
           />
         </div>
       </div>
+    </div>
 
-      <!-- ================= SOCIAL MEDIA ================= -->
+    <!-- ==================================================
+         SOCIAL MEDIA TAB
+    =================================================== -->
 
-      <div class="settings-card">
-        <div class="card-header">
-          <div class="card-icon">🔗</div>
+    <div class="settings-card" *ngIf="activeTab === 'social'">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
 
-          <div>
-            <h2>Social Media Links</h2>
-            <p>Connect your social media profiles</p>
-          </div>
+        <div>
+          <h2>Social Media</h2>
+
+          <p>Connect your social media profiles</p>
         </div>
+      </div>
 
-        <div class="two-column">
-          <!-- Facebook -->
-
-          <div class="form-group">
-            <label for="facebookUrl"> Facebook URL </label>
-
-            <input
-              id="facebookUrl"
-              type="url"
-              name="facebookUrl"
-              [(ngModel)]="settings.facebookUrl"
-              placeholder="https://facebook.com/yourpage"
-            />
-          </div>
-
-          <!-- Twitter -->
-
-          <div class="form-group">
-            <label for="twitterUrl"> Twitter / X URL </label>
-
-            <input
-              id="twitterUrl"
-              type="url"
-              name="twitterUrl"
-              [(ngModel)]="settings.twitterUrl"
-              placeholder="https://x.com/yourpage"
-            />
-          </div>
-
-          <!-- Instagram -->
-
-          <div class="form-group">
-            <label for="instagramUrl"> Instagram URL </label>
-
-            <input
-              id="instagramUrl"
-              type="url"
-              name="instagramUrl"
-              [(ngModel)]="settings.instagramUrl"
-              placeholder="https://instagram.com/yourpage"
-            />
-          </div>
-
-          <!-- YouTube -->
-
-          <div class="form-group">
-            <label for="youTubeUrl"> YouTube URL </label>
-
-            <input
-              id="youTubeUrl"
-              type="url"
-              name="youTubeUrl"
-              [(ngModel)]="settings.youTubeUrl"
-              placeholder="https://youtube.com/@yourchannel"
-            />
-          </div>
-        </div>
-
-        <!-- LinkedIn -->
-
+      <div class="form-grid">
         <div class="form-group">
-          <label for="linkedInUrl"> LinkedIn URL </label>
+          <label> Facebook URL </label>
 
           <input
-            id="linkedInUrl"
             type="url"
-            name="linkedInUrl"
+            [(ngModel)]="settings.facebookUrl"
+            placeholder="https://facebook.com/yourpage"
+          />
+        </div>
+
+        <div class="form-group">
+          <label> Instagram URL </label>
+
+          <input
+            type="url"
+            [(ngModel)]="settings.instagramUrl"
+            placeholder="https://instagram.com/yourpage"
+          />
+        </div>
+
+        <div class="form-group">
+          <label> YouTube URL </label>
+
+          <input
+            type="url"
+            [(ngModel)]="settings.youTubeUrl"
+            placeholder="https://youtube.com/@yourchannel"
+          />
+        </div>
+
+        <div class="form-group">
+          <label> X / Twitter URL </label>
+
+          <input
+            type="url"
+            [(ngModel)]="settings.twitterUrl"
+            placeholder="https://x.com/yourpage"
+          />
+        </div>
+
+        <div class="form-group">
+          <label> LinkedIn URL </label>
+
+          <input
+            type="url"
             [(ngModel)]="settings.linkedInUrl"
             placeholder="https://linkedin.com/company/yourcompany"
           />
         </div>
-      </div>
 
-      <!-- ================= FOOTER ================= -->
+        <div class="form-group">
+          <label> Telegram URL </label>
 
-      <div class="settings-card">
-        <div class="card-header">
-          <div class="card-icon">📄</div>
-
-          <div>
-            <h2>Footer</h2>
-            <p>Website footer content</p>
-          </div>
+          <input
+            type="url"
+            [(ngModel)]="settings.telegramUrl"
+            placeholder="https://t.me/yourchannel"
+          />
         </div>
 
         <div class="form-group">
-          <label for="footerText"> Footer Text </label>
+          <label> WhatsApp Channel URL </label>
+
+          <input
+            type="url"
+            [(ngModel)]="settings.whatsAppChannelUrl"
+            placeholder="https://whatsapp.com/channel/..."
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         SEO TAB
+    =================================================== -->
+
+    <div class="settings-card" *ngIf="activeTab === 'seo'">
+      <div class="section-header">
+        <div class="section-icon">🔍</div>
+
+        <div>
+          <h2>Basic SEO</h2>
+
+          <p>Search engine optimization settings</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label> Default Meta Title <span>*</span> </label>
+
+          <input
+            type="text"
+            [(ngModel)]="settings.metaTitle"
+            placeholder="NewsPortal - Latest Breaking News & Updates"
+          />
+        </div>
+
+        <div class="form-group full-width">
+          <label> Default Meta Description <span>*</span> </label>
 
           <textarea
-            id="footerText"
-            name="footerText"
+            rows="5"
+            [(ngModel)]="settings.metaDescription"
+            placeholder="Enter default meta description"
+          ></textarea>
+        </div>
+
+        <div class="form-group full-width">
+          <label> Default Meta Keywords </label>
+
+          <textarea
             rows="4"
+            [(ngModel)]="settings.metaKeywords"
+            placeholder="news, latest news, breaking news, technology"
+          ></textarea>
+        </div>
+
+        <div class="form-group full-width">
+          <label> Default Canonical URL </label>
+
+          <input
+            type="url"
+            [(ngModel)]="settings.canonicalUrl"
+            placeholder="https://www.example.com"
+          />
+        </div>
+
+        <div class="form-group full-width">
+          <label> Google Site Verification </label>
+
+          <input
+            type="text"
+            [(ngModel)]="settings.googleSiteVerification"
+            placeholder="Google verification code"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         FOOTER TAB
+    =================================================== -->
+
+    <div class="settings-card" *ngIf="activeTab === 'footer'">
+      <div class="section-header">
+        <div class="section-icon">📄</div>
+
+        <div>
+          <h2>Footer</h2>
+
+          <p>Manage website footer content</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label> Footer Text </label>
+
+          <textarea
+            rows="8"
             [(ngModel)]="settings.footerText"
-            placeholder="© 2026 NewsPortal"
+            placeholder="© 2026 NewsPortal Media. All Rights Reserved."
           ></textarea>
         </div>
       </div>
     </div>
 
-    <!-- ================= BOTTOM ACTION ================= -->
+    <!-- =========================
+         BOTTOM FOOTER
+    ========================== -->
 
-    <div class="bottom-actions">
-      <div class="settings-info">
-        <span *ngIf="settingId"> Settings ID: {{ settingId }} </span>
+    <div class="settings-footer">
+      <div>
+        Settings ID:
+        <strong>{{ settingId }}</strong>
       </div>
 
-      <button type="submit" class="save-btn" [disabled]="isSaving">
+      <button type="button" class="save-btn" (click)="save()" [disabled]="isSaving">
         {{ isSaving ? 'Saving...' : 'Save Settings' }}
       </button>
     </div>
-  </form>
+  </div>
 </div>

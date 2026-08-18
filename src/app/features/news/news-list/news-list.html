@@ -7,103 +7,238 @@
   <a routerLink="/news/add" class="add-btn"> + Add News </a>
 </div>
 
+<!-- =========================
+     FILTERS
+========================= -->
+
+<div class="filter-card">
+  <!-- Search -->
+
+  <div class="search-box">
+    <input
+      type="text"
+      [(ngModel)]="search"
+      (keyup.enter)="applySearch()"
+      placeholder="Search news..."
+    />
+  </div>
+
+  <!-- Published -->
+
+  <div class="filter-item">
+    <select [(ngModel)]="publishedFilter" (change)="applyFilters()">
+      <option value="all">All Status</option>
+
+      <option value="published">Published</option>
+
+      <option value="unpublished">Draft</option>
+    </select>
+  </div>
+
+  <!-- Featured -->
+
+  <div class="filter-item">
+    <select [(ngModel)]="featuredFilter" (change)="applyFilters()">
+      <option value="all">All News</option>
+
+      <option value="featured">Featured</option>
+
+      <option value="not-featured">Not Featured</option>
+    </select>
+  </div>
+
+  <!-- Sort -->
+
+  <div class="filter-item">
+    <select [(ngModel)]="sortBy" (change)="applyFilters()">
+      <option value="">Sort By</option>
+
+      <option value="title">Title</option>
+
+      <option value="publishDate">Publish Date</option>
+
+      <option value="viewCount">Views</option>
+    </select>
+  </div>
+
+  <!-- Clear -->
+
+  <button type="button" class="clear-btn" (click)="clearFilters()">Clear</button>
+</div>
+
+<!-- =========================
+     TABLE CARD
+========================= -->
+
 <div class="table-card">
+  <!-- Loading -->
+
   <div *ngIf="isLoading" class="message">Loading news...</div>
 
+  <!-- Error -->
+
   <div *ngIf="!isLoading && errorMessage" class="error-message">
-    {{ errorMessage }}
+    <span>
+      {{ errorMessage }}
+    </span>
+
+    <button type="button" (click)="loadNews()">Retry</button>
   </div>
+
+  <!-- Empty -->
 
   <div *ngIf="!isLoading && !errorMessage && newsList.length === 0" class="message">
     No news found.
   </div>
 
+  <!-- Table -->
+
   <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && newsList.length > 0">
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <th>#</th>
+
           <th>Image / PDF / Video</th>
+
           <th>Title</th>
+
           <th>Category</th>
+
           <th>Author</th>
+
           <th>Publish Date</th>
+
           <th>Views</th>
+
           <th>Status</th>
+
+          <th>Featured</th>
+
           <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let news of newsList">
-          <td>{{ news.id }}</td>
+        <tr *ngFor="let news of newsList; let i = index">
+          <!-- NUMBER -->
 
           <td>
-            <!-- PDF -->
-            <img
-              *ngIf="news.featuredImage && news.featuredImage.toLowerCase().endsWith('.pdf')"
-              src="assets/icons/pdf.png"
-              alt="PDF"
-              class="news-image"
-            />
-
-            <!-- Image -->
-            <img
-              *ngIf="
-                news.featuredImage &&
-                (news.featuredImage.toLowerCase().endsWith('.jpg') ||
-                  news.featuredImage.toLowerCase().endsWith('.jpeg') ||
-                  news.featuredImage.toLowerCase().endsWith('.png') ||
-                  news.featuredImage.toLowerCase().endsWith('.gif') ||
-                  news.featuredImage.toLowerCase().endsWith('.webp') ||
-                  news.featuredImage.toLowerCase().endsWith('.bmp'))
-              "
-              [src]="'https://localhost:7103' + news.featuredImage"
-              [alt]="news.title"
-              class="news-image"
-            />
-
-            <!-- Video -->
-            <img
-              *ngIf="news.featuredVideo"
-              src="assets/icons/video.png"
-              alt="Video"
-              class="news-image"
-            />
-
-            <!-- No Media -->
-            <span *ngIf="!news.featuredImage && !news.featuredVideo"> No Media </span>
+            {{ (pageNumber - 1) * pageSize + i + 1 }}
           </td>
 
-          <td>
-            <strong>{{ news.title }}</strong>
+          <!-- MEDIA -->
 
-            <div class="slug">
-              {{ news.slug }}
+          <td>
+            <div class="media-preview">
+              <!-- PDF -->
+
+              <img
+                *ngIf="news.featuredImage && news.featuredImage.toLowerCase().endsWith('.pdf')"
+                src="assets/icons/pdf.png"
+                alt="PDF"
+                class="news-image"
+              />
+
+              <!-- IMAGE -->
+
+              <img
+                *ngIf="
+                  news.featuredImage &&
+                  (news.featuredImage.toLowerCase().endsWith('.jpg') ||
+                    news.featuredImage.toLowerCase().endsWith('.jpeg') ||
+                    news.featuredImage.toLowerCase().endsWith('.png') ||
+                    news.featuredImage.toLowerCase().endsWith('.gif') ||
+                    news.featuredImage.toLowerCase().endsWith('.webp') ||
+                    news.featuredImage.toLowerCase().endsWith('.bmp'))
+                "
+                [src]="getImageUrl(news.featuredImage)"
+                [alt]="news.title"
+                class="news-image"
+              />
+
+              <!-- VIDEO -->
+
+              <img
+                *ngIf="news.featuredVideo"
+                src="assets/icons/video.png"
+                alt="Video"
+                class="news-image"
+              />
+
+              <!-- NO MEDIA -->
+
+              <span *ngIf="!news.featuredImage && !news.featuredVideo" class="no-media">
+                No Media
+              </span>
             </div>
           </td>
 
+          <!-- TITLE -->
+
           <td>
-            {{ news.categoryName }}
+            <div class="title-wrapper">
+              <strong>
+                {{ news.title }}
+              </strong>
+
+              <div class="slug">
+                {{ news.slug }}
+              </div>
+            </div>
           </td>
+
+          <!-- CATEGORY -->
+
+          <td>
+            <span class="category-badge">
+              {{ news.categoryName }}
+            </span>
+          </td>
+
+          <!-- AUTHOR -->
 
           <td>
             {{ news.author }}
           </td>
 
+          <!-- DATE -->
+
           <td>
             {{ news.publishDate | date: 'dd MMM yyyy' }}
           </td>
+
+          <!-- VIEWS -->
 
           <td>
             {{ news.viewCount }}
           </td>
 
+          <!-- STATUS -->
+
           <td>
-            <span [class.published]="news.isPublished" [class.draft]="!news.isPublished">
+            <span
+              [class.published]="news.isPublished"
+              [class.draft]="!news.isPublished"
+              class="status-badge"
+            >
               {{ news.isPublished ? 'Published' : 'Draft' }}
             </span>
           </td>
+
+          <!-- FEATURED -->
+
+          <td>
+            <span
+              [class.featured]="news.isFeatured"
+              [class.not-featured]="!news.isFeatured"
+              class="featured-badge"
+            >
+              {{ news.isFeatured ? 'Yes' : 'No' }}
+            </span>
+          </td>
+
+          <!-- ACTIONS -->
 
           <td>
             <div class="actions">
@@ -115,5 +250,28 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- =========================
+       PAGINATION
+  ========================= -->
+
+  <div class="pagination" *ngIf="!isLoading && !errorMessage && newsList.length > 0">
+    <button type="button" [disabled]="!hasPreviousPage" (click)="previousPage()">← Previous</button>
+
+    <span>
+      Page
+      <strong>
+        {{ pageNumber }}
+      </strong>
+      of
+      <strong>
+        {{ totalPages }}
+      </strong>
+
+      <span class="total-records"> ({{ totalCount }} records) </span>
+    </span>
+
+    <button type="button" [disabled]="!hasNextPage" (click)="nextPage()">Next →</button>
   </div>
 </div>

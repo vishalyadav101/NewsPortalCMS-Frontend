@@ -5,7 +5,6 @@ export interface News {
   shortDescription: string;
   content: string;
 
-  // API se path aayega
   featuredImage: string | null;
   featuredVideo: string | null;
 
@@ -24,13 +23,27 @@ export interface News {
   updatedAt: string | null;
 }
 
+
+export interface NewsPagedResponse {
+  items: News[];
+
+  pageNumber: number;
+  pageSize: number;
+
+  totalCount: number;
+  totalPages: number;
+
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
+
+
 export interface NewsRequest {
   title: string;
   slug: string;
   shortDescription: string;
   content: string;
 
-  // Upload ke liye
   featuredImage: File | null;
   featuredVideo: File | null;
 

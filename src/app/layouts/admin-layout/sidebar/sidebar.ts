@@ -13,6 +13,7 @@ export class Sidebar {
   userOpen = false;
   newsOpen = true;
   contentOpen = false;
+  reportsOpen = false;
 
   toggleUser() {
     this.userOpen = !this.userOpen;
@@ -24,5 +25,9 @@ export class Sidebar {
 
   toggleContent() {
     this.contentOpen = !this.contentOpen;
+  }
+
+  toggleReports() {
+    this.reportsOpen = !this.reportsOpen;
   }
 }
