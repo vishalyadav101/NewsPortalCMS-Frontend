@@ -1,0 +1,155 @@
+<div class="page-header">
+  <div>
+    <h1>
+      {{ isEditMode ? 'Edit Permission' : 'Add Permission' }}
+    </h1>
+
+    <p>
+      {{ isEditMode ? 'Update permission information' : 'Create a new system permission' }}
+    </p>
+  </div>
+</div>
+
+<!-- ==========================================
+     LOADING
+=========================================== -->
+
+<div *ngIf="isLoading" class="message">Loading permission...</div>
+
+<!-- ==========================================
+     FORM
+=========================================== -->
+
+<div *ngIf="!isLoading" class="form-card">
+  <!-- Error -->
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Success -->
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <form #permissionForm="ngForm" (ngSubmit)="savePermission(permissionForm)" novalidate>
+    <!-- ======================================
+         NAME
+    ======================================= -->
+
+    <div class="form-group">
+      <label for="name"> Permission Name <span>*</span> </label>
+
+      <input
+        id="name"
+        name="name"
+        type="text"
+        [(ngModel)]="name"
+        required
+        minlength="2"
+        maxlength="100"
+        #nameControl="ngModel"
+        placeholder="e.g. Create News"
+      />
+
+      <div *ngIf="nameControl.invalid && nameControl.touched" class="field-error">
+        <span *ngIf="nameControl.errors?.['required']"> Permission name is required. </span>
+
+        <span *ngIf="nameControl.errors?.['minlength']">
+          Permission name must be at least 2 characters.
+        </span>
+      </div>
+    </div>
+
+    <!-- ======================================
+         CODE
+    ======================================= -->
+
+    <div class="form-group">
+      <label for="code"> Permission Code <span>*</span> </label>
+
+      <input
+        id="code"
+        name="code"
+        type="text"
+        [(ngModel)]="code"
+        required
+        minlength="2"
+        maxlength="100"
+        #codeControl="ngModel"
+        placeholder="e.g. News.Create"
+      />
+
+      <div *ngIf="codeControl.invalid && codeControl.touched" class="field-error">
+        <span *ngIf="codeControl.errors?.['required']"> Permission code is required. </span>
+
+        <span *ngIf="codeControl.errors?.['minlength']">
+          Permission code must be at least 2 characters.
+        </span>
+      </div>
+
+      <small class="help-text"> Example: News.Create, News.Edit, Users.Delete </small>
+    </div>
+
+    <!-- ======================================
+         MODULE
+    ======================================= -->
+
+    <div class="form-group">
+      <label for="module"> Module <span>*</span> </label>
+
+      <input
+        id="module"
+        name="module"
+        type="text"
+        [(ngModel)]="module"
+        required
+        maxlength="100"
+        #moduleControl="ngModel"
+        placeholder="e.g. News"
+      />
+
+      <div *ngIf="moduleControl.invalid && moduleControl.touched" class="field-error">
+        Module is required.
+      </div>
+    </div>
+
+    <!-- ======================================
+         DESCRIPTION
+    ======================================= -->
+
+    <div class="form-group">
+      <label for="description"> Description </label>
+
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="description"
+        rows="5"
+        maxlength="500"
+        placeholder="Describe what this permission allows..."
+      ></textarea>
+
+      <small class="help-text"> Maximum 500 characters. </small>
+    </div>
+
+    <!-- ======================================
+         ACTIONS
+    ======================================= -->
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" [disabled]="isSaving" (click)="cancel()">
+        Cancel
+      </button>
+
+      <button type="submit" class="save-btn" [disabled]="isSaving">
+        <span *ngIf="!isSaving">
+          {{ isEditMode ? 'Update Permission' : 'Create Permission' }}
+        </span>
+
+        <span *ngIf="isSaving"> Saving... </span>
+      </button>
+    </div>
+  </form>
+</div>

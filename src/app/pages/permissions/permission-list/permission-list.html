@@ -1,0 +1,131 @@
+<div class="page-header">
+  <div>
+    <h1>Permissions</h1>
+
+    <p>Manage system permissions</p>
+  </div>
+
+  <a routerLink="/permissions/add" class="add-btn"> + Add Permission </a>
+</div>
+
+<!-- ==========================================
+     FILTERS
+=========================================== -->
+
+<div class="filter-card">
+  <div class="filter-group">
+    <label> Search </label>
+
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="applyFilters()"
+      placeholder="Search permission..."
+    />
+  </div>
+
+  <div class="filter-group">
+    <label> Module </label>
+
+    <input
+      type="text"
+      [(ngModel)]="moduleFilter"
+      (input)="applyFilters()"
+      placeholder="e.g. News"
+    />
+  </div>
+
+  <button type="button" class="clear-btn" (click)="clearFilters()">Clear</button>
+</div>
+
+<!-- ==========================================
+     TABLE
+=========================================== -->
+
+<div class="table-card">
+  <!-- Loading -->
+
+  <div *ngIf="isLoading" class="message">Loading permissions...</div>
+
+  <!-- Error -->
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Empty -->
+
+  <div *ngIf="!isLoading && !errorMessage && filteredPermissions.length === 0" class="message">
+    No permissions found.
+  </div>
+
+  <!-- Table -->
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && filteredPermissions.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+
+          <th>Name</th>
+
+          <th>Code</th>
+
+          <th>Module</th>
+
+          <th>Description</th>
+
+          <th>Created Date</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let permission of filteredPermissions; let i = index">
+          <td>
+            {{ i + 1 }}
+          </td>
+
+          <td>
+            <strong>
+              {{ permission.name }}
+            </strong>
+          </td>
+
+          <td>
+            <span class="code-badge">
+              {{ permission.code }}
+            </span>
+          </td>
+
+          <td>
+            <span class="module-badge">
+              {{ permission.module }}
+            </span>
+          </td>
+
+          <td>
+            <span class="description">
+              {{ permission.description || '-' }}
+            </span>
+          </td>
+
+          <td>
+            {{ permission.createdDate | date: 'dd MMM yyyy' }}
+          </td>
+
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/permissions/edit', permission.id]" class="edit-btn"> Edit </a>
+
+              <button type="button" class="delete-btn" (click)="deletePermission(permission.id)">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

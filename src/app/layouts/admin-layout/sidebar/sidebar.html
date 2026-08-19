@@ -6,9 +6,18 @@
 
   <nav>
     <!-- Dashboard -->
-    <a routerLink="/dashboard" routerLinkActive="active"> 🏠 Dashboard </a>
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      🏠 Dashboard
+    </a>
 
-    <!-- User Management -->
+    <!-- ==========================================
+         USER MANAGEMENT
+    =========================================== -->
+
     <div class="menu-group">
       <div class="menu-title" (click)="toggleUser()">
         <span>📁 User Management</span>
@@ -19,15 +28,17 @@
       </div>
 
       <div class="submenu" *ngIf="userOpen">
-        <a routerLink="/users" routerLinkActive="active"> Users </a>
+        <a routerLink="/users" routerLinkActive="active"> 👤 Users </a>
 
-        <a routerLink="/roles"> Roles </a>
+        <a routerLink="/roles" routerLinkActive="active"> 🛡️ Roles </a>
 
-        <a routerLink="/permissions"> Permissions </a>
+        <a routerLink="/permissions" routerLinkActive="active"> 🔐 Permissions </a>
       </div>
     </div>
 
-    <!-- News Management -->
+    <!-- ==========================================
+         NEWS MANAGEMENT
+    =========================================== -->
 
     <div class="menu-group">
       <div class="menu-title" (click)="toggleNews()">
@@ -39,7 +50,7 @@
       </div>
 
       <div class="submenu" *ngIf="newsOpen">
-        <a routerLink="/news" routerLinkActive="active"> News </a>
+        <a routerLink="/news" routerLinkActive="active"> 📰 News </a>
 
         <a routerLink="/categories" routerLinkActive="active"> Categories </a>
 
@@ -47,11 +58,13 @@
 
         <a routerLink="/tags" routerLinkActive="active"> Tags </a>
 
-        <a routerLink="/news-tags"> News Tags </a>
+        <a routerLink="/news-tags" routerLinkActive="active"> News Tags </a>
       </div>
     </div>
 
-    <!-- Content Management -->
+    <!-- ==========================================
+         CONTENT MANAGEMENT
+    =========================================== -->
 
     <div class="menu-group">
       <div class="menu-title" (click)="toggleContent()">
@@ -70,6 +83,7 @@
         <a routerLink="/menus" routerLinkActive="active"> Menus </a>
 
         <a routerLink="/menu-items" routerLinkActive="active"> Menu Items </a>
+
         <a
           routerLink="/seo"
           routerLinkActive="active"
@@ -82,8 +96,9 @@
       </div>
     </div>
 
-    <!-- Single Menus -->
-    <!-- Reports Management -->
+    <!-- ==========================================
+         REPORTS MANAGEMENT
+    =========================================== -->
 
     <div class="menu-group">
       <div class="menu-title" (click)="toggleReports()">
@@ -107,16 +122,20 @@
       </div>
     </div>
 
+    <!-- ==========================================
+         OTHER MENUS
+    =========================================== -->
+
     <a routerLink="/advertisements" routerLinkActive="active"> 📢 Advertisement </a>
 
     <a routerLink="/comments" routerLinkActive="active"> 💬 Comments </a>
 
-    <a routerLink="/notifications"> 🔔 Notifications </a>
+    <a routerLink="/notifications" routerLinkActive="active"> 🔔 Notifications </a>
 
-    <a routerLink="/website-settings"> ⚙ Website Settings </a>
+    <a routerLink="/website-settings" routerLinkActive="active"> ⚙ Website Settings </a>
 
-    <a routerLink="/profile"> 👤 Profile </a>
+    <a routerLink="/profile" routerLinkActive="active"> 👤 Profile </a>
 
-    <a routerLink="/login"> 🚪 Logout </a>
+    <a routerLink="/login" routerLinkActive="active"> 🚪 Logout </a>
   </nav>
 </div>
