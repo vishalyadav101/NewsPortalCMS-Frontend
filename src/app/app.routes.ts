@@ -33,6 +33,7 @@ import { SeoList } from './pages/seo/seo-list/seo-list';
 import { SeoForm } from './pages/seo/seo-form/seo-form';
 import { ReportsDashboard } from './pages/reports/reports-dashboard/reports-dashboard';
 import { NewsReportComponent } from './pages/reports/news-report/news-report';
+import { ProfileComponent } from './pages/profile/profile';
 
 export const routes: Routes = [
   {
@@ -216,6 +217,10 @@ export const routes: Routes = [
       {
         path: 'reports/news',
         component: NewsReportComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
       },
       {
         path: '',

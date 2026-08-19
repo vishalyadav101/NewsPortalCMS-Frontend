@@ -1,0 +1,235 @@
+<div class="profile-page">
+  <!-- ==========================================
+       PAGE HEADER
+  =========================================== -->
+
+  <div class="page-header">
+    <div>
+      <h1>My Profile</h1>
+
+      <p>Manage your profile information</p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- ==========================================
+       SUCCESS
+  =========================================== -->
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+
+  <div *ngIf="isLoading" class="message">Loading profile...</div>
+
+  <!-- ==========================================
+       PROFILE CONTENT
+  =========================================== -->
+
+  <div *ngIf="!isLoading && profile" class="profile-grid">
+    <!-- ========================================
+         PROFILE PHOTO
+    ========================================= -->
+
+    <div class="profile-card image-card">
+      <div class="card-header">
+        <h2>Profile Photo</h2>
+
+        <p>Update your profile picture</p>
+      </div>
+
+      <div class="profile-image-wrapper">
+        <!-- Selected image preview -->
+
+        <img
+          *ngIf="selectedImagePreview"
+          [src]="selectedImagePreview"
+          alt="Profile Preview"
+          class="profile-image"
+        />
+
+        <!-- Existing profile image -->
+
+        <img
+          *ngIf="!selectedImagePreview && profile.profileImage"
+          [src]="getProfileImageUrl(profile.profileImage)"
+          alt="Profile Image"
+          class="profile-image"
+        />
+
+        <!-- Initials -->
+
+        <div *ngIf="!selectedImagePreview && !profile.profileImage" class="profile-placeholder">
+          {{ getInitials() }}
+        </div>
+      </div>
+
+      <!-- File -->
+
+      <div class="file-section">
+        <label for="profileImage" class="file-btn"> Choose Image </label>
+
+        <input
+          id="profileImage"
+          type="file"
+          accept="image/jpeg,image/jpg,image/png,image/webp"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+
+        <span *ngIf="selectedFile" class="file-name">
+          {{ selectedFile.name }}
+        </span>
+      </div>
+
+      <!-- Upload -->
+
+      <button
+        type="button"
+        class="upload-btn"
+        [disabled]="!selectedFile || isUploadingImage"
+        (click)="uploadImage()"
+      >
+        <span *ngIf="!isUploadingImage"> Upload Image </span>
+
+        <span *ngIf="isUploadingImage"> Uploading... </span>
+      </button>
+
+      <small> JPG, JPEG, PNG or WEBP. Maximum 5 MB. </small>
+    </div>
+
+    <!-- ========================================
+         PROFILE INFORMATION
+    ========================================= -->
+
+    <div class="profile-card">
+      <div class="card-header">
+        <h2>Profile Information</h2>
+
+        <p>Update your personal information</p>
+      </div>
+
+      <form #profileForm="ngForm" (ngSubmit)="updateProfile(profileForm)" novalidate>
+        <!-- First Name -->
+
+        <div class="form-group">
+          <label for="firstName"> First Name <span>*</span> </label>
+
+          <input
+            id="firstName"
+            name="firstName"
+            type="text"
+            [(ngModel)]="firstName"
+            required
+            minlength="2"
+            #firstNameControl="ngModel"
+            placeholder="Enter first name"
+          />
+
+          <div *ngIf="firstNameControl.invalid && firstNameControl.touched" class="field-error">
+            <span *ngIf="firstNameControl.errors?.['required']"> First name is required. </span>
+
+            <span *ngIf="firstNameControl.errors?.['minlength']">
+              First name must be at least 2 characters.
+            </span>
+          </div>
+        </div>
+
+        <!-- Last Name -->
+
+        <div class="form-group">
+          <label for="lastName"> Last Name <span>*</span> </label>
+
+          <input
+            id="lastName"
+            name="lastName"
+            type="text"
+            [(ngModel)]="lastName"
+            required
+            minlength="2"
+            #lastNameControl="ngModel"
+            placeholder="Enter last name"
+          />
+
+          <div *ngIf="lastNameControl.invalid && lastNameControl.touched" class="field-error">
+            <span *ngIf="lastNameControl.errors?.['required']"> Last name is required. </span>
+
+            <span *ngIf="lastNameControl.errors?.['minlength']">
+              Last name must be at least 2 characters.
+            </span>
+          </div>
+        </div>
+
+        <!-- Username -->
+
+        <div class="form-group">
+          <label for="userName"> Username </label>
+
+          <input
+            id="userName"
+            type="text"
+            [value]="profile.userName"
+            readonly
+            class="readonly-input"
+          />
+        </div>
+
+        <!-- Email -->
+
+        <div class="form-group">
+          <label for="email"> Email </label>
+
+          <input id="email" type="email" [value]="profile.email" readonly class="readonly-input" />
+        </div>
+
+        <!-- Status -->
+
+        <div class="form-group">
+          <label> Account Status </label>
+
+          <span
+            class="status"
+            [class.active]="profile.isActive"
+            [class.inactive]="!profile.isActive"
+          >
+            {{ profile.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </div>
+
+        <!-- Member Since -->
+
+        <div class="form-group">
+          <label> Member Since </label>
+
+          <input
+            type="text"
+            [value]="profile.createdDate | date: 'dd MMM yyyy'"
+            readonly
+            class="readonly-input"
+          />
+        </div>
+
+        <!-- Actions -->
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn" [disabled]="isSaving">
+            <span *ngIf="!isSaving"> Save Changes </span>
+
+            <span *ngIf="isSaving"> Saving... </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

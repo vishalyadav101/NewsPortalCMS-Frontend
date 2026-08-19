@@ -1,0 +1,367 @@
+.profile-page {
+  padding: 24px;
+}
+
+/* ==========================================
+   PAGE HEADER
+========================================== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ==========================================
+   GRID
+========================================== */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ==========================================
+   CARD
+========================================== */
+
+.profile-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.image-card {
+  text-align: center;
+}
+
+/* ==========================================
+   CARD HEADER
+========================================== */
+
+.card-header {
+  margin-bottom: 24px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.card-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* ==========================================
+   PROFILE IMAGE
+========================================== */
+
+.profile-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #eff6ff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.profile-placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 52px;
+  font-weight: 700;
+  border: 5px solid #eff6ff;
+}
+
+/* ==========================================
+   FILE
+========================================== */
+
+.file-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.file-btn {
+  display: inline-block;
+  padding: 9px 18px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.file-btn:hover {
+  background: #e5e7eb;
+}
+
+.file-name {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* ==========================================
+   UPLOAD BUTTON
+========================================== */
+
+.upload-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 7px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.upload-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.image-card small {
+  display: block;
+  margin-top: 12px;
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group label span {
+  color: #dc2626;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  outline: none;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
+
+.readonly-input {
+  background: #f9fafb !important;
+  color: #6b7280 !important;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   FIELD ERROR
+========================================== */
+
+.field-error {
+  margin-top: 5px;
+  color: #dc2626;
+  font-size: 12px;
+}
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.status {
+  display: inline-flex;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status.inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ==========================================
+   FORM ACTIONS
+========================================== */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.save-btn {
+  min-width: 140px;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 7px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.save-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   MESSAGES
+========================================== */
+
+.message {
+  padding: 18px;
+  text-align: center;
+  color: #6b7280;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.error-message {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.success-message {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid #bbf7d0;
+  border-radius: 7px;
+  background: #f0fdf4;
+  color: #15803d;
+  font-size: 14px;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .image-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-page {
+    padding: 15px;
+  }
+
+  .profile-card {
+    padding: 18px;
+  }
+
+  .page-header h1 {
+    font-size: 23px;
+  }
+
+  .profile-image,
+  .profile-placeholder {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-placeholder {
+    font-size: 42px;
+  }
+}
