@@ -1,0 +1,112 @@
+<div class="page-header">
+  <div>
+    <h1>Roles</h1>
+
+    <p>Manage user roles</p>
+  </div>
+
+  <a routerLink="/roles/add" class="add-btn"> + Add Role </a>
+</div>
+
+<!-- ==========================================
+     SEARCH
+========================================== -->
+
+<div class="filter-card">
+  <div class="filter-group">
+    <label> Search Role </label>
+
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="applySearch()"
+      placeholder="Search role..."
+    />
+  </div>
+
+  <button type="button" class="clear-btn" (click)="clearSearch()">Clear</button>
+</div>
+
+<!-- ==========================================
+     TABLE
+========================================== -->
+
+<div class="table-card">
+  <!-- Loading -->
+
+  <div *ngIf="isLoading" class="message">Loading roles...</div>
+
+  <!-- Error -->
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Empty -->
+
+  <div *ngIf="!isLoading && !errorMessage && filteredRoles.length === 0" class="message">
+    No roles found.
+  </div>
+
+  <!-- Table -->
+
+  <div class="table-wrapper" *ngIf="!isLoading && !errorMessage && filteredRoles.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+
+          <th>Role ID</th>
+
+          <th>Role Name</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let role of filteredRoles; let i = index">
+          <!-- Serial Number -->
+
+          <td>
+            {{ i + 1 }}
+          </td>
+
+          <!-- Role ID -->
+
+          <td>
+            {{ role.id }}
+          </td>
+
+          <!-- Role Name -->
+
+          <td>
+            <span class="role-badge">
+              {{ role.name }}
+            </span>
+          </td>
+
+          <!-- Actions -->
+
+          <td>
+            <div class="actions">
+              <!-- Permissions -->
+
+              <a [routerLink]="['/roles/permissions', role.id]" class="permission-btn">
+                Permissions
+              </a>
+
+              <!-- Edit -->
+
+              <a [routerLink]="['/roles/edit', role.id]" class="edit-btn"> Edit </a>
+
+              <!-- Delete -->
+
+              <button type="button" class="delete-btn" (click)="deleteRole(role.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

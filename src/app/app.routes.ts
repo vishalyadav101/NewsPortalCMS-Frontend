@@ -34,6 +34,11 @@ import { SeoForm } from './pages/seo/seo-form/seo-form';
 import { ReportsDashboard } from './pages/reports/reports-dashboard/reports-dashboard';
 import { NewsReportComponent } from './pages/reports/news-report/news-report';
 import { ProfileComponent } from './pages/profile/profile';
+import { PermissionList } from './pages/permissions/permission-list/permission-list';
+import { PermissionForm } from './pages/permissions/permission-form/permission-form';
+import { RoleList } from './pages/roles/role-list/role-list';
+import { RoleForm } from './pages/roles/role-form/role-form';
+import { RolePermissions } from './pages/roles/role-permissions/role-permissions';
 
 export const routes: Routes = [
   {
@@ -221,6 +226,34 @@ export const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'permissions',
+        component: PermissionList,
+      },
+      {
+        path: 'permissions/add',
+        component: PermissionForm,
+      },
+      {
+        path: 'permissions/edit/:id',
+        component: PermissionForm,
+      },
+      {
+        path: 'roles',
+        component: RoleList,
+      },
+      {
+        path: 'roles/add',
+        component: RoleForm,
+      },
+      {
+        path: 'roles/edit/:id',
+        component: RoleForm,
+      },
+      {
+        path: 'roles/permissions/:id',
+        component: RolePermissions,
       },
       {
         path: '',

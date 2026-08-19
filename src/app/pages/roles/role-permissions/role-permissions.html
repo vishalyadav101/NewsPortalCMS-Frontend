@@ -1,0 +1,153 @@
+<div class="page-header">
+  <div>
+    <h1>Role Permissions</h1>
+
+    <p *ngIf="role">
+      Manage permissions for
+      <strong>{{ role.name }}</strong>
+    </p>
+  </div>
+
+  <button type="button" class="back-btn" (click)="goBack()">← Back to Roles</button>
+</div>
+
+<!-- ==========================================
+     ERROR MESSAGE
+========================================== -->
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- ==========================================
+     SUCCESS MESSAGE
+========================================== -->
+
+<div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+</div>
+
+<!-- ==========================================
+     LOADING
+========================================== -->
+
+<div *ngIf="isLoading" class="message">Loading permissions...</div>
+
+<!-- ==========================================
+     MAIN CONTENT
+========================================== -->
+
+<div *ngIf="!isLoading" class="permission-card">
+  <!-- ========================================
+       ROLE INFORMATION
+  ========================================= -->
+
+  <div class="role-info">
+    <div class="role-info-left">
+      <div class="role-icon">🛡️</div>
+
+      <div>
+        <div class="role-label">ROLE</div>
+
+        <h2>
+          {{ role?.name }}
+        </h2>
+      </div>
+    </div>
+
+    <div class="selection-info">
+      <span> Selected </span>
+
+      <strong>
+        {{ selectedPermissionIds.length }}
+      </strong>
+
+      <span>
+        /
+        {{ permissions.length }}
+      </span>
+    </div>
+  </div>
+
+  <!-- ========================================
+       PERMISSION HEADER
+  ========================================= -->
+
+  <div class="permission-header">
+    <div>
+      <h2>Available Permissions</h2>
+
+      <p>Select the permissions that should be assigned to this role.</p>
+    </div>
+
+    <div class="bulk-actions">
+      <button type="button" class="select-btn" (click)="selectAll()">Select All</button>
+
+      <button type="button" class="clear-btn" (click)="clearAll()">Clear All</button>
+    </div>
+  </div>
+
+  <!-- ========================================
+       NO PERMISSIONS
+  ========================================= -->
+
+  <div *ngIf="permissions.length === 0" class="message">No permissions available.</div>
+
+  <!-- ========================================
+       PERMISSION GRID
+  ========================================= -->
+
+  <div *ngIf="permissions.length > 0" class="permissions-grid">
+    <label
+      *ngFor="let permission of permissions"
+      class="permission-item"
+      [class.selected]="isSelected(permission.id)"
+    >
+      <!-- CHECKBOX -->
+
+      <input
+        type="checkbox"
+        [checked]="isSelected(permission.id)"
+        (change)="togglePermission(permission.id, $event)"
+      />
+
+      <!-- PERMISSION DETAILS -->
+
+      <div class="permission-content">
+        <div class="permission-top">
+          <div class="permission-name">
+            {{ permission.name }}
+          </div>
+
+          <span class="module-badge">
+            {{ permission.module }}
+          </span>
+        </div>
+
+        <div class="permission-code">
+          {{ permission.code }}
+        </div>
+
+        <div *ngIf="permission.description" class="permission-description">
+          {{ permission.description }}
+        </div>
+      </div>
+    </label>
+  </div>
+
+  <!-- ========================================
+       BOTTOM ACTIONS
+  ========================================= -->
+
+  <div class="form-actions">
+    <button type="button" class="cancel-btn" [disabled]="isSaving" (click)="goBack()">
+      Cancel
+    </button>
+
+    <button type="button" class="save-btn" [disabled]="isSaving" (click)="savePermissions()">
+      <span *ngIf="!isSaving"> Save Permissions </span>
+
+      <span *ngIf="isSaving"> Saving... </span>
+    </button>
+  </div>
+</div>
