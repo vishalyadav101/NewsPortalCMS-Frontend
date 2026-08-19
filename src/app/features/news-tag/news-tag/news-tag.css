@@ -1,138 +1,487 @@
+/* =========================================
+   NEWS TAGS PAGE
+========================================= */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
 .page-header {
+  width: 100%;
+  max-width: 980px;
+  margin: 24px auto 18px;
+
+  min-height: 120px;
+  padding: 28px 34px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(255, 255, 255, 0.08),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #111b3a 0%,
+      #1d3374 55%,
+      #24458f 100%
+    );
+
+  border-radius: 0;
+
+  color: #ffffff;
+
+  overflow: hidden;
+  position: relative;
+}
+
+
+/* Decorative circles */
+
+.page-header::before {
+  content: "";
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  right: -90px;
+  top: -120px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.page-header::after {
+  content: "";
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -45px;
+  top: -80px;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+}
+
+
+/* Header content */
+
+.page-header > div {
+  position: relative;
+  z-index: 2;
 }
 
 .page-header h1 {
-  margin: 0 0 5px;
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  color: #ffffff;
 }
 
 .page-header p {
-  margin: 0;
-  color: #6b7280;
+  margin: 10px 0 0;
+
+  padding-left: 36px;
+
+  position: relative;
+
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.72);
 }
+
+.page-header p::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 50%;
+
+  width: 24px;
+  height: 2px;
+
+  transform: translateY(-50%);
+
+  background: #63a4ff;
+}
+
+
+/* =========================================
+   FORM CARD
+========================================= */
 
 .form-card {
-  max-width: 850px;
-  background: #fff;
-  padding: 24px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 980px;
+
+  margin: 0 auto 30px;
+
+  padding: 28px 34px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e1e7f0;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 8px 24px rgba(15, 31, 62, 0.07);
+
 }
 
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .form-group label {
   display: block;
+
   margin-bottom: 8px;
+
+  font-size: 13px;
   font-weight: 600;
+
+  color: #25344f;
 }
+
+
+/* =========================================
+   SELECT
+========================================= */
 
 .form-group select {
   width: 100%;
-  padding: 11px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+
+  height: 46px;
+
+  padding: 0 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ccd6e5;
+
+  border-radius: 8px;
+
+  background-color: #f8fafc;
+
+  color: #26354d;
+
+  font-size: 14px;
+
   outline: none;
-  background: white;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.form-group select:hover {
+  background-color: #ffffff;
 }
 
 .form-group select:focus {
-  border-color: #2563eb;
+  background-color: #ffffff;
+
+  border-color: #3975ed;
+
+  box-shadow: 0 0 0 3px rgba(57, 117, 237, 0.12);
 }
 
-/* Tags */
+
+/* =========================================
+   TAG LIST
+========================================= */
 
 .tag-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
   gap: 12px;
+
+  padding: 16px;
+
+  min-height: 80px;
+
+  box-sizing: border-box;
+
+  background: #f8fafc;
+
+  border: 1px solid #e1e7f0;
+
+  border-radius: 10px;
 }
+
+
+/* =========================================
+   TAG ITEM
+========================================= */
 
 .tag-item {
   display: flex;
+
   align-items: center;
+
   gap: 10px;
-  padding: 14px;
-  border: 1px solid #e5e7eb;
+
+  min-height: 42px;
+
+  padding: 9px 12px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #dce4ef;
+
   border-radius: 8px;
+
   cursor: pointer;
-  transition: 0.25s;
-  background: #fafafa;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .tag-item:hover {
-  border-color: #2563eb;
-  background: #eff6ff;
+  background: #f4f8ff;
+
+  border-color: #a9c6f5;
+
+  box-shadow: 0 2px 7px rgba(35, 83, 160, 0.06);
 }
 
-.tag-item input {
-  width: 18px;
-  height: 18px;
+
+/* Checkbox */
+
+.tag-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+
+  accent-color: #2864df;
+
+  cursor: pointer;
 }
+
+
+/* Tag name */
 
 .tag-item span {
+  font-size: 13px;
+
   font-weight: 500;
+
+  color: #34445d;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
 }
 
-/* Buttons */
+
+/* =========================================
+   FORM ACTIONS
+========================================= */
 
 .form-actions {
-  margin-top: 30px;
   display: flex;
+
   justify-content: flex-end;
+
+  align-items: center;
+
+  margin-top: 24px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #edf1f6;
 }
+
+
+/* =========================================
+   SAVE BUTTON
+========================================= */
 
 .form-actions button {
+  min-width: 125px;
+
+  height: 42px;
+
+  padding: 0 20px;
+
   border: none;
-  background: #2563eb;
-  color: white;
-  padding: 11px 24px;
-  border-radius: 6px;
-  cursor: pointer;
+
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #2864df,
+    #3e5ee8
+  );
+
+  color: #ffffff;
+
+  font-size: 13px;
+
   font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 12px rgba(40, 100, 223, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.form-actions button:hover {
-  background: #1d4ed8;
+.form-actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 7px 16px rgba(40, 100, 223, 0.25);
+}
+
+.form-actions button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .form-actions button:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
+
   cursor: not-allowed;
+
+  box-shadow: none;
 }
 
-/* Messages */
+
+/* =========================================
+   LOADING
+========================================= */
 
 .loading {
+  padding: 25px;
+
   text-align: center;
-  padding: 30px;
+
+  font-size: 14px;
+
+  color: #64748b;
 }
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
 
 .error-message {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 12px;
-  border-radius: 6px;
   margin-bottom: 20px;
+
+  padding: 12px 15px;
+
+  border-radius: 8px;
+
+  border: 1px solid #fecaca;
+
+  background: #fff1f2;
+
+  color: #b42318;
+
+  font-size: 13px;
 }
 
-/* Responsive */
 
-@media (max-width: 768px) {
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+  .page-header,
   .form-card {
-    padding: 18px;
+    max-width: calc(100% - 40px);
+  }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .page-header {
+    min-height: auto;
+
+    padding: 24px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .tag-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 550px) {
+
+  .page-header,
+  .form-card {
+    max-width: calc(100% - 24px);
+  }
+
+  .page-header {
+    padding: 22px;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .form-card {
+    padding: 22px 18px;
   }
 
   .tag-list {
     grid-template-columns: 1fr;
   }
 
-  .form-actions button {
-    width: 100%;
-  }
 }

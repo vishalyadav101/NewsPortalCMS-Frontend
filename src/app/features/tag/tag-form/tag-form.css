@@ -1,173 +1,554 @@
+/* =========================================================
+   TAG FORM
+   NewsPortal CMS - Common UI Design
+   Reference: Categories / Sub Categories Design
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
 .page-header {
+  width: 100%;
+  min-height: 120px;
+  box-sizing: border-box;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  justify-content: space-between;
+
+  position: relative;
+  overflow: hidden;
+
+  margin: 0 0 18px;
+  padding: 24px 34px;
+
+  background: linear-gradient(
+    135deg,
+    #121d4d 0%,
+    #1b2d6b 50%,
+    #31569d 100%
+  );
+
+  color: #ffffff;
+}
+
+
+/* Decorative circles */
+
+.page-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  right: -55px;
+  top: -85px;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.page-header::before {
+  content: "";
+
+  position: absolute;
+
+  width: 125px;
+  height: 125px;
+
+  right: -20px;
+  top: -50px;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+
+/* Header content */
+
+.page-header > div {
+  position: relative;
+  z-index: 2;
+
+  min-width: 0;
 }
 
 .page-header h1 {
-  margin: 0 0 5px;
+  margin: 0;
+
+  color: #ffffff;
+
   font-size: 28px;
   font-weight: 700;
-  color: #111827;
+  line-height: 1.25;
 }
 
 .page-header p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 14px;
+  position: relative;
+
+  margin: 8px 0 0;
+  padding-left: 36px;
+
+  color: rgba(255, 255, 255, 0.86);
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
-/* Back Button */
+.page-header p::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 50%;
+
+  width: 24px;
+  height: 2px;
+
+  transform: translateY(-50%);
+
+  background: #8db5ff;
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
 .back-btn {
-  text-decoration: none;
-  color: #374151;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  padding: 9px 16px;
+  position: relative;
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 76px;
+  height: 38px;
+
+  padding: 0 17px;
+
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.10);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 6px;
-  font-weight: 500;
-  transition: 0.2s;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .back-btn:hover {
-  background: #f3f4f6;
-}
-
-/* Form Card */
-.form-card {
-  max-width: 750px;
+  color: #172653;
   background: #ffffff;
-  padding: 24px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-color: #ffffff;
 }
 
-/* Form Group */
-.form-group {
+
+/* =========================================================
+   FORM CARD
+   ========================================================= */
+
+.form-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 28px 34px;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe5ee;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 14px rgba(25, 45, 80, 0.06);
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.form-card > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100px;
+
+  margin: 0;
+
+  color: #68758a;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+.error-message {
+  width: 100%;
+  box-sizing: border-box;
+
   margin-bottom: 20px;
+  padding: 11px 14px;
+
+  color: #a52828;
+  background: #fff5f5;
+
+  border: 1px solid #f0cccc;
+  border-left: 4px solid #dc3545;
+  border-radius: 6px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.form-group {
+  margin-bottom: 18px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 7px;
-  font-size: 14px;
+
+  margin: 0 0 7px 1px;
+
+  color: #263452;
+
+  font-size: 13px;
   font-weight: 600;
-  color: #374151;
+  line-height: 1.4;
 }
+
+
+/* =========================================================
+   INPUT
+   ========================================================= */
 
 .form-group input {
   width: 100%;
+  height: 46px;
+
   box-sizing: border-box;
-  padding: 11px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+
+  padding: 0 13px;
+
+  color: #263452;
   background: #ffffff;
-  color: #111827;
+
+  border: 1px solid #cfd9e8;
+  border-radius: 7px;
+
+  font-family: inherit;
   font-size: 14px;
+
   outline: none;
+
   transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-.form-group input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
+
+/* Placeholder */
 
 .form-group input::placeholder {
-  color: #9ca3af;
+  color: #9aa7b8;
 }
 
-/* Active Checkbox */
+
+/* Hover */
+
+.form-group input:hover {
+  border-color: #b9c7da;
+}
+
+
+/* Focus */
+
+.form-group input:focus {
+  border-color: #789be0;
+
+  box-shadow: 0 0 0 3px rgba(67, 102, 180, 0.10);
+}
+
+
+/* =========================================================
+   CHECKBOX
+   ========================================================= */
+
 .checkbox-group {
   display: flex;
   align-items: center;
+
   gap: 9px;
-  margin-bottom: 24px;
+
+  min-height: 42px;
+
+  margin: 0 0 18px;
 }
 
-.checkbox-group input {
+.checkbox-group input[type="checkbox"] {
   width: 17px;
   height: 17px;
+
+  margin: 0;
+
+  accent-color: #486fd1;
+
   cursor: pointer;
 }
 
 .checkbox-group label {
-  color: #374151;
-  font-size: 14px;
-  font-weight: 500;
+  margin: 0;
+
+  color: #263452;
+
+  font-size: 13px;
+  font-weight: 600;
+
   cursor: pointer;
 }
 
-/* Form Actions */
+
+/* =========================================================
+   FORM ACTIONS
+   ========================================================= */
+
 .form-actions {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 14px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 25px;
+  padding-top: 19px;
+
+  border-top: 1px solid #e6ebf2;
 }
 
+
+/* =========================================================
+   CANCEL BUTTON
+   ========================================================= */
+
 .cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 42px;
+  min-width: 92px;
+
+  padding: 0 18px;
+
+  box-sizing: border-box;
+
+  color: #4d5b70;
+  background: #ffffff;
+
+  border: 1px solid #ccd5e2;
+  border-radius: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
   text-decoration: none;
-  color: #374151;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .cancel-btn:hover {
-  background: #f3f4f6;
+  color: #273653;
+  background: #f5f7fa;
+  border-color: #b9c4d3;
 }
 
+
+/* =========================================================
+   SAVE / UPDATE BUTTON
+   ========================================================= */
+
 .form-actions button {
-  border: none;
-  background: #2563eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 115px;
+  height: 42px;
+
+  padding: 0 20px;
+
+  box-sizing: border-box;
+
   color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #6f8fe2,
+    #88a4ed
+  );
+
+  border: 1px solid #7898e4;
+  border-radius: 7px;
+
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 600;
+
   cursor: pointer;
-  transition: 0.2s;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
 }
 
 .form-actions button:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: linear-gradient(
+    135deg,
+    #5f81d8,
+    #7897e5
+  );
+
+  box-shadow: 0 4px 10px rgba(72, 111, 209, 0.20);
+
+  transform: translateY(-1px);
+}
+
+.form-actions button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .form-actions button:disabled {
-  opacity: 0.6;
+  opacity: 0.65;
+
   cursor: not-allowed;
 }
 
-/* Error */
-.error-message {
-  background: #fee2e2;
-  color: #991b1b;
-  border: 1px solid #fecaca;
-  padding: 12px 14px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
 
-/* Responsive */
-@media (max-width: 768px) {
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
   .page-header {
-    align-items: flex-start;
-    gap: 15px;
+    padding: 22px 26px;
+  }
+
+  .page-header h1 {
+    font-size: 25px;
   }
 
   .form-card {
-    padding: 18px;
+    padding: 24px 26px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: auto;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 16px;
+
+    padding: 22px 20px;
+  }
+
+  .page-header h1 {
+    font-size: 23px;
+  }
+
+  .back-btn {
+    width: 100%;
+  }
+
+  .form-card {
+    padding: 20px;
+
+    border-radius: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
   }
 
   .form-actions {
-    justify-content: space-between;
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    gap: 10px;
+  }
+
+  .cancel-btn,
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  .page-header {
+    padding: 20px 16px;
+  }
+
+  .form-card {
+    padding: 18px 16px;
+  }
+
+  .page-header h1 {
+    font-size: 21px;
+  }
+
+  .form-group input {
+    height: 44px;
   }
 }

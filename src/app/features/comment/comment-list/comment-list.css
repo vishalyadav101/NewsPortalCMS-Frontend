@@ -1,113 +1,945 @@
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+/* =========================================================
+   NEWS PORTAL CMS
+   COMMENTS LIST
+   PROFESSIONAL ADMIN PANEL DESIGN
+   ========================================================= */
+
+:host {
+  display: block;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: #0f172a;
 }
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.page-header {
+  position: relative;
+
+  width: calc(100% - 70px);
+
+  margin: 30px auto 0;
+
+  padding: 30px 35px 25px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0f172a 0%,
+      #172554 48%,
+      #1e3a8a 100%
+    );
+
+  border-radius: 14px 14px 0 0;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 5px 20px rgba(15, 23, 42, 0.10);
+
+  animation: headerEnter 0.55s ease both;
+}
+
+
+/* =========================================================
+   HEADER GRID
+   ========================================================= */
+
+.page-header::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 36px 36px;
+
+  mask-image:
+    linear-gradient(
+      to bottom right,
+      black,
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADER DECORATION
+   ========================================================= */
+
+.page-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 280px;
+  height: 280px;
+
+  right: -125px;
+  top: -175px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 0 0 35px rgba(255, 255, 255, 0.025),
+    0 0 0 70px rgba(255, 255, 255, 0.015);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+   ========================================================= */
+
+.page-header > div {
+  position: relative;
+
+  z-index: 2;
+
+  animation:
+    titleEnter
+    0.65s
+    ease
+    0.1s
+    both;
+}
+
 
 .page-header h1 {
-  margin: 0 0 5px;
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 28px;
+
+  line-height: 1.25;
+
+  font-weight: 750;
+
+  letter-spacing: -0.7px;
 }
+
 
 .page-header p {
-  margin: 0;
-  color: #6b7280;
+  margin: 8px 0 0;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 14px;
+
+  line-height: 1.5;
 }
+
+
+.page-header p::before {
+  content: "";
+
+  display: inline-block;
+
+  width: 25px;
+  height: 2px;
+
+  margin-right: 9px;
+
+  vertical-align: middle;
+
+  background: #60a5fa;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+   ========================================================= */
 
 .add-btn {
-  background: #2563eb;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
+  position: relative;
+
+  z-index: 3;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 125px;
+
+  height: 42px;
+
+  padding: 0 18px;
+
+  box-sizing: border-box;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #1d4ed8;
+
   text-decoration: none;
-  font-weight: 600;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.14);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.table-card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+.add-btn:hover {
+  background: #eff6ff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 22px rgba(15, 23, 42, 0.18);
 }
+
+
+.add-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+
+.table-card {
+  width: calc(100% - 70px);
+
+  margin: 0 auto 45px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-top: none;
+
+  border-radius: 0 0 14px 14px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.055),
+    0 2px 8px rgba(15, 23, 42, 0.035);
+
+  animation:
+    cardEnter
+    0.6s
+    ease
+    0.12s
+    both;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
 
 .table-wrapper {
   width: 100%;
+
   overflow-x: auto;
+
+  overflow-y: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color: #cbd5e1 transparent;
 }
+
+
+/* Chrome / Edge scrollbar */
+
+.table-wrapper::-webkit-scrollbar {
+  height: 7px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+
+  border-radius: 10px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
 
 table {
   width: 100%;
-  min-width: 1200px;
-  border-collapse: collapse;
+
+  min-width: 1050px;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  table-layout: fixed;
+
+  font-size: 13px;
 }
 
-th,
-td {
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-  vertical-align: top;
-}
 
-th {
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+thead {
   background: #f8fafc;
+}
+
+
+thead th {
+  height: 50px;
+
+  padding: 0 14px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.7px;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   COLUMN WIDTHS
+   ========================================================= */
+
+/*
+   These widths prevent the Actions column from being
+   squeezed and make the table much easier to read.
+*/
+
+thead th:nth-child(1) {
+  width: 55px;
+}
+
+
+thead th:nth-child(2) {
+  width: 75px;
+}
+
+
+thead th:nth-child(3) {
+  width: 120px;
+}
+
+
+thead th:nth-child(4) {
+  width: 190px;
+}
+
+
+thead th:nth-child(5) {
+  width: 230px;
+}
+
+
+thead th:nth-child(6) {
+  width: 105px;
+}
+
+
+thead th:nth-child(7) {
+  width: 100px;
+}
+
+
+thead th:nth-child(8) {
+  width: 125px;
+}
+
+
+thead th:nth-child(9) {
+  width: 155px;
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+tbody tr {
+  background: #ffffff;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+tbody tr:hover {
+  background: #f8fbff;
+
+  box-shadow:
+    inset 3px 0 0 #3b82f6;
+}
+
+
+tbody td {
+  height: 62px;
+
+  padding: 10px 14px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #edf1f5;
+
+  color: #475569;
+
+  vertical-align: middle;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   ID
+   ========================================================= */
+
+tbody td:first-child,
+tbody td:nth-child(2) {
+  color: #64748b;
+
   font-weight: 600;
 }
 
-td strong {
-  color: #111827;
+
+/* =========================================================
+   NAME
+   ========================================================= */
+
+tbody td strong {
+  color: #1e293b;
+
+  font-weight: 700;
 }
 
-.active {
+
+/* =========================================================
+   EMAIL
+   ========================================================= */
+
+tbody td:nth-child(4) {
+  color: #64748b;
+}
+
+
+/* =========================================================
+   COMMENT CONTENT
+   ========================================================= */
+
+tbody td:nth-child(5) {
+  color: #64748b;
+
+  max-width: 430px;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+tbody td span {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 75px;
+
+  height: 27px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTIVE / APPROVED
+   ========================================================= */
+
+tbody td span.active {
+  background: #ecfdf5;
+
+  border: 1px solid #bbf7d0;
+
   color: #15803d;
-  font-weight: 600;
 }
 
-.inactive {
-  color: #dc2626;
-  font-weight: 600;
+
+tbody td span.active::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 6px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
 }
+
+
+/* =========================================================
+   INACTIVE / PENDING
+   ========================================================= */
+
+tbody td span.inactive {
+  background: #fff7ed;
+
+  border: 1px solid #fed7aa;
+
+  color: #c2410c;
+}
+
+
+tbody td span.inactive::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 6px;
+
+  border-radius: 50%;
+
+  background: #f97316;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+tbody td:last-child {
+  overflow: visible;
+
+  white-space: nowrap;
+}
+
 
 .actions {
   display: flex;
-  gap: 8px;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 7px;
+
+  width: max-content;
 }
+
+
+/* =========================================================
+   EDIT BUTTON
+   ========================================================= */
 
 .edit-btn {
-  background: #f59e0b;
-  color: white;
-  padding: 7px 12px;
-  border-radius: 5px;
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 58px;
+
+  height: 32px;
+
+  padding: 0 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #bfdbfe;
+
+  border-radius: 7px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
   text-decoration: none;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.delete-btn {
-  border: none;
-  background: #dc2626;
-  color: white;
-  padding: 7px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.delete-btn:hover {
-  background: #b91c1c;
-}
 
 .edit-btn:hover {
-  background: #d97706;
+  background: #dbeafe;
+
+  border-color: #93c5fd;
+
+  transform: translateY(-1px);
 }
+
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
+
+.delete-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 65px;
+
+  height: 32px;
+
+  padding: 0 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 7px;
+
+  background: #fef2f2;
+
+  color: #dc2626;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.delete-btn:hover {
+  background: #fee2e2;
+
+  border-color: #fca5a5;
+
+  transform: translateY(-1px);
+}
+
+
+.delete-btn:active,
+.edit-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   LOADING / EMPTY MESSAGE
+   ========================================================= */
 
 .message {
-  padding: 30px;
-  text-align: center;
+  min-height: 180px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #64748b;
+
+  font-size: 14px;
 }
 
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
 .error-message {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 20px;
+  margin: 20px;
+
+  padding: 12px 14px;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 8px;
+
+  background: #fef2f2;
+
+  color: #dc2626;
+
+  font-size: 13px;
+
+  animation:
+    errorEnter
+    0.3s
+    ease
+    both;
 }
-  
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.add-btn:focus-visible,
+.edit-btn:focus-visible,
+.delete-btn:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes headerEnter {
+
+  from {
+    opacity: 0;
+
+    transform: translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes titleEnter {
+
+  from {
+    opacity: 0;
+
+    transform: translateX(-15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes cardEnter {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px)
+      scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes errorEnter {
+
+  from {
+    opacity: 0;
+
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .page-header {
+    width: calc(100% - 40px);
+
+    margin-top: 25px;
+
+    padding: 25px;
+  }
+
+
+  .table-card {
+    width: calc(100% - 40px);
+  }
+
+
+  table {
+    min-width: 1000px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    width: calc(100% - 28px);
+
+    margin-top: 18px;
+
+    padding: 22px 18px;
+
+    gap: 12px;
+  }
+
+
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+
+  .page-header p {
+    font-size: 12px;
+  }
+
+
+  .add-btn {
+    min-width: 95px;
+
+    height: 37px;
+
+    padding: 0 12px;
+
+    font-size: 11px;
+  }
+
+
+  .table-card {
+    width: calc(100% - 28px);
+  }
+
+
+  table {
+    min-width: 1000px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+
+    transition: none !important;
+  }
+}

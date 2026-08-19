@@ -1,93 +1,981 @@
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+/* =========================================================
+   NEWS PORTAL CMS
+   MENU LIST
+   PROFESSIONAL ADMIN PANEL DESIGN
+   ========================================================= */
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+
+  box-sizing: border-box;
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: #0f172a;
 }
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.page-header {
+  position: relative;
+
+  width: 100%;
+  min-height: 120px;
+
+  padding: 28px 35px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0f172a 0%,
+      #172554 48%,
+      #1e3a8a 100%
+    );
+
+  color: #ffffff;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.10);
+
+  animation:
+    headerEnter
+    0.55s
+    ease
+    both;
+}
+
+
+/* =========================================================
+   HEADER GRID
+   ========================================================= */
+
+.page-header::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 36px 36px;
+
+  mask-image:
+    linear-gradient(
+      to bottom right,
+      black,
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADER DECORATION
+   ========================================================= */
+
+.page-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 290px;
+  height: 290px;
+
+  right: -120px;
+  top: -175px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 0 0 35px rgba(255, 255, 255, 0.025),
+    0 0 0 70px rgba(255, 255, 255, 0.015);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+   ========================================================= */
+
+.page-header > div {
+  position: relative;
+
+  z-index: 2;
+
+  min-width: 0;
+
+  animation:
+    titleEnter
+    0.6s
+    ease
+    0.08s
+    both;
+}
+
 
 .page-header h1 {
   margin: 0;
+
+  color: #ffffff;
+
+  font-size: 28px;
+
+  line-height: 1.25;
+
+  font-weight: 750;
+
+  letter-spacing: -0.7px;
 }
+
 
 .page-header p {
-  margin-top: 5px;
-  color: #6b7280;
+  margin: 8px 0 0;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 14px;
+
+  line-height: 1.5;
 }
+
+
+.page-header p::before {
+  content: "";
+
+  display: inline-block;
+
+  width: 25px;
+  height: 2px;
+
+  margin-right: 9px;
+
+  vertical-align: middle;
+
+  background: #60a5fa;
+
+  box-shadow:
+    0 0 10px rgba(96, 165, 250, 0.35);
+}
+
+
+/* =========================================================
+   ADD MENU BUTTON
+   ========================================================= */
 
 .add-btn {
-  background: #2563eb;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 6px;
+  position: relative;
+
+  z-index: 3;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 105px;
+
+  height: 42px;
+
+  padding: 0 18px;
+
+  box-sizing: border-box;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #1d4ed8;
+
   text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.14);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+
+.add-btn:hover {
+  background: #eff6ff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 22px rgba(15, 23, 42, 0.18);
+}
+
+
+.add-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+
 .table-card {
-  background: #fff;
-  padding: 20px;
+  width: 100%;
+
+  margin: 18px 0 40px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.055),
+    0 2px 8px rgba(15, 23, 42, 0.035);
+
+  animation:
+    cardEnter
+    0.6s
+    ease
+    0.1s
+    both;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #cbd5e1
+    transparent;
+}
+
+
+/* Chrome / Edge */
+
+.table-wrapper::-webkit-scrollbar {
+  height: 7px;
+}
+
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+
   border-radius: 10px;
 }
 
-.table-wrapper {
-  overflow: auto;
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
 
 table {
   width: 100%;
-  border-collapse: collapse;
+
+  min-width: 900px;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  table-layout: fixed;
+
+  font-size: 13px;
 }
 
-th,
-td {
-  padding: 14px;
-  border-bottom: 1px solid #e5e7eb;
+
+/* =========================================================
+   COLUMN WIDTHS
+   ========================================================= */
+
+/* ID */
+
+thead th:nth-child(1) {
+  width: 65px;
+}
+
+
+/* Name */
+
+thead th:nth-child(2) {
+  width: 190px;
+}
+
+
+/* Location */
+
+thead th:nth-child(3) {
+  width: 150px;
+}
+
+
+/* Description */
+
+thead th:nth-child(4) {
+  width: auto;
+}
+
+
+/* Status */
+
+thead th:nth-child(5) {
+  width: 110px;
+}
+
+
+/* Created */
+
+thead th:nth-child(6) {
+  width: 125px;
+}
+
+
+/* Actions */
+
+thead th:nth-child(7) {
+  width: 160px;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+thead {
+  background: #f8fafc;
+}
+
+
+thead th {
+  height: 50px;
+
+  padding: 0 15px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.65px;
+
   text-align: left;
+
+  white-space: nowrap;
 }
 
-th {
-  background: #f9fafb;
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+tbody tr {
+  background: #ffffff;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.active {
-  color: #16a34a;
+
+tbody tr:hover {
+  background: #f8fbff;
+
+  box-shadow:
+    inset 3px 0 0 #3b82f6;
+}
+
+
+tbody td {
+  height: 68px;
+
+  padding: 10px 15px;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #edf1f5;
+
+  color: #475569;
+
+  vertical-align: middle;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   ID
+   ========================================================= */
+
+tbody td:first-child {
+  color: #64748b;
+
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   MENU NAME
+   ========================================================= */
+
+tbody td:nth-child(2) strong {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #1e293b;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   LOCATION
+   ========================================================= */
+
+tbody td:nth-child(3) {
+  color: #334155;
+
   font-weight: 600;
 }
 
-.inactive {
-  color: #dc2626;
-  font-weight: 600;
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+tbody td:nth-child(4) {
+  color: #64748b;
+
+  max-width: 0;
 }
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+tbody td:nth-child(5) span {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 75px;
+
+  height: 27px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
+
+tbody td:nth-child(5) span.active {
+  background: #ecfdf5;
+
+  border: 1px solid #bbf7d0;
+
+  color: #15803d;
+}
+
+
+tbody td:nth-child(5) span.active::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 6px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+
+/* =========================================================
+   INACTIVE
+   ========================================================= */
+
+tbody td:nth-child(5) span.inactive {
+  background: #fff7ed;
+
+  border: 1px solid #fed7aa;
+
+  color: #c2410c;
+}
+
+
+tbody td:nth-child(5) span.inactive::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 6px;
+
+  border-radius: 50%;
+
+  background: #f97316;
+}
+
+
+/* =========================================================
+   CREATED DATE
+   ========================================================= */
+
+tbody td:nth-child(6) {
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   ACTION COLUMN
+   ========================================================= */
+
+tbody td:last-child {
+  overflow: visible;
+
+  text-overflow: clip;
+
+  white-space: nowrap;
+}
+
 
 .actions {
   display: flex;
-  gap: 8px;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  gap: 7px;
+
+  width: max-content;
 }
+
+
+/* =========================================================
+   EDIT BUTTON
+   ========================================================= */
 
 .edit-btn {
-  background: #f59e0b;
-  color: #fff;
-  padding: 7px 12px;
-  border-radius: 5px;
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 58px;
+
+  height: 32px;
+
+  padding: 0 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #bfdbfe;
+
+  border-radius: 7px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
   text-decoration: none;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
+
+
+.edit-btn:hover {
+  background: #dbeafe;
+
+  border-color: #93c5fd;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
 
 .delete-btn {
-  background: #dc2626;
-  border: none;
-  color: #fff;
-  padding: 7px 12px;
-  border-radius: 5px;
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 65px;
+
+  height: 32px;
+
+  padding: 0 11px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 7px;
+
+  background: #fef2f2;
+
+  color: #dc2626;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
+
+
+.delete-btn:hover {
+  background: #fee2e2;
+
+  border-color: #fca5a5;
+
+  transform: translateY(-1px);
+}
+
+
+.edit-btn:active,
+.delete-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   LOADING / EMPTY MESSAGE
+   ========================================================= */
 
 .message {
-  padding: 30px;
-  text-align: center;
+  min-height: 180px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #64748b;
+
+  font-size: 14px;
 }
 
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
 .error-message {
-  padding: 12px;
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 6px;
+  margin: 20px;
+
+  padding: 12px 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 8px;
+
+  background: #fef2f2;
+
+  color: #dc2626;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  animation:
+    errorEnter
+    0.3s
+    ease
+    both;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.add-btn:focus-visible,
+.edit-btn:focus-visible,
+.delete-btn:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes headerEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-12px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+@keyframes titleEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+}
+
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px)
+      scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+@keyframes errorEnter {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .page-header {
+    padding: 25px 28px;
+  }
+
+
+  table {
+    min-width: 900px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 105px;
+
+    padding: 21px 20px;
+
+    border-radius: 10px;
+  }
+
+
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+
+  .page-header p {
+    margin-top: 6px;
+
+    font-size: 12px;
+  }
+
+
+  .add-btn {
+    min-width: 95px;
+
+    height: 38px;
+
+    padding: 0 13px;
+
+    font-size: 12px;
+  }
+
+
+  .table-card {
+    margin-top: 14px;
+
+    border-radius: 10px;
+  }
+
+
+  table {
+    min-width: 900px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+
+    transition: none !important;
+  }
 }
