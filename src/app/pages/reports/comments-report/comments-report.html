@@ -1,0 +1,118 @@
+<div class="page-header">
+  <div>
+    <h1>Comments Report</h1>
+
+    <p>View and analyze comments posted on news articles</p>
+  </div>
+
+  <button type="button" class="refresh-btn" (click)="refresh()" [disabled]="isLoading">
+    ↻ Refresh
+  </button>
+</div>
+
+<!-- Summary -->
+
+<div class="summary-card">
+  <div class="summary-icon">💬</div>
+
+  <div>
+    <span>Total Comments</span>
+
+    <strong>{{ totalComments }}</strong>
+  </div>
+</div>
+
+<!-- Search -->
+
+<div class="filter-card">
+  <div class="search-wrapper">
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+      placeholder="Search user, news or comment..."
+    />
+
+    <button *ngIf="searchText" type="button" class="clear-btn" (click)="clearSearch()">
+      Clear
+    </button>
+  </div>
+</div>
+
+<!-- Error -->
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- Loading -->
+
+<div *ngIf="isLoading" class="loading">Loading comments...</div>
+
+<!-- Comments Table -->
+
+<div class="table-card" *ngIf="!isLoading">
+  <div class="table-header">
+    <div>
+      <h2>Comment Records</h2>
+
+      <p>Showing {{ filteredComments.length }} of {{ totalComments }} comments</p>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table *ngIf="filteredComments.length > 0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>User</th>
+          <th>News</th>
+          <th>Comment</th>
+          <th>Created Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let comment of filteredComments; let i = index">
+          <td>
+            {{ i + 1 }}
+          </td>
+
+          <td>
+            <strong>{{ comment.userName }}</strong>
+          </td>
+
+          <td>
+            <span class="news-title">
+              {{ comment.newsTitle }}
+            </span>
+          </td>
+
+          <td>
+            <div class="comment-text">
+              {{ comment.comment }}
+            </div>
+          </td>
+
+          <td>
+            {{ comment.createdAt | date: 'dd MMM yyyy, hh:mm a' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Empty State -->
+
+    <div *ngIf="filteredComments.length === 0" class="empty-state">
+      <div class="empty-icon">💬</div>
+
+      <h3>No comments found</h3>
+
+      <p>There are no comments matching your search.</p>
+
+      <button *ngIf="searchText" type="button" class="clear-search-btn" (click)="clearSearch()">
+        Clear Search
+      </button>
+    </div>
+  </div>
+</div>
