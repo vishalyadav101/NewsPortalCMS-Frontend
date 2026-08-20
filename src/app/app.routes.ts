@@ -40,6 +40,7 @@ import { RoleList } from './pages/roles/role-list/role-list';
 import { RoleForm } from './pages/roles/role-form/role-form';
 import { RolePermissions } from './pages/roles/role-permissions/role-permissions';
 import { CommentsReport } from './pages/reports/comments-report/comments-report';
+import { UserActivityReportComponent } from './pages/reports/user-activity-report/user-activity-report';
 
 export const routes: Routes = [
   {
@@ -227,6 +228,10 @@ export const routes: Routes = [
       {
         path: 'reports/comments',
         component: CommentsReport,
+      },
+      {
+        path: 'reports/user-activity',
+        component: UserActivityReportComponent,
       },
       {
         path: 'profile',
