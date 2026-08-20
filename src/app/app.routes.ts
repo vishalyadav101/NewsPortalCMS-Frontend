@@ -39,6 +39,7 @@ import { PermissionForm } from './pages/permissions/permission-form/permission-f
 import { RoleList } from './pages/roles/role-list/role-list';
 import { RoleForm } from './pages/roles/role-form/role-form';
 import { RolePermissions } from './pages/roles/role-permissions/role-permissions';
+import { CommentsReport } from './pages/reports/comments-report/comments-report';
 
 export const routes: Routes = [
   {
@@ -222,6 +223,10 @@ export const routes: Routes = [
       {
         path: 'reports/news',
         component: NewsReportComponent,
+      },
+      {
+        path: 'reports/comments',
+        component: CommentsReport,
       },
       {
         path: 'profile',
