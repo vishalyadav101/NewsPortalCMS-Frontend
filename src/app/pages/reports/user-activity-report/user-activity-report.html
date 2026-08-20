@@ -1,0 +1,207 @@
+<div class="page-header">
+  <div>
+    <h1>User Activity Report</h1>
+
+    <p>View user activity across news, comments and audit logs</p>
+  </div>
+
+  <button type="button" class="refresh-btn" (click)="refresh()" [disabled]="isLoading">
+    ↻ Refresh
+  </button>
+</div>
+
+<!-- ==========================================
+     SUMMARY CARDS
+========================================== -->
+
+<div class="summary-grid">
+  <!-- Total Users -->
+
+  <div class="summary-card">
+    <div class="summary-icon">👥</div>
+
+    <div>
+      <span>Total Users</span>
+
+      <strong>
+        {{ totalUsers }}
+      </strong>
+    </div>
+  </div>
+
+  <!-- News Created -->
+
+  <div class="summary-card">
+    <div class="summary-icon">📰</div>
+
+    <div>
+      <span>News Created</span>
+
+      <strong>
+        {{ totalNewsCreated }}
+      </strong>
+    </div>
+  </div>
+
+  <!-- Comments Posted -->
+
+  <div class="summary-card">
+    <div class="summary-icon">💬</div>
+
+    <div>
+      <span>Comments Posted</span>
+
+      <strong>
+        {{ totalCommentsPosted }}
+      </strong>
+    </div>
+  </div>
+
+  <!-- Audit Logs -->
+
+  <div class="summary-card">
+    <div class="summary-icon">📋</div>
+
+    <div>
+      <span>Audit Logs</span>
+
+      <strong>
+        {{ totalAuditLogsGenerated }}
+      </strong>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     SEARCH
+========================================== -->
+
+<div class="filter-card">
+  <div class="search-wrapper">
+    <input type="text" [(ngModel)]="searchText" (input)="onSearch()" placeholder="Search user..." />
+
+    <button *ngIf="searchText" type="button" class="clear-btn" (click)="clearSearch()">
+      Clear
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================
+     ERROR
+========================================== -->
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- ==========================================
+     LOADING
+========================================== -->
+
+<div *ngIf="isLoading" class="loading">Loading user activity...</div>
+
+<!-- ==========================================
+     TABLE
+========================================== -->
+
+<div class="table-card" *ngIf="!isLoading">
+  <div class="table-header">
+    <div>
+      <h2>User Activity</h2>
+
+      <p>
+        Showing
+        {{ filteredActivities.length }}
+        of
+        {{ totalUsers }}
+        users
+      </p>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table *ngIf="filteredActivities.length > 0">
+      <thead>
+        <tr>
+          <th>#</th>
+
+          <th>User</th>
+
+          <th>News Created</th>
+
+          <th>Comments Posted</th>
+
+          <th>Audit Logs Generated</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let activity of filteredActivities; let i = index">
+          <!-- Number -->
+
+          <td>
+            {{ i + 1 }}
+          </td>
+
+          <!-- User -->
+
+          <td>
+            <div class="user-info">
+              <div class="user-avatar">
+                {{ activity.userName.charAt(0).toUpperCase() }}
+              </div>
+
+              <div>
+                <strong>
+                  {{ activity.userName }}
+                </strong>
+
+                <span> User ID: {{ activity.userId }} </span>
+              </div>
+            </div>
+          </td>
+
+          <!-- News -->
+
+          <td>
+            <span class="activity-badge news-badge">
+              {{ activity.newsCreated }}
+            </span>
+          </td>
+
+          <!-- Comments -->
+
+          <td>
+            <span class="activity-badge comment-badge">
+              {{ activity.commentsPosted }}
+            </span>
+          </td>
+
+          <!-- Audit Logs -->
+
+          <td>
+            <span class="activity-badge audit-badge">
+              {{ activity.auditLogsGenerated }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ==========================================
+         EMPTY STATE
+    =========================================== -->
+
+    <div *ngIf="filteredActivities.length === 0" class="empty-state">
+      <div class="empty-icon">👥</div>
+
+      <h3>No user activity found</h3>
+
+      <p>There are no users matching your search.</p>
+
+      <button *ngIf="searchText" type="button" class="clear-search-btn" (click)="clearSearch()">
+        Clear Search
+      </button>
+    </div>
+  </div>
+</div>
