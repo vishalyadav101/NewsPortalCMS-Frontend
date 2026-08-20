@@ -9,23 +9,32 @@
     </p>
   </div>
 
-  <a routerLink="/news" class="back-btn"> Back </a>
+  <a routerLink="/news" class="back-btn">Back</a>
 </div>
 
 <div class="form-card">
+  <!-- Loading -->
   <div *ngIf="isLoading" class="loading">Loading...</div>
 
+  <!-- Error -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
   <form *ngIf="!isLoading" (ngSubmit)="save()">
-    <!-- Category -->
+    <!-- ========================================== -->
+    <!-- CATEGORY -->
+    <!-- ========================================== -->
 
     <div class="form-group">
-      <label for="categoryId">Category *</label>
+      <label for="categoryId"> Category * </label>
 
-      <select id="categoryId" name="categoryId" [(ngModel)]="news.categoryId">
+      <select
+        id="categoryId"
+        name="categoryId"
+        [(ngModel)]="news.categoryId"
+        (ngModelChange)="onCategoryChange()"
+      >
         <option [ngValue]="0">Select Category</option>
 
         <option *ngFor="let category of categories" [ngValue]="category.id">
@@ -34,7 +43,38 @@
       </select>
     </div>
 
-    <!-- Title -->
+    <!-- ========================================== -->
+    <!-- SUB CATEGORY -->
+    <!-- ========================================== -->
+
+    <div class="form-group">
+      <label for="subCategoryId"> Sub Category </label>
+
+      <select
+        id="subCategoryId"
+        name="subCategoryId"
+        [(ngModel)]="news.subCategoryId"
+        [disabled]="!news.categoryId || filteredSubCategories.length === 0"
+      >
+        <option [ngValue]="0">
+          {{
+            !news.categoryId
+              ? 'Select Category First'
+              : filteredSubCategories.length === 0
+                ? 'No Sub Category Available'
+                : 'Select Sub Category'
+          }}
+        </option>
+
+        <option *ngFor="let subCategory of filteredSubCategories" [ngValue]="subCategory.id">
+          {{ subCategory.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TITLE -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="title"> Title * </label>
@@ -48,7 +88,9 @@
       />
     </div>
 
-    <!-- Slug -->
+    <!-- ========================================== -->
+    <!-- SLUG -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="slug"> Slug * </label>
@@ -62,7 +104,9 @@
       />
     </div>
 
-    <!-- Short Description -->
+    <!-- ========================================== -->
+    <!-- SHORT DESCRIPTION -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="shortDescription"> Short Description </label>
@@ -73,11 +117,12 @@
         [(ngModel)]="news.shortDescription"
         rows="3"
         placeholder="Enter short description"
-      >
-      </textarea>
+      ></textarea>
     </div>
 
-    <!-- Content -->
+    <!-- ========================================== -->
+    <!-- CONTENT -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="content"> Content </label>
@@ -88,11 +133,12 @@
         [(ngModel)]="news.content"
         rows="8"
         placeholder="Enter news content"
-      >
-      </textarea>
+      ></textarea>
     </div>
 
-    <!-- Featured Image -->
+    <!-- ========================================== -->
+    <!-- FEATURED IMAGE -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="featuredImage"> Featured Image </label>
@@ -100,13 +146,15 @@
       <input id="featuredImage" type="file" accept="image/*" (change)="onFileSelected($event)" />
     </div>
 
-    <!-- Image Preview -->
+    <!-- IMAGE PREVIEW -->
 
     <div class="image-preview" *ngIf="selectedImagePreview">
       <img [src]="selectedImagePreview" alt="Preview" />
     </div>
 
-    <!-- Featured Video -->
+    <!-- ========================================== -->
+    <!-- FEATURED VIDEO / PDF -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="featuredVideo"> Featured Video </label>
@@ -119,7 +167,7 @@
       />
     </div>
 
-    <!-- Video Preview -->
+    <!-- VIDEO PREVIEW -->
 
     <div
       class="video-preview"
@@ -128,7 +176,7 @@
       <video [src]="selectedVideoPreview" controls></video>
     </div>
 
-    <!-- PDF Preview -->
+    <!-- PDF PREVIEW -->
 
     <div
       class="image-preview"
@@ -137,7 +185,9 @@
       <img src="assets/icons/pdf.png" alt="PDF" class="news-image" />
     </div>
 
-    <!-- Author -->
+    <!-- ========================================== -->
+    <!-- AUTHOR -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="author"> Author * </label>
@@ -151,7 +201,9 @@
       />
     </div>
 
-    <!-- Publish Date -->
+    <!-- ========================================== -->
+    <!-- PUBLISH DATE -->
+    <!-- ========================================== -->
 
     <div class="form-group">
       <label for="publishDate"> Publish Date * </label>
@@ -164,7 +216,9 @@
       />
     </div>
 
-    <!-- Published -->
+    <!-- ========================================== -->
+    <!-- PUBLISHED -->
+    <!-- ========================================== -->
 
     <div class="checkbox-group">
       <input id="isPublished" type="checkbox" name="isPublished" [(ngModel)]="news.isPublished" />
@@ -172,7 +226,9 @@
       <label for="isPublished"> Published </label>
     </div>
 
-    <!-- Featured -->
+    <!-- ========================================== -->
+    <!-- FEATURED -->
+    <!-- ========================================== -->
 
     <div class="checkbox-group">
       <input id="isFeatured" type="checkbox" name="isFeatured" [(ngModel)]="news.isFeatured" />
@@ -180,7 +236,9 @@
       <label for="isFeatured"> Featured News </label>
     </div>
 
-    <!-- Buttons -->
+    <!-- ========================================== -->
+    <!-- BUTTONS -->
+    <!-- ========================================== -->
 
     <div class="form-actions">
       <a routerLink="/news" class="cancel-btn"> Cancel </a>
