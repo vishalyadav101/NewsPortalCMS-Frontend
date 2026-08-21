@@ -1,0 +1,5 @@
+.public-main {
+  min-height: calc(100vh - 250px);
+
+  background: #f5f7fa;
+}

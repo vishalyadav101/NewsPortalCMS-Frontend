@@ -1,0 +1,25 @@
+<p>breaking-news works!</p>
+<div class="breaking-wrapper">
+  <div class="breaking-container">
+    <div class="breaking-label">
+      <span class="breaking-dot"></span>
+      BREAKING NEWS
+    </div>
+
+    <div class="breaking-content">
+      <div class="breaking-icon">⚡</div>
+
+      <div class="ticker">
+        <div class="ticker-track">
+          @for (news of breakingNews; track news) {
+            <span class="ticker-item">
+              {{ news }}
+            </span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="breaking-arrow" aria-label="Next breaking news">›</button>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+<nav class="public-navbar">
+
+  <div class="navbar-container">
+
+    <!-- Mobile menu button -->
+
+    <button
+      type="button"
+      class="mobile-menu-btn"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="isMobileMenuOpen"
+      aria-label="Toggle navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+
+    <!-- Navigation -->
+
+    <div
+      class="nav-menu"
+      [class.mobile-open]="isMobileMenuOpen"
+    >
+
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMobileMenu()"
+      >
+        Home
+      </a>
+
+      <a
+        routerLink="/category/india"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        India
+      </a>
+
+      <a
+        routerLink="/category/world"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        World
+      </a>
+
+      <a
+        routerLink="/category/technology"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Technology
+      </a>
+
+      <a
+        routerLink="/category/business"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Business
+      </a>
+
+      <a
+        routerLink="/category/sports"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Sports
+      </a>
+
+      <a
+        routerLink="/category/entertainment"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Entertainment
+      </a>
+
+      <a
+        routerLink="/category/health"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Health
+      </a>
+
+      <a
+        routerLink="/category/lifestyle"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Lifestyle
+      </a>
+
+      <a
+        routerLink="/category/education"
+        routerLinkActive="active"
+        (click)="closeMobileMenu()"
+      >
+        Education
+      </a>
+
+    </div>
+
+
+    <!-- More -->
+
+    <button
+      type="button"
+      class="more-btn"
+      aria-label="More categories"
+    >
+      More
+      <span>▾</span>
+    </button>
+
+  </div>
+
+</nav>

@@ -1,0 +1,79 @@
+<header class="public-header">
+  <!-- ==========================================
+       TOP BAR
+  =========================================== -->
+
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span>
+        {{ formattedDate }}
+      </span>
+
+      <span class="separator">|</span>
+
+      <span> New Delhi, India </span>
+
+      <span class="separator">|</span>
+
+      <span class="weather"> ☀️ 28°C </span>
+    </div>
+
+    <div class="top-bar-right">
+      <a routerLink="/about"> About Us </a>
+
+      <a routerLink="/contact"> Contact Us </a>
+
+      <a routerLink="/privacy-policy"> Privacy Policy </a>
+
+      <a routerLink="/terms-conditions"> Terms & Conditions </a>
+
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"> f </a>
+
+        <a href="#" aria-label="Twitter"> 𝕏 </a>
+
+        <a href="#" aria-label="Instagram"> ◎ </a>
+
+        <a href="#" aria-label="YouTube"> ▶ </a>
+
+        <a href="#" aria-label="LinkedIn"> in </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MAIN HEADER
+  =========================================== -->
+
+  <div class="main-header">
+    <!-- LOGO -->
+
+    <a routerLink="/" class="brand">
+      <div class="brand-name">News<span>Portal</span></div>
+
+      <div class="brand-tagline">Stay Informed, Stay Ahead</div>
+    </a>
+
+    <!-- SEARCH -->
+
+    <div class="header-search">
+      <input type="text" placeholder="Search news, categories, topics..." />
+
+      <button type="button" aria-label="Search">🔍</button>
+    </div>
+
+    <!-- AUTH -->
+
+    <div class="header-actions">
+      <a routerLink="/login" class="login-btn">
+        <span>♙</span>
+        Login
+      </a>
+
+      <a routerLink="/register" class="register-btn">
+        <span>♙</span>
+        Register
+      </a>
+    </div>
+  </div>
+</header>
