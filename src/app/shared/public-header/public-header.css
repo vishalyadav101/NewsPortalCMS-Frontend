@@ -1,0 +1,410 @@
+/* ==========================================
+   PUBLIC HEADER
+========================================== */
+
+.public-header {
+  width: 100%;
+  background: #ffffff;
+}
+
+/* ==========================================
+   TOP BAR
+========================================== */
+
+.top-bar {
+  min-height: 38px;
+
+  padding: 0 55px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background: #0d1b36;
+
+  color: #ffffff;
+
+  font-size: 12px;
+}
+
+.top-bar-left,
+.top-bar-right {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.top-bar-left {
+  white-space: nowrap;
+}
+
+.separator {
+  opacity: 0.45;
+}
+
+.weather {
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+}
+
+.top-bar-right a {
+  color: #ffffff;
+
+  text-decoration: none;
+
+  opacity: 0.9;
+
+  transition: opacity 0.2s ease;
+}
+
+.top-bar-right a:hover {
+  opacity: 1;
+}
+
+.social-links {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  margin-left: 7px;
+
+  padding-left: 15px;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-links a {
+  width: 20px;
+
+  height: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* ==========================================
+   MAIN HEADER
+========================================== */
+
+.main-header {
+  min-height: 92px;
+
+  padding: 0 55px;
+
+  display: grid;
+
+  grid-template-columns: 280px minmax(300px, 1fr) auto;
+
+  align-items: center;
+
+  gap: 35px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e7eaf0;
+}
+
+/* ==========================================
+   BRAND
+========================================== */
+
+.brand {
+  display: inline-block;
+
+  text-decoration: none;
+
+  color: #10203e;
+
+  line-height: 1;
+
+  width: fit-content;
+}
+
+.brand-name {
+  font-family: Georgia, 'Times New Roman', serif;
+
+  font-size: 32px;
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
+}
+
+.brand-name span {
+  color: #d71920;
+}
+
+.brand-tagline {
+  margin-top: 6px;
+
+  color: #5e6879;
+
+  font-size: 12px;
+
+  letter-spacing: 0.2px;
+}
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+.header-search {
+  height: 42px;
+
+  display: flex;
+
+  align-items: stretch;
+
+  max-width: 600px;
+
+  width: 100%;
+
+  justify-self: center;
+
+  border: 1px solid #d4dae4;
+
+  border-radius: 5px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+}
+
+.header-search input {
+  flex: 1;
+
+  min-width: 0;
+
+  border: none;
+
+  outline: none;
+
+  padding: 0 16px;
+
+  color: #1d2939;
+
+  font-size: 13px;
+
+  background: #ffffff;
+}
+
+.header-search input::placeholder {
+  color: #8993a4;
+}
+
+.header-search button {
+  width: 54px;
+
+  border: none;
+
+  background: #d71920;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  transition: background 0.2s ease;
+}
+
+.header-search button:hover {
+  background: #b9141a;
+}
+
+/* ==========================================
+   AUTH BUTTONS
+========================================== */
+
+.header-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.login-btn,
+.register-btn {
+  height: 40px;
+
+  padding: 0 17px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 5px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+.login-btn {
+  border: 1px solid #64748b;
+
+  color: #17233d;
+
+  background: #ffffff;
+}
+
+.login-btn:hover {
+  background: #f5f7fa;
+}
+
+.register-btn {
+  border: 1px solid #d71920;
+
+  color: #ffffff;
+
+  background: #d71920;
+}
+
+.register-btn:hover {
+  background: #b9141a;
+
+  border-color: #b9141a;
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 1100px) {
+  .top-bar,
+  .main-header {
+    padding-left: 30px;
+
+    padding-right: 30px;
+  }
+
+  .main-header {
+    grid-template-columns: 220px minmax(250px, 1fr) auto;
+
+    gap: 20px;
+  }
+
+  .brand-name {
+    font-size: 28px;
+  }
+
+  .top-bar-right > a {
+    display: none;
+  }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0 15px;
+
+    min-height: 34px;
+
+    font-size: 10px;
+  }
+
+  .top-bar-right {
+    display: none;
+  }
+
+  .main-header {
+    padding: 18px 15px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+  }
+
+  .brand {
+    width: auto;
+  }
+
+  .brand-name {
+    font-size: 27px;
+  }
+
+  .brand-tagline {
+    font-size: 10px;
+  }
+
+  .header-search {
+    order: 3;
+
+    max-width: none;
+
+    width: 100%;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .login-btn,
+  .register-btn {
+    height: 36px;
+
+    padding: 0 12px;
+
+    font-size: 12px;
+  }
+}
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+  .top-bar-left span:nth-child(3),
+  .top-bar-left .separator:nth-of-type(2),
+  .weather {
+    display: none;
+  }
+
+  .main-header {
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    gap: 7px;
+  }
+
+  .login-btn,
+  .register-btn {
+    padding: 0 9px;
+  }
+
+  .login-btn span,
+  .register-btn span {
+    display: none;
+  }
+}

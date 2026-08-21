@@ -99,12 +99,18 @@ export class NewsForm implements OnInit {
   // ==========================================
 
   ngOnInit(): void {
+    console.log('====================================');
+    console.log('NEWS FORM INITIALIZED');
+    console.log('====================================');
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
       this.newsId = Number(id);
 
       this.isEditMode = true;
+
+      console.log('Edit Mode:', this.newsId);
     }
 
     this.loadCategories();
@@ -115,6 +121,8 @@ export class NewsForm implements OnInit {
   // ==========================================
 
   private loadCategories(): void {
+    console.log('Loading categories...');
+
     this.categoryService.getAll().subscribe({
       next: (data) => {
         console.log('Categories:', data);
@@ -127,7 +135,7 @@ export class NewsForm implements OnInit {
       error: (error) => {
         console.error('Category GET Error:', error);
 
-        this.errorMessage = 'Unable to load categories.';
+        this.errorMessage = error?.error?.message || 'Unable to load categories.';
 
         this.isLoading = false;
 
@@ -141,17 +149,13 @@ export class NewsForm implements OnInit {
   // ==========================================
 
   private loadAllSubCategories(): void {
+    console.log('Loading sub categories...');
+
     this.subCategoryService.getAll().subscribe({
       next: (data) => {
         console.log('Sub Categories:', data);
 
         this.subCategories = data;
-
-        /*
-         * Edit mode me news load hone ke baad
-         * selected category ke according
-         * sub categories filter hongi.
-         */
 
         if (this.isEditMode) {
           this.loadNews();
@@ -167,7 +171,7 @@ export class NewsForm implements OnInit {
       error: (error) => {
         console.error('Sub Category GET Error:', error);
 
-        this.errorMessage = 'Unable to load sub categories.';
+        this.errorMessage = error?.error?.message || 'Unable to load sub categories.';
 
         this.isLoading = false;
 
@@ -183,21 +187,13 @@ export class NewsForm implements OnInit {
   onCategoryChange(): void {
     console.log('Selected Category:', this.news.categoryId);
 
-    /*
-     * Category select hone par
-     * us category ki sub categories filter karenge.
-     */
-
     this.filteredSubCategories = this.subCategories.filter(
       (subCategory) => subCategory.categoryId === this.news.categoryId,
     );
 
     console.log('Filtered Sub Categories:', this.filteredSubCategories);
 
-    /*
-     * Category change hone par purani
-     * sub category remove kar denge.
-     */
+    // Reset sub-category
 
     this.news.subCategoryId = 0;
 
@@ -212,6 +208,8 @@ export class NewsForm implements OnInit {
     if (this.newsId === null) {
       return;
     }
+
+    console.log('Loading news:', this.newsId);
 
     this.newsService.getById(this.newsId).subscribe({
       next: (data) => {
@@ -243,10 +241,9 @@ export class NewsForm implements OnInit {
           subCategoryId: data.subCategoryId ?? 0,
         };
 
-        /*
-         * Existing category ke according
-         * sub categories show karenge.
-         */
+        // ==========================================
+        // FILTER SUB CATEGORIES
+        // ==========================================
 
         this.filteredSubCategories = this.subCategories.filter(
           (subCategory) => subCategory.categoryId === this.news.categoryId,
@@ -261,7 +258,7 @@ export class NewsForm implements OnInit {
           : '';
 
         // ==========================================
-        // VIDEO / PDF PREVIEW
+        // VIDEO PREVIEW
         // ==========================================
 
         this.selectedVideoPreview = data.featuredVideo
@@ -276,7 +273,7 @@ export class NewsForm implements OnInit {
       error: (error) => {
         console.error('News GET Error:', error);
 
-        this.errorMessage = 'Unable to load news.';
+        this.errorMessage = error?.error?.message || 'Unable to load news.';
 
         this.isLoading = false;
 
@@ -295,6 +292,8 @@ export class NewsForm implements OnInit {
     const offset = now.getTimezoneOffset() * 60000;
 
     this.news.publishDate = new Date(now.getTime() - offset).toISOString().slice(0, 16);
+
+    console.log('Default Publish Date:', this.news.publishDate);
   }
 
   // ==========================================
@@ -320,7 +319,15 @@ export class NewsForm implements OnInit {
       return;
     }
 
-    this.news.featuredImage = input.files[0];
+    const file = input.files[0];
+
+    console.log('Selected Image:', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+    });
+
+    this.news.featuredImage = file;
 
     const reader = new FileReader();
 
@@ -330,7 +337,7 @@ export class NewsForm implements OnInit {
       this.cdr.detectChanges();
     };
 
-    reader.readAsDataURL(input.files[0]);
+    reader.readAsDataURL(file);
   }
 
   // ==========================================
@@ -344,9 +351,15 @@ export class NewsForm implements OnInit {
       return;
     }
 
-    this.news.featuredVideo = input.files[0];
-
     const file = input.files[0];
+
+    console.log('Selected Video:', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+    });
+
+    this.news.featuredVideo = file;
 
     if (file.type === 'application/pdf') {
       this.selectedVideoPreview = 'assets/icons/pdf.png';
@@ -362,6 +375,12 @@ export class NewsForm implements OnInit {
   // ==========================================
 
   save(): void {
+    console.log('====================================');
+
+    console.log('SAVE NEWS STARTED');
+
+    console.log('====================================');
+
     this.errorMessage = '';
 
     // ==========================================
@@ -385,6 +404,16 @@ export class NewsForm implements OnInit {
     }
 
     // ==========================================
+    // CONTENT
+    // ==========================================
+
+    if (!this.news.content.trim()) {
+      this.errorMessage = 'Content is required.';
+
+      return;
+    }
+
+    // ==========================================
     // CATEGORY
     // ==========================================
 
@@ -393,17 +422,6 @@ export class NewsForm implements OnInit {
 
       return;
     }
-
-    // ==========================================
-    // SUB CATEGORY
-    // ==========================================
-
-    /*
-     * Abhi subCategory optional rakha hai.
-     *
-     * Agar backend me compulsory hai to
-     * yahan validation add kar sakte hain.
-     */
 
     // ==========================================
     // AUTHOR
@@ -426,18 +444,74 @@ export class NewsForm implements OnInit {
     }
 
     // ==========================================
+    // CHECK DATE
+    // ==========================================
+
+    const parsedDate = new Date(this.news.publishDate);
+
+    if (isNaN(parsedDate.getTime())) {
+      this.errorMessage = 'Invalid publish date.';
+
+      return;
+    }
+
+    // ==========================================
     // SAVING
     // ==========================================
 
     this.isSaving = true;
 
+    // ==========================================
+    // CREATE REQUEST
+    // ==========================================
+
     const request: NewsRequest = {
       ...this.news,
 
-      publishDate: new Date(this.news.publishDate).toISOString(),
+      title: this.news.title.trim(),
+
+      slug: this.news.slug.trim(),
+
+      shortDescription: this.news.shortDescription?.trim() ?? '',
+
+      content: this.news.content,
+
+      author: this.news.author.trim(),
+
+      publishDate: parsedDate.toISOString(),
+
+      isPublished: this.news.isPublished === true,
+
+      isFeatured: this.news.isFeatured === true,
+
+      categoryId: Number(this.news.categoryId),
+
+      subCategoryId: this.news.subCategoryId ? Number(this.news.subCategoryId) : 0,
     };
 
-    console.log('News Request:', request);
+    console.log('====================================');
+
+    console.log('FINAL NEWS REQUEST');
+
+    console.log('====================================');
+
+    console.log('Request:', request);
+
+    console.log('Title:', request.title);
+
+    console.log('Slug:', request.slug);
+
+    console.log('CategoryId:', request.categoryId);
+
+    console.log('SubCategoryId:', request.subCategoryId);
+
+    console.log('PublishDate:', request.publishDate);
+
+    console.log('IsPublished:', request.isPublished);
+
+    console.log('IsFeatured:', request.isFeatured);
+
+    console.log('FeaturedImage:', request.featuredImage);
 
     // ==========================================
     // UPDATE
@@ -461,9 +535,17 @@ export class NewsForm implements OnInit {
   // ==========================================
 
   private createNews(request: NewsRequest): void {
+    console.log('POST /api/News starting...');
+
     this.newsService.create(request).subscribe({
       next: (response) => {
-        console.log('News Created:', response);
+        console.log('====================================');
+
+        console.log('NEWS CREATED SUCCESSFULLY');
+
+        console.log('====================================');
+
+        console.log('Response:', response);
 
         this.isSaving = false;
 
@@ -471,7 +553,19 @@ export class NewsForm implements OnInit {
       },
 
       error: (error) => {
-        console.error('Create News error:', error);
+        console.error('====================================');
+
+        console.error('CREATE NEWS ERROR');
+
+        console.error('====================================');
+
+        console.error('Status:', error?.status);
+
+        console.error('Status Text:', error?.statusText);
+
+        console.error('Error Body:', error?.error);
+
+        console.error('Full Error:', error);
 
         this.handleError(error);
       },
@@ -487,6 +581,8 @@ export class NewsForm implements OnInit {
       return;
     }
 
+    console.log('PUT /api/News/' + this.newsId);
+
     this.newsService.update(this.newsId, request).subscribe({
       next: (response) => {
         console.log('News Updated:', response);
@@ -497,7 +593,15 @@ export class NewsForm implements OnInit {
       },
 
       error: (error) => {
-        console.error('Update News error:', error);
+        console.error('UPDATE NEWS ERROR');
+
+        console.error('Status:', error?.status);
+
+        console.error('Status Text:', error?.statusText);
+
+        console.error('Error Body:', error?.error);
+
+        console.error('Full Error:', error);
 
         this.handleError(error);
       },
@@ -511,11 +615,81 @@ export class NewsForm implements OnInit {
   private handleError(error: any): void {
     this.isSaving = false;
 
-    if (error.status === 400) {
-      this.errorMessage = error.error?.message || 'Invalid news data.';
+    console.error('Handling Error:', error);
+
+    // ==========================================
+    // 400
+    // ==========================================
+
+    if (error?.status === 400) {
+      const validationErrors = error?.error?.errors;
+
+      if (validationErrors) {
+        const messages: string[] = [];
+
+        Object.keys(validationErrors).forEach((key) => {
+          const errors = validationErrors[key];
+
+          if (Array.isArray(errors)) {
+            messages.push(...errors);
+          }
+        });
+
+        if (messages.length > 0) {
+          this.errorMessage = messages.join(' | ');
+        } else {
+          this.errorMessage = error?.error?.message || 'Invalid news data.';
+        }
+      } else {
+        this.errorMessage = error?.error?.message || error?.error?.title || 'Invalid news data.';
+      }
+
+      // ==========================================
+      // 401
+      // ==========================================
+    } else if (error?.status === 401) {
+      this.errorMessage = 'Unauthorized. Please login again.';
+
+      // ==========================================
+      // 403
+      // ==========================================
+    } else if (error?.status === 403) {
+      this.errorMessage = 'You do not have permission to create news.';
+
+      // ==========================================
+      // 404
+      // ==========================================
+    } else if (error?.status === 404) {
+      this.errorMessage = 'News API endpoint not found.';
+
+      // ==========================================
+      // 409
+      // ==========================================
+    } else if (error?.status === 409) {
+      this.errorMessage = error?.error?.message || 'A news article with this data already exists.';
+
+      // ==========================================
+      // 500
+      // ==========================================
+    } else if (error?.status >= 500) {
+      this.errorMessage =
+        error?.error?.message || error?.error?.title || 'Server error while saving news.';
+
+      // ==========================================
+      // NETWORK / CORS
+      // ==========================================
+    } else if (error?.status === 0) {
+      this.errorMessage = 'Unable to connect to News API. Check backend, HTTPS or CORS.';
+
+      // ==========================================
+      // OTHER
+      // ==========================================
     } else {
-      this.errorMessage = 'Unable to save news.';
+      this.errorMessage =
+        error?.error?.message || error?.error?.title || error?.message || 'Unable to save news.';
     }
+
+    console.error('Final Error Message:', this.errorMessage);
 
     this.cdr.detectChanges();
   }

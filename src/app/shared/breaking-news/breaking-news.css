@@ -1,0 +1,200 @@
+.breaking-wrapper {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e9ef;
+}
+
+.breaking-container {
+  min-height: 42px;
+
+  padding: 0 55px;
+
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+}
+
+/* ==========================================
+   LABEL
+========================================== */
+
+.breaking-label {
+  height: 42px;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  background: #d71920;
+
+  color: #ffffff;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.4px;
+}
+
+.breaking-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  animation: breakingPulse 1.2s infinite;
+}
+
+@keyframes breakingPulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.breaking-content {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.breaking-icon {
+  padding: 0 13px;
+
+  color: #d71920;
+
+  font-size: 14px;
+}
+
+.ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.ticker-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 70px;
+
+  animation: tickerMove 25s linear infinite;
+}
+
+.ticker-item {
+  color: #26344d;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.ticker-item::after {
+  content: '•';
+
+  margin-left: 70px;
+
+  color: #d71920;
+}
+
+@keyframes tickerMove {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ==========================================
+   ARROW
+========================================== */
+
+.breaking-arrow {
+  width: 32px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  border: 1px solid #d5dce6;
+
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  color: #26344d;
+
+  font-size: 20px;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.breaking-arrow:hover {
+  color: #d71920;
+
+  border-color: #d71920;
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 900px) {
+  .breaking-container {
+    padding: 0 15px;
+  }
+
+  .breaking-label {
+    padding: 0 12px;
+
+    font-size: 10px;
+  }
+
+  .breaking-icon {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .breaking-container {
+    padding: 0;
+  }
+
+  .breaking-arrow {
+    display: none;
+  }
+
+  .breaking-label {
+    padding: 0 10px;
+
+    font-size: 9px;
+  }
+}

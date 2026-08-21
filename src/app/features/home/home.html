@@ -1,0 +1,319 @@
+<div class="home-page">
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+
+  @if (isLoading) {
+    <section class="home-loading">
+      <div class="loader"></div>
+
+      <p>Loading latest news...</p>
+    </section>
+  }
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+
+  @if (!isLoading && errorMessage) {
+    <section class="home-error">
+      <div class="error-icon">!</div>
+
+      <h2>Unable to Load News</h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button type="button" (click)="loadNews()">Try Again</button>
+    </section>
+  }
+
+  <!-- ==========================================
+       MAIN CONTENT
+  =========================================== -->
+
+  @if (!isLoading && !errorMessage) {
+    <!-- ========================================
+         FEATURED + LATEST
+    ========================================= -->
+
+    @if (featuredNews) {
+      <section class="hero-section">
+        <div class="hero-grid">
+          <!-- ==================================
+               FEATURED NEWS
+          =================================== -->
+
+          <article class="featured-news">
+            <div class="featured-image">
+              <img [src]="getImageUrl(featuredNews.featuredImage)" [alt]="featuredNews.title" />
+
+              <div class="image-overlay"></div>
+
+              <span class="category-badge">
+                {{ featuredNews.categoryName || 'News' }}
+              </span>
+
+              <div class="featured-content">
+                <h1>
+                  {{ featuredNews.title }}
+                </h1>
+
+                @if (featuredNews.shortDescription) {
+                  <p>
+                    {{ featuredNews.shortDescription }}
+                  </p>
+                }
+
+                <div class="news-meta">
+                  <span> By {{ featuredNews.author || 'Admin' }} </span>
+
+                  <span> • </span>
+
+                  <span>
+                    {{ formatDate(featuredNews.publishDate) }}
+                  </span>
+                </div>
+
+                <a [routerLink]="['/public/news', featuredNews.id]" class="read-more">
+                  Read Full Story →
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- ==================================
+               LATEST SIDE PANEL
+          =================================== -->
+
+          <aside class="latest-panel">
+            <div class="section-heading">
+              <div>
+                <span class="heading-line"></span>
+
+                <h2>Latest News</h2>
+              </div>
+            </div>
+
+            <div class="latest-list">
+              @for (newsItem of latestNews.slice(0, 5); track newsItem.id) {
+                <article class="latest-item">
+                  <a [routerLink]="['/public/news', newsItem.id]" class="latest-image">
+                    <img [src]="getImageUrl(newsItem.featuredImage)" [alt]="newsItem.title" />
+                  </a>
+
+                  <div class="latest-content">
+                    <span class="small-category">
+                      {{ newsItem.categoryName || 'News' }}
+                    </span>
+
+                    <a [routerLink]="['/public/news', newsItem.id]" class="latest-title">
+                      {{ newsItem.title }}
+                    </a>
+
+                    <div class="latest-date">
+                      {{ formatDate(newsItem.publishDate) }}
+                    </div>
+                  </div>
+                </article>
+              }
+            </div>
+          </aside>
+        </div>
+      </section>
+    }
+
+    <!-- ========================================
+         LATEST NEWS GRID
+    ========================================= -->
+
+    @if (latestNews.length > 0) {
+      <section class="content-section">
+        <div class="section-heading large">
+          <div>
+            <span class="heading-line"></span>
+
+            <h2>Latest News</h2>
+          </div>
+        </div>
+
+        <div class="news-card-grid">
+          @for (newsItem of latestNews; track newsItem.id) {
+            <article class="news-card">
+              <a [routerLink]="['/public/news', newsItem.id]" class="card-image">
+                <img [src]="getImageUrl(newsItem.featuredImage)" [alt]="newsItem.title" />
+
+                <span class="card-category">
+                  {{ newsItem.categoryName || 'News' }}
+                </span>
+              </a>
+
+              <div class="card-content">
+                <div class="card-date">
+                  {{ formatDate(newsItem.publishDate) }}
+                </div>
+
+                <a [routerLink]="['/public/news', newsItem.id]" class="card-title">
+                  {{ newsItem.title }}
+                </a>
+
+                @if (newsItem.shortDescription) {
+                  <p>
+                    {{ newsItem.shortDescription }}
+                  </p>
+                }
+
+                <a [routerLink]="['/public/news', newsItem.id]" class="card-link"> Read More → </a>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- ========================================
+         TRENDING NEWS
+    ========================================= -->
+
+    @if (trendingNews.length > 0) {
+      <section class="trending-section">
+        <div class="trending-header">
+          <div>
+            <span class="heading-line"></span>
+
+            <h2>Trending News</h2>
+          </div>
+
+          <span class="trending-label"> MOST READ </span>
+        </div>
+
+        <div class="trending-grid">
+          @for (newsItem of trendingNews; track newsItem.id; let i = $index) {
+            <article class="trending-item">
+              <div class="trending-number">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </div>
+
+              <div class="trending-content">
+                <a [routerLink]="['/public/news', newsItem.id]">
+                  {{ newsItem.title }}
+                </a>
+
+                <span>
+                  {{ newsItem.categoryName || 'News' }}
+                </span>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- ========================================
+         CATEGORY SECTION
+    ========================================= -->
+
+    @if (latestNews.length > 0) {
+      <section class="content-section category-section">
+        <div class="section-heading large">
+          <div>
+            <span class="heading-line"></span>
+
+            <h2>
+              {{ latestNews[0].categoryName || 'Latest' }}
+            </h2>
+          </div>
+        </div>
+
+        <div class="technology-layout">
+          <!-- ==================================
+               MAIN CATEGORY NEWS
+          =================================== -->
+
+          <article class="technology-main">
+            <div class="technology-image">
+              <img [src]="getImageUrl(latestNews[0].featuredImage)" [alt]="latestNews[0].title" />
+            </div>
+
+            <div class="technology-content">
+              <span class="small-category">
+                {{ latestNews[0].categoryName || 'News' }}
+              </span>
+
+              <h3>
+                {{ latestNews[0].title }}
+              </h3>
+
+              @if (latestNews[0].shortDescription) {
+                <p>
+                  {{ latestNews[0].shortDescription }}
+                </p>
+              }
+
+              <a [routerLink]="['/public/news', latestNews[0].id]" class="card-link">
+                Read Full Story →
+              </a>
+            </div>
+          </article>
+
+          <!-- ==================================
+               SIDE NEWS
+          =================================== -->
+
+          <div class="technology-side">
+            @for (newsItem of latestNews.slice(1, 4); track newsItem.id) {
+              <article class="side-news">
+                <img [src]="getImageUrl(newsItem.featuredImage)" [alt]="newsItem.title" />
+
+                <div>
+                  <span>
+                    {{ newsItem.categoryName || 'News' }}
+                  </span>
+
+                  <a [routerLink]="['/public/news', newsItem.id]">
+                    {{ newsItem.title }}
+                  </a>
+
+                  <small>
+                    {{ formatDate(newsItem.publishDate) }}
+                  </small>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ========================================
+         CTA
+    ========================================= -->
+
+    <section class="home-cta">
+      <div>
+        <span> NEWS THAT MATTERS </span>
+
+        <h2>Stay Informed. Stay Ahead.</h2>
+
+        <p>Get the latest breaking news and important stories from NewsPortal.</p>
+      </div>
+
+      <a routerLink="/public/news"> Explore Latest News → </a>
+    </section>
+
+    <!-- ========================================
+         NO NEWS
+    ========================================= -->
+
+    @if (news.length === 0 && latestNews.length === 0) {
+      <section class="no-news">
+        <div class="no-news-icon">📰</div>
+
+        <h2>No News Available</h2>
+
+        <p>There are currently no published news articles available.</p>
+      </section>
+    }
+  }
+</div>
