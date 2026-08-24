@@ -2,8 +2,6 @@
 
   <div class="navbar-container">
 
-    <!-- Mobile menu button -->
-
     <button
       type="button"
       class="mobile-menu-btn"
@@ -17,15 +15,15 @@
     </button>
 
 
-    <!-- Navigation -->
-
     <div
       class="nav-menu"
       [class.mobile-open]="isMobileMenuOpen"
     >
 
+      <!-- HOME ALWAYS EXISTS -->
+
       <a
-        routerLink="/"
+        routerLink="/public"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeMobileMenu()"
@@ -33,91 +31,57 @@
         Home
       </a>
 
-      <a
-        routerLink="/category/india"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        India
-      </a>
 
-      <a
-        routerLink="/category/world"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        World
-      </a>
+      <!-- API CATEGORIES -->
 
-      <a
-        routerLink="/category/technology"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        Technology
-      </a>
+      <ng-container *ngFor="let category of visibleCategories">
 
-      <a
-        routerLink="/category/business"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        Business
-      </a>
+        <a
+          [routerLink]="['/public/category', category.slug]"
+          routerLinkActive="active"
+          (click)="closeMobileMenu()"
+        >
+          {{ category.name }}
+        </a>
 
-      <a
-        routerLink="/category/sports"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        Sports
-      </a>
+      </ng-container>
 
-      <a
-        routerLink="/category/entertainment"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        Entertainment
-      </a>
 
-      <a
-        routerLink="/category/health"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        Health
-      </a>
+      <!-- MORE -->
 
-      <a
-        routerLink="/category/lifestyle"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
+      <div
+        class="more-wrapper"
+        *ngIf="moreCategories.length > 0"
       >
-        Lifestyle
-      </a>
 
-      <a
-        routerLink="/category/education"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        Education
-      </a>
+        <button
+          type="button"
+          class="more-btn"
+          (click)="toggleMore()"
+        >
+          More
+          <span>▾</span>
+        </button>
+
+
+        <div
+          class="more-dropdown"
+          *ngIf="isMoreOpen"
+        >
+
+          <a
+            *ngFor="let category of moreCategories"
+            [routerLink]="['/public/category', category.slug]"
+            (click)="closeMobileMenu()"
+          >
+            {{ category.name }}
+          </a>
+
+        </div>
+
+      </div>
 
     </div>
-
-
-    <!-- More -->
-
-    <button
-      type="button"
-      class="more-btn"
-      aria-label="More categories"
-    >
-      More
-      <span>▾</span>
-    </button>
 
   </div>
 

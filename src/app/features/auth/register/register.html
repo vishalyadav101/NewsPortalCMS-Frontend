@@ -1,0 +1,170 @@
+<div class="register-page">
+
+  <div class="register-card">
+
+    <div class="register-header">
+      <h2>Create Account</h2>
+      <p>Register to continue to NewsPortal</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+      <div class="form-row">
+
+        <!-- First Name -->
+        <div class="form-group">
+          <label>First Name</label>
+
+          <input
+            type="text"
+            formControlName="firstName"
+            placeholder="Enter first name"
+          />
+
+          @if (
+            registerForm.get('firstName')?.touched &&
+            registerForm.get('firstName')?.invalid
+          ) {
+            <small class="error">
+              First name is required.
+            </small>
+          }
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+          <label>Last Name</label>
+
+          <input
+            type="text"
+            formControlName="lastName"
+            placeholder="Enter last name"
+          />
+
+          @if (
+            registerForm.get('lastName')?.touched &&
+            registerForm.get('lastName')?.invalid
+          ) {
+            <small class="error">
+              Last name is required.
+            </small>
+          }
+        </div>
+
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label>Email</label>
+
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter email address"
+        />
+
+        @if (
+          registerForm.get('email')?.touched &&
+          registerForm.get('email')?.invalid
+        ) {
+          <small class="error">
+            Please enter a valid email address.
+          </small>
+        }
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label>Username</label>
+
+        <input
+          type="text"
+          formControlName="userName"
+          placeholder="Enter username"
+        />
+
+        @if (
+          registerForm.get('userName')?.touched &&
+          registerForm.get('userName')?.invalid
+        ) {
+          <small class="error">
+            Username is required.
+          </small>
+        }
+      </div>
+
+      <div class="form-row">
+
+        <!-- Password -->
+        <div class="form-group">
+          <label>Password</label>
+
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Enter password"
+          />
+
+          @if (
+  registerForm.get('password')?.touched &&
+  registerForm.get('password')?.hasError('required')
+) {
+  <small class="error-message">
+    Password is required.
+  </small>
+}
+
+@if (
+  registerForm.get('password')?.touched &&
+  registerForm.get('password')?.hasError('minlength')
+) {
+  <small class="error-message">
+    Password must be at least 6 characters long.
+  </small>
+}
+
+@if (
+  registerForm.get('password')?.touched &&
+  registerForm.get('password')?.hasError('pattern')
+) {
+  <small class="error-message">
+    Password must contain at least one uppercase letter.
+  </small>
+}
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label>Confirm Password</label>
+
+          <input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirm password"
+          />
+
+          @if (
+            registerForm.get('confirmPassword')?.touched &&
+            registerForm.hasError('passwordMismatch')
+          ) {
+            <small class="error">
+              Passwords do not match.
+            </small>
+          }
+        </div>
+
+      </div>
+
+      <button
+        type="submit"
+        class="register-btn"
+        [disabled]="registerForm.invalid"
+      >
+        Register
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

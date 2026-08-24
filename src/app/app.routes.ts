@@ -76,6 +76,12 @@ export const routes: Routes = [
     path: 'login',
     component: Login,
   },
+  {
+  path: 'register',
+  loadComponent: () =>
+    import('./features/auth/register/register')
+      .then((m) => m.Register),
+},
 
   // ==========================================
   // PUBLIC WEBSITE
