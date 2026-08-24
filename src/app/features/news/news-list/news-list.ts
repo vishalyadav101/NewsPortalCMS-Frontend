@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -43,7 +42,9 @@ export class NewsList implements OnInit {
 
   featuredFilter: string = 'all';
 
-  sortBy = '';
+  // IMPORTANT:
+  // Latest news first
+  sortBy = 'publishDate_desc';
 
   // =====================================================
   // PAGINATION
@@ -74,11 +75,24 @@ export class NewsList implements OnInit {
   // =====================================================
 
   loadNews(): void {
-    this.isLoading = true;
+    console.log('====================================');
+    console.log('Admin News List: Loading news...');
+    console.log('Page:', this.pageNumber);
+    console.log('Page Size:', this.pageSize);
+    console.log('Sort:', this.sortBy);
+    console.log('Search:', this.search);
+    console.log('Category:', this.categoryId);
+    console.log('Published Filter:', this.publishedFilter);
+    console.log('Featured Filter:', this.featuredFilter);
+    console.log('====================================');
 
+    this.isLoading = true;
     this.errorMessage = '';
 
-    // Published filter
+    // ===================================================
+    // PUBLISHED FILTER
+    // ===================================================
+
     let isPublished: boolean | undefined;
 
     if (this.publishedFilter === 'published') {
@@ -89,7 +103,10 @@ export class NewsList implements OnInit {
       isPublished = false;
     }
 
-    // Featured filter
+    // ===================================================
+    // FEATURED FILTER
+    // ===================================================
+
     let isFeatured: boolean | undefined;
 
     if (this.featuredFilter === 'featured') {
@@ -99,6 +116,10 @@ export class NewsList implements OnInit {
     if (this.featuredFilter === 'not-featured') {
       isFeatured = false;
     }
+
+    // ===================================================
+    // API CALL
+    // ===================================================
 
     this.newsService
       .getAllPaged(
@@ -111,39 +132,68 @@ export class NewsList implements OnInit {
         this.pageSize,
       )
       .subscribe({
+        // =================================================
+        // SUCCESS
+        // =================================================
+
         next: (data: NewsPagedResponse) => {
-          console.log('News API Response:', data);
+          console.log('Admin News API Response:', data);
 
-          // IMPORTANT:
-          // Backend returns { items: [...] }
+          // -----------------------------------------------
+          // NEWS ITEMS
+          // -----------------------------------------------
 
-          this.newsList = data.items;
+          this.newsList = data?.items ?? [];
 
-          // Pagination data
+          console.log('Admin News Count On Current Page:', this.newsList.length);
 
-          this.pageNumber = data.pageNumber;
+          console.log('Admin Total News:', data?.totalCount ?? 0);
 
-          this.pageSize = data.pageSize;
+          // -----------------------------------------------
+          // PAGINATION
+          // -----------------------------------------------
 
-          this.totalCount = data.totalCount;
+          this.pageNumber = data?.pageNumber ?? 1;
 
-          this.totalPages = data.totalPages;
+          this.pageSize = data?.pageSize ?? 12;
 
-          this.hasPreviousPage = data.hasPreviousPage;
+          this.totalCount = data?.totalCount ?? 0;
 
-          this.hasNextPage = data.hasNextPage;
+          this.totalPages = data?.totalPages ?? 0;
+
+          this.hasPreviousPage = data?.hasPreviousPage ?? false;
+
+          this.hasNextPage = data?.hasNextPage ?? false;
+
+          // -----------------------------------------------
+          // LOADING COMPLETE
+          // -----------------------------------------------
 
           this.isLoading = false;
 
           this.cdr.detectChanges();
+
+          console.log('Admin News List Loaded Successfully.');
         },
 
+        // =================================================
+        // ERROR
+        // =================================================
+
         error: (error) => {
-          console.error('News GET error:', error);
+          console.error('Admin News GET error:', error);
 
           this.newsList = [];
 
-          this.errorMessage = 'Unable to load news.';
+          this.totalCount = 0;
+
+          this.totalPages = 0;
+
+          this.hasPreviousPage = false;
+
+          this.hasNextPage = false;
+
+          this.errorMessage = 'Unable to load news. Please try again later.';
 
           this.isLoading = false;
 
@@ -185,7 +235,8 @@ export class NewsList implements OnInit {
 
     this.featuredFilter = 'all';
 
-    this.sortBy = '';
+    // Latest first
+    this.sortBy = 'publishDate_desc';
 
     this.pageNumber = 1;
 
@@ -233,6 +284,14 @@ export class NewsList implements OnInit {
 
     this.newsService.delete(id).subscribe({
       next: () => {
+        console.log('News deleted successfully:', id);
+
+        // If last item of current page was deleted,
+        // go back one page when necessary.
+        if (this.newsList.length === 1 && this.pageNumber > 1) {
+          this.pageNumber--;
+        }
+
         this.loadNews();
       },
 
@@ -253,10 +312,12 @@ export class NewsList implements OnInit {
       return 'assets/images/no-image.png';
     }
 
-    if (imagePath.startsWith('http')) {
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
     }
 
-    return `https://localhost:7103${imagePath}`;
+    const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+
+    return `https://localhost:7103${cleanPath}`;
   }
 }
