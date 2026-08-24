@@ -1,0 +1,176 @@
+<section class="comments-section">
+  <!-- ==========================================
+       HEADING
+  =========================================== -->
+
+  <div class="comments-heading">
+    <span class="heading-line"></span>
+
+    <div>
+      <h2>Comments</h2>
+
+      <p>
+        {{ comments.length }}
+        {{ comments.length === 1 ? 'comment' : 'comments' }}
+      </p>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SUCCESS MESSAGE
+  =========================================== -->
+
+  @if (successMessage) {
+    <div class="success-message">
+      {{ successMessage }}
+    </div>
+  }
+
+  <!-- ==========================================
+       ERROR MESSAGE
+  =========================================== -->
+
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <!-- ==========================================
+       ADD COMMENT FORM
+  =========================================== -->
+
+  <div class="comment-form-card">
+    <h3>Leave a Comment</h3>
+
+    <p class="form-description">Share your thoughts about this news.</p>
+
+    <form (ngSubmit)="submitComment()">
+      <!-- NAME -->
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="comment-name"> Name * </label>
+
+          <input
+            id="comment-name"
+            type="text"
+            [(ngModel)]="commentForm.name"
+            name="name"
+            placeholder="Enter your name"
+            autocomplete="name"
+          />
+        </div>
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+          <label for="comment-email"> Email * </label>
+
+          <input
+            id="comment-email"
+            type="email"
+            [(ngModel)]="commentForm.email"
+            name="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+          />
+        </div>
+      </div>
+
+      <!-- COMMENT -->
+
+      <div class="form-group">
+        <label for="comment-content"> Comment * </label>
+
+        <textarea
+          id="comment-content"
+          rows="5"
+          [(ngModel)]="commentForm.content"
+          name="content"
+          placeholder="Write your comment..."
+        ></textarea>
+      </div>
+
+      <!-- SUBMIT -->
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="isSubmitting">
+          @if (isSubmitting) {
+            Submitting...
+          } @else {
+            Post Comment
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ==========================================
+       LOADING COMMENTS
+  =========================================== -->
+
+  @if (isLoading) {
+    <div class="comments-loading">
+      <div class="loader"></div>
+
+      <p>Loading comments...</p>
+    </div>
+  }
+
+  <!-- ==========================================
+       COMMENTS LIST
+  =========================================== -->
+
+  @if (!isLoading && comments.length > 0) {
+    <div class="comments-list">
+      @for (comment of comments; track comment.id) {
+        @if (comment.isActive && comment.isApproved) {
+          <article class="comment-item">
+            <!-- COMMENT HEADER -->
+
+            <div class="comment-header">
+              <div class="comment-author">
+                <div class="author-avatar">
+                  {{ comment.name.charAt(0).toUpperCase() }}
+                </div>
+
+                <div>
+                  <h4>
+                    {{ comment.name }}
+                  </h4>
+
+                  <span>
+                    {{ formatDate(comment.createdDate) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMMENT CONTENT -->
+
+            <div class="comment-content">
+              <p>
+                {{ comment.content }}
+              </p>
+            </div>
+          </article>
+        }
+      }
+    </div>
+  }
+
+  <!-- ==========================================
+       NO COMMENTS
+  =========================================== -->
+
+  @if (!isLoading && comments.length === 0) {
+    <div class="no-comments">
+      <div class="no-comments-icon">💬</div>
+
+      <h3>No Comments Yet</h3>
+
+      <p>Be the first person to comment on this news.</p>
+    </div>
+  }
+</section>

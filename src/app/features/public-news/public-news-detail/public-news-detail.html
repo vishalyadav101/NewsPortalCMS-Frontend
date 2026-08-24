@@ -1,0 +1,273 @@
+<div class="public-news-detail">
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+
+  @if (isLoading) {
+    <section class="loading-section">
+      <div class="loader"></div>
+
+      <p>Loading news article...</p>
+    </section>
+  }
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+
+  @if (!isLoading && errorMessage) {
+    <section class="message-section error-section">
+      <div class="message-icon">!</div>
+
+      <h2>Unable to Load News</h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <div class="message-actions">
+        <button type="button" (click)="loadNews()">Try Again</button>
+
+        <a routerLink="/public/news"> Back to News </a>
+      </div>
+    </section>
+  }
+
+  <!-- ==========================================
+       NEWS ARTICLE
+  =========================================== -->
+
+  @if (!isLoading && !errorMessage && news) {
+    <article class="article-container">
+      <!-- ========================================
+           BREADCRUMB
+      ========================================= -->
+
+      <div class="breadcrumb">
+        <a routerLink="/public"> Home </a>
+
+        <span> / </span>
+
+        <a routerLink="/public/news"> News </a>
+
+        <span> / </span>
+
+        <span>
+          {{ news.categoryName || 'News' }}
+        </span>
+      </div>
+
+      <!-- ========================================
+           CATEGORY
+      ========================================= -->
+
+      <div class="article-category">
+        {{ news.categoryName || 'News' }}
+      </div>
+
+      <!-- ========================================
+           TITLE
+      ========================================= -->
+
+      <h1 class="article-title">
+        {{ news.title }}
+      </h1>
+
+      <!-- ========================================
+           SHORT DESCRIPTION
+      ========================================= -->
+
+      @if (news.shortDescription) {
+        <p class="article-description">
+          {{ news.shortDescription }}
+        </p>
+      }
+
+      <!-- ========================================
+           META
+      ========================================= -->
+
+      <div class="article-meta">
+        <div class="author-info">
+          <span class="author-label"> By </span>
+
+          <strong>
+            {{ news.author || 'Admin' }}
+          </strong>
+        </div>
+
+        <span class="meta-separator"> • </span>
+
+        <span>
+          {{ formatDate(news.publishDate) }}
+        </span>
+
+        <span class="meta-separator"> • </span>
+
+        <span> {{ news.viewCount }} views </span>
+      </div>
+
+      <!-- ========================================
+           FEATURED IMAGE
+      ========================================= -->
+
+      @if (news.featuredImage) {
+        <div class="featured-image">
+          <img
+            [src]="getImageUrl(news.featuredImage)"
+            [alt]="news.title"
+            (error)="handleImageError($event)"
+          />
+        </div>
+      }
+
+      <!-- ========================================
+           ARTICLE LAYOUT
+      ========================================= -->
+
+      <div class="article-layout">
+        <!-- ======================================
+             MAIN CONTENT
+        ======================================= -->
+
+        <div class="article-content">
+          <div class="content-text">
+            {{ news.content }}
+          </div>
+
+          <!-- ====================================
+               VIDEO
+          ===================================== -->
+
+          @if (news.featuredVideo) {
+            <div class="article-video">
+              <h2>Featured Video</h2>
+
+              <video controls preload="metadata">
+                <source [src]="getVideoUrl(news.featuredVideo)" />
+
+                Your browser does not support the video player.
+              </video>
+            </div>
+          }
+        </div>
+
+        <!-- ======================================
+             SIDEBAR
+        ======================================= -->
+
+        <aside class="article-sidebar">
+          <!-- CATEGORY -->
+
+          <div class="sidebar-card">
+            <span class="sidebar-label"> CATEGORY </span>
+
+            <h3>
+              {{ news.categoryName || 'News' }}
+            </h3>
+
+            @if (news.subCategoryName) {
+              <p>
+                {{ news.subCategoryName }}
+              </p>
+            }
+          </div>
+
+          <!-- PUBLISHED -->
+
+          <div class="sidebar-card">
+            <span class="sidebar-label"> PUBLISHED </span>
+
+            <strong>
+              {{ formatDate(news.publishDate) }}
+            </strong>
+          </div>
+
+          <!-- AUTHOR -->
+
+          <div class="sidebar-card">
+            <span class="sidebar-label"> AUTHOR </span>
+
+            <strong>
+              {{ news.author || 'Admin' }}
+            </strong>
+          </div>
+
+          <!-- BACK -->
+
+          <a routerLink="/public/news" class="back-news"> ← Back to Latest News </a>
+        </aside>
+      </div>
+
+      <!-- ==========================================
+           RELATED NEWS
+      =========================================== -->
+
+      @if (relatedNews.length > 0) {
+        <section class="related-news-section">
+          <!-- RELATED HEADER -->
+
+          <div class="related-heading">
+            <div class="related-heading-title">
+              <span class="heading-line"></span>
+
+              <h2>Related News</h2>
+            </div>
+
+            <a routerLink="/public/news" class="view-all-news"> View All News → </a>
+          </div>
+
+          <!-- RELATED NEWS GRID -->
+
+          <div class="related-news-grid">
+            @for (newsItem of relatedNews; track newsItem.id) {
+              <article class="related-news-card">
+                <!-- IMAGE -->
+
+                <a [routerLink]="['/public/news', newsItem.id]" class="related-image">
+                  <img
+                    [src]="getImageUrl(newsItem.featuredImage)"
+                    [alt]="newsItem.title"
+                    (error)="handleImageError($event)"
+                  />
+
+                  <span class="related-category">
+                    {{ newsItem.categoryName || 'News' }}
+                  </span>
+                </a>
+
+                <!-- CONTENT -->
+
+                <div class="related-content">
+                  <div class="related-date">
+                    {{ formatDate(newsItem.publishDate) }}
+                  </div>
+
+                  <a [routerLink]="['/public/news', newsItem.id]" class="related-title">
+                    {{ newsItem.title }}
+                  </a>
+
+                  @if (newsItem.shortDescription) {
+                    <p>
+                      {{ newsItem.shortDescription }}
+                    </p>
+                  }
+
+                  <a [routerLink]="['/public/news', newsItem.id]" class="related-link">
+                    Read More →
+                  </a>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- ==========================================
+           COMMENTS
+      =========================================== -->
+
+      <app-public-comments [newsId]="news.id"></app-public-comments>
+    </article>
+  }
+</div>

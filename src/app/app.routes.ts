@@ -64,6 +64,8 @@ import { PermissionForm } from './pages/permissions/permission-form/permission-f
 import { RoleList } from './pages/roles/role-list/role-list';
 import { RoleForm } from './pages/roles/role-form/role-form';
 import { RolePermissions } from './pages/roles/role-permissions/role-permissions';
+import { PublicNewsList } from './features/public-news/public-news-list/public-news-list';
+import { PublicNewsDetail } from './features/public-news/public-news-detail/public-news-detail';
 
 export const routes: Routes = [
   // ==========================================
@@ -82,10 +84,22 @@ export const routes: Routes = [
   {
     path: 'public',
     component: PublicLayout,
+
     children: [
+      // PUBLIC HOME
       {
         path: '',
         loadComponent: () => import('./features/home/home').then((m) => m.Home),
+      },
+
+      // PUBLIC NEWS LIST
+      {
+        path: 'news',
+        component: PublicNewsList,
+      },
+      {
+        path: 'news/:id',
+        component: PublicNewsDetail,
       },
     ],
   },

@@ -1,0 +1,173 @@
+<div class="public-news-page">
+  <!-- ==========================================
+       PAGE HEADER
+  =========================================== -->
+
+  <section class="page-header">
+    <div class="container">
+      <span class="page-label">LATEST STORIES</span>
+
+      <h1>Latest News</h1>
+
+      <p>Stay updated with the latest news, stories and important updates.</p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+
+  @if (isLoading) {
+    <section class="loading-section">
+      <div class="loader"></div>
+
+      <p>Loading latest news...</p>
+    </section>
+  }
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+
+  @if (!isLoading && errorMessage) {
+    <section class="message-section error-section">
+      <div class="message-icon">!</div>
+
+      <h2>Unable to Load News</h2>
+
+      <p>{{ errorMessage }}</p>
+
+      <button type="button" (click)="loadNews()">Try Again</button>
+    </section>
+  }
+
+  <!-- ==========================================
+       NEWS CONTENT
+  =========================================== -->
+
+  @if (!isLoading && !errorMessage) {
+    @if (newsList.length > 0) {
+      <section class="news-section">
+        <div class="container">
+          <!-- ====================================
+               SECTION TOP
+          ===================================== -->
+
+          <div class="section-top">
+            <div>
+              <span class="heading-line"></span>
+
+              <h2>All Latest News</h2>
+            </div>
+
+            <span class="news-count"> {{ totalCount }} Stories </span>
+          </div>
+
+          <!-- ====================================
+               NEWS GRID
+          ===================================== -->
+
+          <div class="news-grid">
+            @for (newsItem of newsList; track newsItem.id) {
+              <article class="news-card">
+                <!-- IMAGE -->
+
+                <a [routerLink]="['/public/news', newsItem.id]" class="news-image">
+                  <img
+                    [src]="getImageUrl(newsItem.featuredImage)"
+                    [alt]="newsItem.title"
+                    (error)="handleImageError($event)"
+                  />
+
+                  <span class="category-badge">
+                    {{ newsItem.categoryName || 'News' }}
+                  </span>
+                </a>
+
+                <!-- CONTENT -->
+
+                <div class="news-content">
+                  <!-- DATE -->
+
+                  <div class="news-meta">
+                    <span>
+                      {{ formatDate(newsItem.publishDate) }}
+                    </span>
+
+                    <span>•</span>
+
+                    <span> {{ newsItem.viewCount ?? 0 }} views </span>
+                  </div>
+
+                  <!-- TITLE -->
+
+                  <a [routerLink]="['/public/news', newsItem.id]" class="news-title">
+                    {{ newsItem.title }}
+                  </a>
+
+                  <!-- DESCRIPTION -->
+
+                  @if (newsItem.shortDescription) {
+                    <p class="news-description">
+                      {{ newsItem.shortDescription }}
+                    </p>
+                  }
+
+                  <!-- AUTHOR -->
+
+                  <div class="news-footer">
+                    <span> By {{ newsItem.author || 'Admin' }} </span>
+
+                    <a [routerLink]="['/public/news', newsItem.id]"> Read More → </a>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+
+          <!-- ====================================
+               PAGINATION
+          ===================================== -->
+
+          @if (totalPages > 1) {
+            <div class="pagination">
+              <button type="button" [disabled]="!hasPreviousPage" (click)="previousPage()">
+                ← Previous
+              </button>
+
+              <div class="page-info">
+                <span>Page</span>
+
+                <strong>
+                  {{ pageNumber }}
+                </strong>
+
+                <span>of</span>
+
+                <strong>
+                  {{ totalPages }}
+                </strong>
+              </div>
+
+              <button type="button" [disabled]="!hasNextPage" (click)="nextPage()">Next →</button>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- ==========================================
+         NO NEWS
+    =========================================== -->
+
+    @if (newsList.length === 0) {
+      <section class="message-section">
+        <div class="message-icon">📰</div>
+
+        <h2>No News Available</h2>
+
+        <p>There are currently no published news articles available.</p>
+      </section>
+    }
+  }
+</div>

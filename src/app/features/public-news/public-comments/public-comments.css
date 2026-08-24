@@ -1,0 +1,353 @@
+/* ==========================================
+   COMMENTS SECTION
+========================================== */
+
+.comments-section {
+  margin-top: 70px;
+  padding-top: 45px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* ==========================================
+   HEADING
+========================================== */
+
+.comments-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.heading-line {
+  width: 5px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: #111827;
+}
+
+.comments-heading h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.comments-heading p {
+  margin: 4px 0 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+/* ==========================================
+   FORM CARD
+========================================== */
+
+.comment-form-card {
+  margin-bottom: 35px;
+  padding: 25px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.comment-form-card h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+}
+
+.form-description {
+  margin: 6px 0 22px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.form-group input,
+.form-group textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  outline: none;
+  background: #ffffff;
+  color: #111827;
+  font-family: inherit;
+  font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input {
+  height: 44px;
+  padding: 0 13px;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  padding: 12px 13px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #6b7280;
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* ==========================================
+   FORM ACTION
+========================================== */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  min-width: 130px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 7px;
+  background: #111827;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.form-actions button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.form-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ==========================================
+   SUCCESS / ERROR
+========================================== */
+
+.success-message,
+.error-message {
+  margin-bottom: 18px;
+  padding: 12px 15px;
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+.success-message {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.error-message {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+/* ==========================================
+   COMMENTS LOADING
+========================================== */
+
+.comments-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 120px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.loader {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #111827;
+  border-radius: 50%;
+  animation: comment-spin 0.8s linear infinite;
+}
+
+@keyframes comment-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================
+   COMMENTS LIST
+========================================== */
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-item {
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+/* ==========================================
+   COMMENT HEADER
+========================================== */
+
+.comment-header {
+  margin-bottom: 14px;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #111827;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.comment-author h4 {
+  margin: 0 0 3px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.comment-author span {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+/* ==========================================
+   COMMENT CONTENT
+========================================== */
+
+.comment-content p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ==========================================
+   NO COMMENTS
+========================================== */
+
+.no-comments {
+  padding: 45px 20px;
+  border: 1px dashed #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.no-comments-icon {
+  margin-bottom: 12px;
+  font-size: 30px;
+}
+
+.no-comments h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+}
+
+.no-comments p {
+  margin: 7px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 700px) {
+  .comments-section {
+    margin-top: 50px;
+    padding-top: 35px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .comment-form-card {
+    padding: 20px;
+  }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 500px) {
+  .comments-heading h2 {
+    font-size: 24px;
+  }
+
+  .comment-form-card {
+    padding: 17px;
+  }
+
+  .comment-item {
+    padding: 17px;
+  }
+
+  .form-actions {
+    justify-content: stretch;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
