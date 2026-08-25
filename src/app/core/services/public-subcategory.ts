@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 
 export interface PublicSubcategory {
   id: number;
+  categoryId: number;
+  categoryName: string;
   name: string;
   slug: string;
   description?: string;
-  displayOrder: number;
-  categoryId: number;
 }
 
 @Injectable({
@@ -18,12 +18,26 @@ export class PublicSubcategoryService {
 
   private readonly http = inject(HttpClient);
 
+  // IMPORTANT:
+  // This must match your actual Swagger endpoint
   private readonly apiUrl =
-    'https://localhost:7103/api/publicsubcategories';
+    'https://localhost:7103/api/public/subcategories';
+
+  // =========================================================
+  // GET ALL SUBCATEGORIES
+  // =========================================================
 
   getSubcategories(): Observable<PublicSubcategory[]> {
-    return this.http.get<PublicSubcategory[]>(this.apiUrl);
+
+    return this.http.get<PublicSubcategory[]>(
+      this.apiUrl
+    );
+
   }
+
+  // =========================================================
+  // GET SUBCATEGORIES BY CATEGORY
+  // =========================================================
 
   getSubcategoriesByCategory(
     categoryId: number
@@ -32,5 +46,6 @@ export class PublicSubcategoryService {
     return this.http.get<PublicSubcategory[]>(
       `${this.apiUrl}/category/${categoryId}`
     );
+
   }
 }
