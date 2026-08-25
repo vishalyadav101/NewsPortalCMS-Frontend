@@ -41,16 +41,87 @@
           and around the world.
         </p>
 
+        <!-- ====================================
+             SOCIAL MEDIA
+        ===================================== -->
+
         <div class="footer-social">
-          <a href="#" aria-label="Facebook"> f </a>
+          @if (settings?.facebookUrl) {
+            <a
+              [href]="getSocialUrl(settings?.facebookUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+            >
+              f
+            </a>
+          }
 
-          <a href="#" aria-label="Twitter"> 𝕏 </a>
+          @if (settings?.twitterUrl) {
+            <a
+              [href]="getSocialUrl(settings?.twitterUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X / Twitter"
+            >
+              𝕏
+            </a>
+          }
 
-          <a href="#" aria-label="Instagram"> ◎ </a>
+          @if (settings?.instagramUrl) {
+            <a
+              [href]="getSocialUrl(settings?.instagramUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              ◎
+            </a>
+          }
 
-          <a href="#" aria-label="YouTube"> ▶ </a>
+          @if (settings?.youTubeUrl) {
+            <a
+              [href]="getSocialUrl(settings?.youTubeUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              ▶
+            </a>
+          }
 
-          <a href="#" aria-label="LinkedIn"> in </a>
+          @if (settings?.linkedInUrl) {
+            <a
+              [href]="getSocialUrl(settings?.linkedInUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
+              in
+            </a>
+          }
+
+          @if (settings?.telegramUrl) {
+            <a
+              [href]="getSocialUrl(settings?.telegramUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Telegram"
+            >
+              ✈
+            </a>
+          }
+
+          @if (settings?.whatsAppChannelUrl) {
+            <a
+              [href]="getSocialUrl(settings?.whatsAppChannelUrl)"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+            >
+              ☎
+            </a>
+          }
         </div>
       </div>
 
