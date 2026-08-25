@@ -19,13 +19,21 @@
     </div>
 
     <div class="top-bar-right">
-      <a routerLink="/about"> About Us </a>
+      <!-- ======================================
+           STATIC PAGES
+      ======================================= -->
 
-      <a routerLink="/contact"> Contact Us </a>
+      <a routerLink="/public/about-us"> About Us </a>
 
-      <a routerLink="/privacy-policy"> Privacy Policy </a>
+      <a routerLink="/public/contact-us"> Contact Us </a>
 
-      <a routerLink="/terms-conditions"> Terms & Conditions </a>
+      <a routerLink="/public/privacy-policy"> Privacy Policy </a>
+
+      <a routerLink="/public/terms-and-conditions"> Terms & Conditions </a>
+
+      <!-- ======================================
+           SOCIAL LINKS
+      ======================================= -->
 
       <div class="social-links">
         <a href="#" aria-label="Facebook"> f </a>
@@ -46,15 +54,19 @@
   =========================================== -->
 
   <div class="main-header">
-    <!-- LOGO -->
+    <!-- ========================================
+         LOGO
+    ========================================= -->
 
-    <a routerLink="/" class="brand">
+    <a routerLink="/public" class="brand">
       <div class="brand-name">News<span>Portal</span></div>
 
       <div class="brand-tagline">Stay Informed, Stay Ahead</div>
     </a>
 
-    <!-- SEARCH -->
+    <!-- ========================================
+         SEARCH
+    ========================================= -->
 
     <div class="header-search">
       <input type="text" placeholder="Search news, categories, topics..." />
@@ -62,16 +74,20 @@
       <button type="button" aria-label="Search">🔍</button>
     </div>
 
-    <!-- AUTH -->
+    <!-- ========================================
+         AUTH
+    ========================================= -->
 
     <div class="header-actions">
       <a routerLink="/login" class="login-btn">
         <span>♙</span>
+
         Login
       </a>
 
       <a routerLink="/register" class="register-btn">
         <span>♙</span>
+
         Register
       </a>
     </div>

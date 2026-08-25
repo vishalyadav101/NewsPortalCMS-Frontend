@@ -1,0 +1,73 @@
+<section class="static-page-section">
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+
+  @if (isLoading) {
+    <section class="loading-section">
+      <div class="loader"></div>
+
+      <p>Loading page...</p>
+    </section>
+  }
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+
+  @if (!isLoading && errorMessage) {
+    <section class="message-section">
+      <div class="message-icon">!</div>
+
+      <h1>Page Not Found</h1>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <a routerLink="/public" class="back-home-btn"> ← Back to Home </a>
+    </section>
+  }
+
+  <!-- ==========================================
+       PAGE
+  =========================================== -->
+
+  @if (!isLoading && !errorMessage && page) {
+    <article class="static-page-container">
+      <!-- ======================================
+           BREADCRUMB
+      ======================================= -->
+
+      <div class="breadcrumb">
+        <a routerLink="/public"> Home </a>
+
+        <span>/</span>
+
+        <span>
+          {{ page.title }}
+        </span>
+      </div>
+
+      <!-- ======================================
+           PAGE HEADER
+      ======================================= -->
+
+      <header class="static-page-header">
+        <h1>
+          {{ page.title }}
+        </h1>
+
+        <div class="header-line"></div>
+      </header>
+
+      <!-- ======================================
+           PAGE CONTENT
+      ======================================= -->
+
+      <main class="static-page-content">
+        <div [innerHTML]="page.content"></div>
+      </main>
+    </article>
+  }
+</section>
