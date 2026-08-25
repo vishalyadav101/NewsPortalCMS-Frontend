@@ -1,8 +1,11 @@
+
 <nav class="public-navbar">
 
   <div class="navbar-container">
 
-    <!-- MOBILE MENU BUTTON -->
+    <!-- =====================================================
+         MOBILE MENU BUTTON
+    ====================================================== -->
 
     <button
       type="button"
@@ -17,7 +20,9 @@
     </button>
 
 
-    <!-- NAVIGATION -->
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
 
     <div
       class="nav-menu"
@@ -29,9 +34,7 @@
       ====================================================== -->
 
       <a
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
+        href="javascript:void(0)"
         (click)="closeMobileMenu()"
       >
         Home
@@ -61,9 +64,7 @@
           </span>
 
           <span class="dropdown-arrow">
-
             {{ openedCategoryId === category.id ? '▴' : '▾' }}
-
           </span>
 
         </button>
@@ -105,15 +106,13 @@
 
           <a
             *ngFor="let subcategory of selectedSubcategories"
-            [routerLink]="[
-              '/subcategory',
-              subcategory.slug
-            ]"
+            [routerLink]="['/public/news']"
+            [queryParams]="{
+              subcategoryId: subcategory.id
+            }"
             (click)="closeCategory()"
           >
-
             {{ subcategory.name }}
-
           </a>
 
         </div>
@@ -130,27 +129,41 @@
         *ngIf="moreCategories.length > 0"
       >
 
+        <!-- MORE BUTTON -->
+
         <button
           type="button"
           class="more-btn"
           [class.active]="isMoreOpen"
           (click)="toggleMore()"
         >
-          More ▾
+          More
+
+          <span>
+            {{ isMoreOpen ? '▴' : '▾' }}
+          </span>
         </button>
 
 
-        <!-- MORE DROPDOWN -->
+        <!-- =================================================
+             MORE DROPDOWN
+        ================================================== -->
 
         <div
           class="more-dropdown"
           *ngIf="isMoreOpen"
         >
 
+          <!-- =================================================
+               MORE CATEGORY
+          ================================================== -->
+
           <div
             class="more-category"
             *ngFor="let category of moreCategories"
           >
+
+            <!-- CATEGORY BUTTON -->
 
             <button
               type="button"
@@ -163,14 +176,16 @@
                 {{ category.name }}
               </span>
 
-              <span>
+              <span class="more-category-arrow">
                 {{ openedCategoryId === category.id ? '▴' : '▸' }}
               </span>
 
             </button>
 
 
-            <!-- MORE SUBCATEGORIES -->
+            <!-- =================================================
+                 SUBCATEGORY DROPDOWN INSIDE MORE
+            ================================================== -->
 
             <div
               class="more-subcategory-dropdown"
@@ -204,15 +219,13 @@
 
               <a
                 *ngFor="let subcategory of selectedSubcategories"
-                [routerLink]="[
-                  '/subcategory',
-                  subcategory.slug
-                ]"
+                [routerLink]="['/public/news']"
+                [queryParams]="{
+                  subcategoryId: subcategory.id
+                }"
                 (click)="closeCategory()"
               >
-
                 {{ subcategory.name }}
-
               </a>
 
             </div>

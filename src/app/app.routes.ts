@@ -107,6 +107,26 @@ export const routes: Routes = [
         path: 'news/:id',
         component: PublicNewsDetail,
       },
+
+       // ========================================
+    // NEWS BY CATEGORY
+    // ========================================
+
+    {
+      path: 'category/:slug',
+      component: PublicNewsList,
+    },
+
+
+    // ========================================
+    // NEWS BY SUBCATEGORY
+    // ========================================
+
+    {
+      path: 'subcategory/:slug',
+      component: PublicNewsList,
+    },
+
       // PUBLIC STATIC PAGES
       {
         path: ':slug',
