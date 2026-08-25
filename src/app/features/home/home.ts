@@ -30,6 +30,15 @@ export class Home implements OnInit {
 
   trendingNews: News[] = [];
 
+  // ==========================================
+  // DYNAMIC CATEGORY SECTIONS
+  // ==========================================
+
+  categorySections: {
+    categoryName: string;
+    news: News[];
+  }[] = [];
+
   isLoading = true;
 
   errorMessage = '';
@@ -56,10 +65,6 @@ export class Home implements OnInit {
     this.newsService
       .getAllPaged('', undefined, true, undefined, 'publishDate_desc', 1, 100)
       .subscribe({
-        // ======================================
-        // SUCCESS
-        // ======================================
-
         next: (response) => {
           console.log('Home: News API Response:', response);
 
@@ -70,10 +75,6 @@ export class Home implements OnInit {
           const items: News[] = response?.items ?? [];
 
           console.log('Home: Total API News:', items.length);
-
-          // ====================================
-          // SAVE ALL NEWS
-          // ====================================
 
           this.news = items;
 
@@ -89,10 +90,8 @@ export class Home implements OnInit {
           // FEATURED NEWS
           // ====================================
 
-          const featured =
+          this.featuredNews =
             publishedNews.find((item) => item.isFeatured === true) ?? publishedNews[0] ?? null;
-
-          this.featuredNews = featured;
 
           console.log('Home: Featured News:', this.featuredNews);
 
@@ -100,7 +99,7 @@ export class Home implements OnInit {
           // LATEST NEWS
           // ====================================
 
-          const latest = [...publishedNews]
+          this.latestNews = [...publishedNews]
             .sort((a, b) => {
               const dateA = new Date(a.publishDate).getTime();
 
@@ -110,21 +109,58 @@ export class Home implements OnInit {
             })
             .slice(0, 6);
 
-          this.latestNews = latest;
-
           console.log('Home: Latest News:', this.latestNews);
 
           // ====================================
           // TRENDING NEWS
           // ====================================
 
-          const trending = [...publishedNews]
+          this.trendingNews = [...publishedNews]
             .sort((a, b) => (b.viewCount ?? 0) - (a.viewCount ?? 0))
             .slice(0, 5);
 
-          this.trendingNews = trending;
-
           console.log('Home: Trending News:', this.trendingNews);
+
+          // ====================================
+          // DYNAMIC CATEGORY SECTIONS
+          // ====================================
+
+          const categoryMap = new Map<string, News[]>();
+
+          for (const item of publishedNews) {
+            const categoryName = item.categoryName?.trim();
+
+            if (!categoryName) {
+              continue;
+            }
+
+            if (!categoryMap.has(categoryName)) {
+              categoryMap.set(categoryName, []);
+            }
+
+            categoryMap.get(categoryName)!.push(item);
+          }
+
+          // ====================================
+          // CREATE CATEGORY SECTIONS
+          // ====================================
+
+          this.categorySections = Array.from(categoryMap.entries())
+            .map(([categoryName, categoryNews]) => ({
+              categoryName,
+              news: [...categoryNews]
+                .sort((a, b) => {
+                  const dateA = new Date(a.publishDate).getTime();
+
+                  const dateB = new Date(b.publishDate).getTime();
+
+                  return dateB - dateA;
+                })
+                .slice(0, 4),
+            }))
+            .filter((section) => section.news.length > 0);
+
+          console.log('Home: Category Sections:', this.categorySections);
 
           // ====================================
           // CLEAR ERROR
@@ -137,10 +173,6 @@ export class Home implements OnInit {
           // ====================================
 
           this.isLoading = false;
-
-          // ====================================
-          // FORCE VIEW UPDATE
-          // ====================================
 
           this.cdr.detectChanges();
 
@@ -162,13 +194,11 @@ export class Home implements OnInit {
 
           this.trendingNews = [];
 
+          this.categorySections = [];
+
           this.errorMessage = 'Unable to load latest news. Please try again later.';
 
           this.isLoading = false;
-
-          // ====================================
-          // FORCE ERROR VIEW UPDATE
-          // ====================================
 
           this.cdr.detectChanges();
 
@@ -182,31 +212,15 @@ export class Home implements OnInit {
   // ==========================================
 
   getImageUrl(imagePath: string | null | undefined): string {
-    // ----------------------------------------
-    // NO IMAGE
-    // ----------------------------------------
-
     if (!imagePath || imagePath.trim() === '') {
       return 'assets/images/news-placeholder.jpg';
     }
-
-    // ----------------------------------------
-    // FULL URL
-    // ----------------------------------------
 
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
     }
 
-    // ----------------------------------------
-    // CLEAN PATH
-    // ----------------------------------------
-
     const cleanPath = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-
-    // ----------------------------------------
-    // FINAL IMAGE URL
-    // ----------------------------------------
 
     return `${this.apiBaseUrl}/${cleanPath}`;
   }
@@ -218,7 +232,6 @@ export class Home implements OnInit {
   handleImageError(event: Event): void {
     const image = event.target as HTMLImageElement;
 
-    // Prevent infinite error loop
     if (image.src.includes('news-placeholder.jpg')) {
       return;
     }
@@ -249,10 +262,24 @@ export class Home implements OnInit {
   }
 
   // ==========================================
-  // TRACK BY
+  // TRACK BY NEWS ID
   // ==========================================
 
   trackByNewsId(index: number, news: News): number {
     return news.id;
+  }
+
+  // ==========================================
+  // TRACK BY CATEGORY
+  // ==========================================
+
+  trackByCategory(
+    index: number,
+    section: {
+      categoryName: string;
+      news: News[];
+    },
+  ): string {
+    return section.categoryName;
   }
 }

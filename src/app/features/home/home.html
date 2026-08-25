@@ -47,13 +47,21 @@
 
           <article class="featured-news">
             <div class="featured-image">
-              <img [src]="getImageUrl(featuredNews.featuredImage)" [alt]="featuredNews.title" />
+              <img
+                [src]="getImageUrl(featuredNews.featuredImage)"
+                [alt]="featuredNews.title"
+                (error)="handleImageError($event)"
+              />
 
               <div class="image-overlay"></div>
+
+              <!-- CATEGORY -->
 
               <span class="category-badge">
                 {{ featuredNews.categoryName || 'News' }}
               </span>
+
+              <!-- FEATURED CONTENT -->
 
               <div class="featured-content">
                 <h1>
@@ -99,9 +107,17 @@
             <div class="latest-list">
               @for (newsItem of latestNews.slice(0, 5); track newsItem.id) {
                 <article class="latest-item">
+                  <!-- IMAGE -->
+
                   <a [routerLink]="['/public/news', newsItem.id]" class="latest-image">
-                    <img [src]="getImageUrl(newsItem.featuredImage)" [alt]="newsItem.title" />
+                    <img
+                      [src]="getImageUrl(newsItem.featuredImage)"
+                      [alt]="newsItem.title"
+                      (error)="handleImageError($event)"
+                    />
                   </a>
+
+                  <!-- CONTENT -->
 
                   <div class="latest-content">
                     <span class="small-category">
@@ -130,6 +146,8 @@
 
     @if (latestNews.length > 0) {
       <section class="content-section">
+        <!-- SECTION HEADING -->
+
         <div class="section-heading large">
           <div>
             <span class="heading-line"></span>
@@ -138,16 +156,26 @@
           </div>
         </div>
 
+        <!-- NEWS CARDS -->
+
         <div class="news-card-grid">
           @for (newsItem of latestNews; track newsItem.id) {
             <article class="news-card">
+              <!-- IMAGE -->
+
               <a [routerLink]="['/public/news', newsItem.id]" class="card-image">
-                <img [src]="getImageUrl(newsItem.featuredImage)" [alt]="newsItem.title" />
+                <img
+                  [src]="getImageUrl(newsItem.featuredImage)"
+                  [alt]="newsItem.title"
+                  (error)="handleImageError($event)"
+                />
 
                 <span class="card-category">
                   {{ newsItem.categoryName || 'News' }}
                 </span>
               </a>
+
+              <!-- CONTENT -->
 
               <div class="card-content">
                 <div class="card-date">
@@ -178,6 +206,8 @@
 
     @if (trendingNews.length > 0) {
       <section class="trending-section">
+        <!-- HEADER -->
+
         <div class="trending-header">
           <div>
             <span class="heading-line"></span>
@@ -188,12 +218,18 @@
           <span class="trending-label"> MOST READ </span>
         </div>
 
+        <!-- TRENDING ITEMS -->
+
         <div class="trending-grid">
           @for (newsItem of trendingNews; track newsItem.id; let i = $index) {
             <article class="trending-item">
+              <!-- NUMBER -->
+
               <div class="trending-number">
                 {{ (i + 1).toString().padStart(2, '0') }}
               </div>
+
+              <!-- CONTENT -->
 
               <div class="trending-content">
                 <a [routerLink]="['/public/news', newsItem.id]">
@@ -211,79 +247,107 @@
     }
 
     <!-- ========================================
-         CATEGORY SECTION
+         DYNAMIC CATEGORY SECTIONS
     ========================================= -->
 
-    @if (latestNews.length > 0) {
-      <section class="content-section category-section">
-        <div class="section-heading large">
-          <div>
-            <span class="heading-line"></span>
+    @for (section of categorySections; track section.categoryName) {
+      @if (section.news.length > 0) {
+        <section class="content-section category-section">
+          <!-- ==================================
+               CATEGORY HEADING
+          =================================== -->
 
-            <h2>
-              {{ latestNews[0].categoryName || 'Latest' }}
-            </h2>
+          <div class="section-heading large">
+            <div>
+              <span class="heading-line"></span>
+
+              <h2>
+                {{ section.categoryName }}
+              </h2>
+            </div>
           </div>
-        </div>
-
-        <div class="technology-layout">
-          <!-- ==================================
-               MAIN CATEGORY NEWS
-          =================================== -->
-
-          <article class="technology-main">
-            <div class="technology-image">
-              <img [src]="getImageUrl(latestNews[0].featuredImage)" [alt]="latestNews[0].title" />
-            </div>
-
-            <div class="technology-content">
-              <span class="small-category">
-                {{ latestNews[0].categoryName || 'News' }}
-              </span>
-
-              <h3>
-                {{ latestNews[0].title }}
-              </h3>
-
-              @if (latestNews[0].shortDescription) {
-                <p>
-                  {{ latestNews[0].shortDescription }}
-                </p>
-              }
-
-              <a [routerLink]="['/public/news', latestNews[0].id]" class="card-link">
-                Read Full Story →
-              </a>
-            </div>
-          </article>
 
           <!-- ==================================
-               SIDE NEWS
+               CATEGORY LAYOUT
           =================================== -->
 
-          <div class="technology-side">
-            @for (newsItem of latestNews.slice(1, 4); track newsItem.id) {
-              <article class="side-news">
-                <img [src]="getImageUrl(newsItem.featuredImage)" [alt]="newsItem.title" />
+          <div class="technology-layout">
+            <!-- ==================================
+                 MAIN CATEGORY NEWS
+            =================================== -->
 
-                <div>
-                  <span>
-                    {{ newsItem.categoryName || 'News' }}
+            @if (section.news[0]) {
+              <article class="technology-main">
+                <!-- IMAGE -->
+
+                <div class="technology-image">
+                  <img
+                    [src]="getImageUrl(section.news[0].featuredImage)"
+                    [alt]="section.news[0].title"
+                    (error)="handleImageError($event)"
+                  />
+                </div>
+
+                <!-- CONTENT -->
+
+                <div class="technology-content">
+                  <span class="small-category">
+                    {{ section.news[0].categoryName || 'News' }}
                   </span>
 
-                  <a [routerLink]="['/public/news', newsItem.id]">
-                    {{ newsItem.title }}
-                  </a>
+                  <h3>
+                    {{ section.news[0].title }}
+                  </h3>
 
-                  <small>
-                    {{ formatDate(newsItem.publishDate) }}
-                  </small>
+                  @if (section.news[0].shortDescription) {
+                    <p>
+                      {{ section.news[0].shortDescription }}
+                    </p>
+                  }
+
+                  <a [routerLink]="['/public/news', section.news[0].id]" class="card-link">
+                    Read Full Story →
+                  </a>
                 </div>
               </article>
             }
+
+            <!-- ==================================
+                 CATEGORY SIDE NEWS
+            =================================== -->
+
+            <div class="technology-side">
+              @for (newsItem of section.news.slice(1, 4); track newsItem.id) {
+                <article class="side-news">
+                  <!-- IMAGE -->
+
+                  <img
+                    [src]="getImageUrl(newsItem.featuredImage)"
+                    [alt]="newsItem.title"
+                    (error)="handleImageError($event)"
+                  />
+
+                  <!-- CONTENT -->
+
+                  <div>
+                    <span>
+                      {{ newsItem.categoryName || 'News' }}
+                    </span>
+
+                    <a [routerLink]="['/public/news', newsItem.id]">
+                      {{ newsItem.title }}
+                    </a>
+
+                    <small>
+                      {{ formatDate(newsItem.publishDate) }}
+                    </small>
+                  </div>
+                </article>
+              }
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      }
     }
 
     <!-- ========================================
