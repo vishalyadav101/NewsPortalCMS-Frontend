@@ -4,15 +4,17 @@
   =========================================== -->
 
   <div class="comments-heading">
-    <span class="heading-line"></span>
+    <div class="heading-left">
+      <span class="heading-line"></span>
 
-    <div>
-      <h2>Comments</h2>
+      <div>
+        <h2>Comments</h2>
 
-      <p>
-        {{ comments.length }}
-        {{ comments.length === 1 ? 'comment' : 'comments' }}
-      </p>
+        <p>
+          {{ visibleComments.length }}
+          {{ visibleComments.length === 1 ? 'comment' : 'comments' }}
+        </p>
+      </div>
     </div>
   </div>
 
@@ -22,6 +24,8 @@
 
   @if (successMessage) {
     <div class="success-message">
+      <span class="success-icon">✓</span>
+
       {{ successMessage }}
     </div>
   }
@@ -32,78 +36,67 @@
 
   @if (errorMessage) {
     <div class="error-message">
+      <span class="error-icon">!</span>
+
       {{ errorMessage }}
     </div>
   }
 
   <!-- ==========================================
-       ADD COMMENT FORM
+       ADD COMMENT
   =========================================== -->
 
   <div class="comment-form-card">
-    <h3>Leave a Comment</h3>
+    <!-- USER AVATAR -->
 
-    <p class="form-description">Share your thoughts about this news.</p>
+    <div class="form-user-avatar">
+      {{ currentUserName ? currentUserName.charAt(0).toUpperCase() : 'U' }}
+    </div>
 
-    <form (ngSubmit)="submitComment()">
-      <!-- NAME -->
+    <!-- FORM CONTENT -->
 
-      <div class="form-row">
+    <div class="form-content">
+      <!-- USER NAME -->
+
+      <h3>
+        {{ currentUserName || 'User' }}
+      </h3>
+
+      <p class="form-description">Share your thoughts about this news.</p>
+
+      <!-- FORM -->
+
+      <form (ngSubmit)="submitComment()">
+        <!-- COMMENT -->
+
         <div class="form-group">
-          <label for="comment-name"> Name * </label>
+          <label for="comment-content"> Comment * </label>
 
-          <input
-            id="comment-name"
-            type="text"
-            [(ngModel)]="commentForm.name"
-            name="name"
-            placeholder="Enter your name"
-            autocomplete="name"
-          />
+          <textarea
+            id="comment-content"
+            rows="4"
+            [(ngModel)]="commentForm.content"
+            name="content"
+            placeholder="Write a comment..."
+            autocomplete="off"
+          ></textarea>
         </div>
 
-        <!-- EMAIL -->
+        <!-- SUBMIT -->
 
-        <div class="form-group">
-          <label for="comment-email"> Email * </label>
+        <div class="form-actions">
+          <button type="submit" [disabled]="isSubmitting">
+            @if (isSubmitting) {
+              <span class="button-loader"></span>
 
-          <input
-            id="comment-email"
-            type="email"
-            [(ngModel)]="commentForm.email"
-            name="email"
-            placeholder="Enter your email"
-            autocomplete="email"
-          />
+              Posting...
+            } @else {
+              Post Comment
+            }
+          </button>
         </div>
-      </div>
-
-      <!-- COMMENT -->
-
-      <div class="form-group">
-        <label for="comment-content"> Comment * </label>
-
-        <textarea
-          id="comment-content"
-          rows="5"
-          [(ngModel)]="commentForm.content"
-          name="content"
-          placeholder="Write your comment..."
-        ></textarea>
-      </div>
-
-      <!-- SUBMIT -->
-
-      <div class="form-actions">
-        <button type="submit" [disabled]="isSubmitting">
-          @if (isSubmitting) {
-            Submitting...
-          } @else {
-            Post Comment
-          }
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 
   <!-- ==========================================
@@ -119,43 +112,71 @@
   }
 
   <!-- ==========================================
-       COMMENTS LIST
+       COMMENTS FEED
   =========================================== -->
 
-  @if (!isLoading && comments.length > 0) {
-    <div class="comments-list">
-      @for (comment of comments; track comment.id) {
-        @if (comment.isActive && comment.isApproved) {
-          <article class="comment-item">
-            <!-- COMMENT HEADER -->
+  @if (!isLoading && visibleComments.length > 0) {
+    <div class="comments-feed">
+      @for (comment of visibleComments; track comment.id) {
+        <article class="comment-item">
+          <!-- ==================================
+               AVATAR
+          =================================== -->
 
-            <div class="comment-header">
-              <div class="comment-author">
-                <div class="author-avatar">
-                  {{ comment.name.charAt(0).toUpperCase() }}
-                </div>
+          <div class="comment-avatar">
+            {{ comment.name ? comment.name.charAt(0).toUpperCase() : 'U' }}
+          </div>
 
-                <div>
-                  <h4>
-                    {{ comment.name }}
-                  </h4>
+          <!-- ==================================
+               COMMENT BODY
+          =================================== -->
 
-                  <span>
-                    {{ formatDate(comment.createdDate) }}
-                  </span>
-                </div>
+          <div class="comment-main">
+            <!-- HEADER -->
+
+            <div class="comment-top">
+              <div class="comment-user-info">
+                <strong>
+                  {{ comment.name || 'User' }}
+                </strong>
+
+                <span class="comment-time">
+                  {{ formatDate(comment.createdDate) }}
+                </span>
               </div>
+
+              <!-- MORE BUTTON -->
+
+              <button type="button" class="more-button" aria-label="Comment options">⋮</button>
             </div>
 
-            <!-- COMMENT CONTENT -->
+            <!-- COMMENT BUBBLE -->
 
-            <div class="comment-content">
+            <div class="comment-bubble">
               <p>
                 {{ comment.content }}
               </p>
             </div>
-          </article>
-        }
+
+            <!-- ==================================
+                 SOCIAL ACTIONS
+            =================================== -->
+
+            <div class="comment-actions">
+              <button type="button" class="comment-action">
+                <span>♡</span>
+
+                Like
+              </button>
+
+              <button type="button" class="comment-action">
+                <span>↩</span>
+
+                Reply
+              </button>
+            </div>
+          </div>
+        </article>
       }
     </div>
   }
@@ -164,7 +185,7 @@
        NO COMMENTS
   =========================================== -->
 
-  @if (!isLoading && comments.length === 0) {
+  @if (!isLoading && visibleComments.length === 0) {
     <div class="no-comments">
       <div class="no-comments-icon">💬</div>
 

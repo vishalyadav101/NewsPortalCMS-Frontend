@@ -107,6 +107,14 @@ export const routes: Routes = [
         path: 'news/:id',
         component: PublicNewsDetail,
       },
+      // PUBLIC STATIC PAGES
+      {
+        path: ':slug',
+        loadComponent: () =>
+          import('./features/public-static-page/public-static-page/public-static-page').then(
+            (m) => m.PublicStaticPage,
+          ),
+      },
     ],
   },
 

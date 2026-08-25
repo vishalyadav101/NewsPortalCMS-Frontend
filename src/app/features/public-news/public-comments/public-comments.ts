@@ -6,11 +6,14 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { Comment, CommentRequest } from '../../../core/models/comment.model';
+
 import { CommentService } from '../../../core/services/comment.service';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-public-comments',
@@ -21,17 +24,56 @@ import { CommentService } from '../../../core/services/comment.service';
 })
 export class PublicComments implements OnChanges {
   private readonly commentService = inject(CommentService);
+  private readonly auth = inject(Auth);
   private readonly cdr = inject(ChangeDetectorRef);
+
+  // ==========================================
+  // NEWS ID
+  // ==========================================
 
   @Input() newsId!: number;
 
+  // ==========================================
+  // CURRENT USER
+  // ==========================================
+
+  currentUserName = 'User';
+
+  currentUserEmail = '';
+
+  currentUserId: string | null = null;
+
+  // ==========================================
+  // COMMENTS
+  // ==========================================
+
   comments: Comment[] = [];
 
+  // ==========================================
+  // ONLY APPROVED + ACTIVE COMMENTS
+  // ==========================================
+
+  get visibleComments(): Comment[] {
+    return this.comments.filter(
+      (comment) => comment.isActive === true && comment.isApproved === true,
+    );
+  }
+
+  // ==========================================
+  // STATE
+  // ==========================================
+
   isLoading = true;
+
   isSubmitting = false;
 
   errorMessage = '';
+
   successMessage = '';
+
+  // ==========================================
+  // COMMENT FORM
+  // ==========================================
 
   commentForm: CommentRequest = {
     newsId: 0,
@@ -41,11 +83,61 @@ export class PublicComments implements OnChanges {
     content: '',
   };
 
+  // ==========================================
+  // INPUT CHANGE
+  // ==========================================
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['newsId'] && this.newsId) {
+      this.loadCurrentUser();
+
       this.commentForm.newsId = this.newsId;
+
       this.loadComments();
     }
+  }
+
+  // ==========================================
+  // LOAD CURRENT USER
+  // ==========================================
+
+  private loadCurrentUser(): void {
+    const user = this.auth.getCurrentUser();
+
+    if (!user) {
+      this.currentUserName = 'User';
+
+      this.currentUserEmail = '';
+
+      this.currentUserId = null;
+
+      this.commentForm.userId = null;
+
+      this.commentForm.name = '';
+
+      this.commentForm.email = '';
+
+      return;
+    }
+
+    this.currentUserName = user.name || user.userName || 'User';
+
+    this.currentUserEmail = user.email || '';
+
+    this.currentUserId = user.userId || null;
+
+    // Set user information
+    this.commentForm.userId = this.currentUserId;
+
+    this.commentForm.name = this.currentUserName;
+
+    this.commentForm.email = this.currentUserEmail;
+
+    console.log('Current Comment User:', {
+      userId: this.currentUserId,
+      name: this.currentUserName,
+      email: this.currentUserEmail,
+    });
   }
 
   // ==========================================
@@ -54,21 +146,29 @@ export class PublicComments implements OnChanges {
 
   loadComments(): void {
     this.isLoading = true;
+
     this.errorMessage = '';
 
     this.commentService.getByNewsId(this.newsId).subscribe({
-      next: (response) => {
+      next: (response: Comment[]) => {
         this.comments = response ?? [];
+
         this.isLoading = false;
+
+        console.log('All Comments:', this.comments);
+
+        console.log('Visible Comments:', this.visibleComments);
 
         this.cdr.detectChanges();
       },
 
-      error: (error: any) => {
+      error: (error: unknown) => {
         console.error('Comments GET error:', error);
 
         this.comments = [];
+
         this.errorMessage = 'Unable to load comments.';
+
         this.isLoading = false;
 
         this.cdr.detectChanges();
@@ -82,50 +182,109 @@ export class PublicComments implements OnChanges {
 
   submitComment(): void {
     this.errorMessage = '';
+
     this.successMessage = '';
 
-    if (!this.commentForm.name.trim()) {
-      this.errorMessage = 'Please enter your name.';
+    // ========================================
+    // CHECK LOGIN
+    // ========================================
+
+    if (!this.auth.isLoggedIn()) {
+      this.errorMessage = 'Please login before posting a comment.';
+
       return;
     }
 
-    if (!this.commentForm.email.trim()) {
-      this.errorMessage = 'Please enter your email.';
+    // ========================================
+    // GET CURRENT USER AGAIN
+    // ========================================
+
+    this.loadCurrentUser();
+
+    // ========================================
+    // VALIDATE USER
+    // ========================================
+
+    if (!this.currentUserName.trim()) {
+      this.errorMessage = 'Unable to identify the logged-in user.';
+
       return;
     }
+
+    if (!this.currentUserEmail.trim()) {
+      this.errorMessage = 'Your email is not available in the login session.';
+
+      return;
+    }
+
+    // ========================================
+    // VALIDATE COMMENT
+    // ========================================
 
     if (!this.commentForm.content.trim()) {
       this.errorMessage = 'Please write a comment.';
+
       return;
     }
 
-    this.commentForm.newsId = this.newsId;
+    // ========================================
+    // FINAL REQUEST
+    // ========================================
+
+    const request: CommentRequest = {
+      newsId: this.newsId,
+
+      userId: this.currentUserId,
+
+      name: this.currentUserName,
+
+      email: this.currentUserEmail,
+
+      content: this.commentForm.content.trim(),
+    };
+
+    console.log('Comment POST Request:', request);
+
+    // ========================================
+    // SUBMIT START
+    // ========================================
 
     this.isSubmitting = true;
 
-    this.commentService.create(this.commentForm).subscribe({
-      next: (response) => {
+    // ========================================
+    // CREATE COMMENT
+    // ========================================
+
+    this.commentService.create(request).subscribe({
+      next: (response: Comment) => {
         console.log('Comment created:', response);
 
         this.isSubmitting = false;
 
-        this.successMessage = 'Comment submitted successfully.';
+        this.successMessage = 'Comment posted successfully.';
 
-        this.commentForm.name = '';
-        this.commentForm.email = '';
+        // Clear only comment text
         this.commentForm.content = '';
 
+        // Reload comments
         this.loadComments();
 
         this.cdr.detectChanges();
       },
 
-      error: (error: any) => {
+      error: (error: unknown) => {
         console.error('Comment POST error:', error);
 
         this.isSubmitting = false;
 
-        this.errorMessage = error.error?.message || 'Unable to submit comment. Please try again.';
+        const apiError = error as {
+          error?: {
+            message?: string;
+          };
+        };
+
+        this.errorMessage =
+          apiError.error?.message || 'Unable to submit comment. Please try again.';
 
         this.cdr.detectChanges();
       },
@@ -133,7 +292,7 @@ export class PublicComments implements OnChanges {
   }
 
   // ==========================================
-  // DATE
+  // DATE FORMAT
   // ==========================================
 
   formatDate(date: string): string {
@@ -143,7 +302,7 @@ export class PublicComments implements OnChanges {
 
     const parsedDate = new Date(date);
 
-    if (isNaN(parsedDate.getTime())) {
+    if (Number.isNaN(parsedDate.getTime())) {
       return '';
     }
 
