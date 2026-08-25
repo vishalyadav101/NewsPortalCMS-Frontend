@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  Router,
   RouterLink,
   RouterLinkActive
 } from '@angular/router';
@@ -36,6 +37,8 @@ export class PublicNavbar {
 
   private readonly changeDetector =
     inject(ChangeDetectorRef);
+
+    private readonly router = inject(Router);
 
 
   // =========================================================
@@ -142,114 +145,134 @@ export class PublicNavbar {
   }
 
 
-  // =========================================================
-  // CATEGORY CLICK
-  // =========================================================
 
-  toggleCategory(categoryId: number): void {
+// =========================================================
+// CATEGORY CLICK
+// =========================================================
 
-    console.log(
-      'CATEGORY CLICKED:',
-      categoryId
-    );
+toggleCategory(categoryId: number): void {
 
+  console.log('CATEGORY CLICKED:', categoryId);
 
-    // -------------------------------------------------------
-    // CLOSE IF SAME CATEGORY IS CLICKED
-    // -------------------------------------------------------
+  // -------------------------------------------------------
+  // CLOSE IF SAME CATEGORY IS CLICKED
+  // -------------------------------------------------------
 
-    if (
-      this.openedCategoryId === categoryId
-    ) {
+  if (this.openedCategoryId === categoryId) {
 
-      this.openedCategoryId = null;
-
-      this.selectedSubcategories = [];
-
-      this.isSubcategoryLoading = false;
-
-      return;
-
-    }
-
-
-    // -------------------------------------------------------
-    // OPEN CATEGORY
-    // -------------------------------------------------------
-
-    this.openedCategoryId = categoryId;
-
-    this.isMoreOpen = false;
+    this.openedCategoryId = null;
 
     this.selectedSubcategories = [];
 
-    this.isSubcategoryLoading = true;
+    this.isSubcategoryLoading = false;
 
-
-    console.log(
-      'GETTING SUBCATEGORIES FOR CATEGORY:',
-      categoryId
-    );
-
-
-    // -------------------------------------------------------
-    // CALL API
-    // -------------------------------------------------------
-
-    this.subcategoryService
-      .getSubcategoriesByCategory(categoryId)
-      .subscribe({
-
-        next: (
-          subcategories: PublicSubcategory[]
-        ) => {
-
-          console.log(
-            'SUBCATEGORIES RECEIVED:',
-            subcategories
-          );
-
-
-          this.selectedSubcategories =
-            subcategories;
-
-
-          this.isSubcategoryLoading =
-            false;
-
-
-          this.changeDetector.detectChanges();
-
-
-          console.log(
-            'SELECTED SUBCATEGORIES:',
-            this.selectedSubcategories
-          );
-
-        },
-
-
-        error: (error) => {
-
-          console.error(
-            'SUBCATEGORY API ERROR:',
-            error
-          );
-
-
-          this.selectedSubcategories = [];
-
-          this.isSubcategoryLoading = false;
-
-
-          this.changeDetector.detectChanges();
-
-        }
-
-      });
-
+    return;
   }
 
+  // -------------------------------------------------------
+  // OPEN CATEGORY
+  // -------------------------------------------------------
+
+  this.openedCategoryId = categoryId;
+
+  this.selectedSubcategories = [];
+
+  this.isSubcategoryLoading = true;
+
+  // -------------------------------------------------------
+  // IMPORTANT:
+  // Keep MORE OPEN when category belongs to MORE section.
+  // Otherwise the More dropdown closes before its
+  // subcategories can be displayed.
+  // -------------------------------------------------------
+
+  const isMoreCategory = this.moreCategories.some(
+    category => category.id === categoryId
+  );
+
+  if (!isMoreCategory) {
+    this.isMoreOpen = false;
+  }
+
+  // -------------------------------------------------------
+  // GET SUBCATEGORIES
+  // -------------------------------------------------------
+
+  console.log(
+    'GETTING SUBCATEGORIES FOR CATEGORY:',
+    categoryId
+  );
+
+  this.subcategoryService
+    .getSubcategoriesByCategory(categoryId)
+    .subscribe({
+
+      next: (subcategories: PublicSubcategory[]) => {
+
+        console.log(
+          'SUBCATEGORIES RECEIVED:',
+          subcategories
+        );
+
+        this.selectedSubcategories = subcategories;
+
+        this.isSubcategoryLoading = false;
+
+        this.changeDetector.detectChanges();
+
+        console.log(
+          'SELECTED SUBCATEGORIES:',
+          this.selectedSubcategories
+        );
+      },
+
+      error: (error) => {
+
+        console.error(
+          'SUBCATEGORY API ERROR:',
+          error
+        );
+
+        this.selectedSubcategories = [];
+
+        this.isSubcategoryLoading = false;
+
+        this.changeDetector.detectChanges();
+      }
+
+    });
+}
+
+
+  // =========================================================
+// SUBCATEGORY CLICK
+// =========================================================
+
+openSubcategory(subcategoryId: number): void {
+
+  console.log(
+    'SUBCATEGORY CLICKED:',
+    subcategoryId
+  );
+
+  // Navigate to public news page
+  // with selected subcategory ID
+  this.router.navigate(
+    ['/public/news'],
+    {
+      queryParams: {
+        subcategoryId: subcategoryId
+      }
+    }
+  );
+
+  // Close opened menus
+  this.openedCategoryId = null;
+  this.isMoreOpen = false;
+  this.isMobileMenuOpen = false;
+  this.selectedSubcategories = [];
+  this.isSubcategoryLoading = false;
+}
 
   // =========================================================
   // MORE

@@ -1,34 +1,57 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
-import { NewsService } from '../../../core/services/news';
-import { News, NewsPagedResponse } from '../../../core/models/news.model';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
+
+import { CommonModule } from '@angular/common';
+import { RouterLink, ActivatedRoute } from '@angular/router';
+
+import { PublicNewsService } from '../../../core/services/public-news';
+import { PublicNews } from '../../../core/models/public-news.model';
 
 @Component({
   selector: 'app-public-news-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink,
+  ],
   templateUrl: './public-news-list.html',
   styleUrl: './public-news-list.css',
 })
 export class PublicNewsList implements OnInit {
-  private readonly newsService = inject(NewsService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
-  // ==========================================
+  // =========================================================
+  // SERVICES
+  // =========================================================
+
+  private readonly publicNewsService =
+    inject(PublicNewsService);
+
+  private readonly route =
+    inject(ActivatedRoute);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
+
+
+  // =========================================================
   // STATE
-  // ==========================================
+  // =========================================================
 
-  newsList: News[] = [];
+  newsList: PublicNews[] = [];
 
   isLoading = true;
 
   errorMessage = '';
 
-  // ==========================================
+
+  // =========================================================
   // PAGINATION
-  // ==========================================
+  // =========================================================
 
   pageNumber = 1;
 
@@ -42,158 +65,380 @@ export class PublicNewsList implements OnInit {
 
   hasNextPage = false;
 
-  // ==========================================
+
+  // =========================================================
+  // SUBCATEGORY
+  // =========================================================
+
+  subcategoryId: number | null = null;
+
+
+  // =========================================================
   // INIT
-  // ==========================================
+  // =========================================================
 
   ngOnInit(): void {
-    this.loadNews();
+
+    this.route.queryParams.subscribe(params => {
+
+      const id = Number(
+        params['subcategoryId']
+      );
+
+      if (id > 0) {
+
+        console.log(
+          'Public News: Subcategory selected:',
+          id
+        );
+
+        this.subcategoryId = id;
+
+      } else {
+
+        console.log(
+          'Public News: No subcategory selected.'
+        );
+
+        this.subcategoryId = null;
+      }
+
+      this.pageNumber = 1;
+
+      this.loadNews();
+
+    });
+
   }
 
-  // ==========================================
-  // LOAD PUBLISHED NEWS
-  // ==========================================
+
+  // =========================================================
+  // LOAD NEWS
+  // =========================================================
 
   loadNews(): void {
-    console.log('Public News: Loading...');
+
+    console.log(
+      'Public News: Loading...'
+    );
 
     this.isLoading = true;
+
     this.errorMessage = '';
 
-    this.newsService
-      .getAllPaged(
-        '',
-        undefined,
-        true,
-        undefined,
-        'publishDate_desc',
-        this.pageNumber,
-        this.pageSize,
-      )
+
+    // =======================================================
+    // SUBCATEGORY NEWS
+    // =======================================================
+
+    if (this.subcategoryId !== null) {
+
+      console.log(
+        'Loading news for subcategory:',
+        this.subcategoryId
+      );
+
+      this.publicNewsService
+        .getNewsBySubcategory(
+          this.subcategoryId
+        )
+        .subscribe({
+
+          next: (
+            response: PublicNews[]
+          ) => {
+
+            console.log(
+              'Public Subcategory News Response:',
+              response
+            );
+
+            this.newsList =
+              response ?? [];
+
+            this.totalCount =
+              this.newsList.length;
+
+            this.totalPages =
+              this.newsList.length > 0
+                ? 1
+                : 0;
+
+            this.pageNumber = 1;
+
+            this.hasPreviousPage =
+              false;
+
+            this.hasNextPage =
+              false;
+
+            this.isLoading = false;
+
+            this.cdr.detectChanges();
+
+          },
+
+          error: (error) => {
+
+            console.error(
+              'Public Subcategory News API Error:',
+              error
+            );
+
+            this.newsList = [];
+
+            this.totalCount = 0;
+
+            this.totalPages = 0;
+
+            this.hasPreviousPage = false;
+
+            this.hasNextPage = false;
+
+            this.errorMessage =
+              'Unable to load news for this subcategory. Please try again later.';
+
+            this.isLoading = false;
+
+            this.cdr.detectChanges();
+
+          },
+
+        });
+
+      return;
+    }
+
+
+    // =======================================================
+    // LATEST NEWS
+    // =======================================================
+
+    console.log(
+      'Loading latest public news'
+    );
+
+    this.publicNewsService
+      .getLatestNews(50)
       .subscribe({
-        next: (response: NewsPagedResponse) => {
-          console.log('Public News API Response:', response);
 
-          this.newsList = response?.items ?? [];
+        next: (
+          response: PublicNews[]
+        ) => {
 
-          this.pageNumber = response?.pageNumber ?? 1;
-          this.pageSize = response?.pageSize ?? 12;
-          this.totalCount = response?.totalCount ?? 0;
-          this.totalPages = response?.totalPages ?? 0;
-          this.hasPreviousPage = response?.hasPreviousPage ?? false;
-          this.hasNextPage = response?.hasNextPage ?? false;
+          console.log(
+            'Public Latest News Response:',
+            response
+          );
+
+          this.newsList =
+            response ?? [];
+
+          this.totalCount =
+            this.newsList.length;
+
+          this.totalPages =
+            this.newsList.length > 0
+              ? 1
+              : 0;
+
+          this.pageNumber = 1;
+
+          this.hasPreviousPage =
+            false;
+
+          this.hasNextPage =
+            false;
 
           this.isLoading = false;
 
           this.cdr.detectChanges();
+
         },
 
         error: (error) => {
-          console.error('Public News API Error:', error);
+
+          console.error(
+            'Public Latest News API Error:',
+            error
+          );
 
           this.newsList = [];
 
           this.totalCount = 0;
+
           this.totalPages = 0;
+
           this.hasPreviousPage = false;
+
           this.hasNextPage = false;
 
-          this.errorMessage = 'Unable to load latest news. Please try again later.';
+          this.errorMessage =
+            'Unable to load latest news. Please try again later.';
 
           this.isLoading = false;
 
           this.cdr.detectChanges();
+
         },
+
       });
+
   }
 
-  // ==========================================
-  // PREVIOUS PAGE
-  // ==========================================
+// =========================================================
+// PREVIOUS PAGE
+// =========================================================
 
-  previousPage(): void {
-    if (!this.hasPreviousPage) {
-      return;
-    }
+previousPage(): void {
 
-    this.pageNumber--;
-
-    this.loadNews();
+  if (!this.hasPreviousPage) {
+    return;
   }
 
-  // ==========================================
-  // NEXT PAGE
-  // ==========================================
+  this.pageNumber--;
 
-  nextPage(): void {
-    if (!this.hasNextPage) {
-      return;
-    }
+  this.loadNews();
+}
 
-    this.pageNumber++;
 
-    this.loadNews();
+// =========================================================
+// NEXT PAGE
+// =========================================================
+
+nextPage(): void {
+
+  if (!this.hasNextPage) {
+    return;
   }
 
-  // ==========================================
+  this.pageNumber++;
+
+  this.loadNews();
+}
+
+
+  // =========================================================
   // IMAGE URL
-  // ==========================================
+  // =========================================================
 
-  getImageUrl(imagePath: string | null): string {
-    if (!imagePath || !imagePath.trim()) {
+  getImageUrl(
+    imagePath: string | null
+  ): string {
+
+    if (
+      !imagePath ||
+      !imagePath.trim()
+    ) {
+
       return 'assets/images/no-image.png';
+
     }
 
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+
+    if (
+      imagePath.startsWith('http://') ||
+      imagePath.startsWith('https://')
+    ) {
+
       return imagePath;
+
     }
 
-    const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+
+    const cleanPath =
+      imagePath.startsWith('/')
+        ? imagePath
+        : `/${imagePath}`;
+
 
     return `https://localhost:7103${cleanPath}`;
+
   }
 
-  // ==========================================
+
+  // =========================================================
   // IMAGE ERROR
-  // ==========================================
+  // =========================================================
 
-  handleImageError(event: Event): void {
-    const image = event.target as HTMLImageElement;
+  handleImageError(
+    event: Event
+  ): void {
 
-    if (image.src.includes('no-image.png')) {
+    const image =
+      event.target as HTMLImageElement;
+
+
+    if (
+      image.src.includes(
+        'no-image.png'
+      )
+    ) {
+
       return;
+
     }
 
-    image.src = 'assets/images/no-image.png';
+
+    image.src =
+      'assets/images/no-image.png';
+
   }
 
-  // ==========================================
+
+  // =========================================================
   // DATE FORMAT
-  // ==========================================
+  // =========================================================
 
-  formatDate(date: string | null | undefined): string {
+  formatDate(
+    date: string | null | undefined
+  ): string {
+
     if (!date) {
+
       return '';
+
     }
 
-    const parsedDate = new Date(date);
 
-    if (isNaN(parsedDate.getTime())) {
+    const parsedDate =
+      new Date(date);
+
+
+    if (
+      isNaN(
+        parsedDate.getTime()
+      )
+    ) {
+
       return '';
+
     }
 
-    return parsedDate.toLocaleDateString('en-IN', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
+
+    return parsedDate.toLocaleDateString(
+      'en-IN',
+      {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      }
+    );
+
   }
 
-  // ==========================================
+
+  // =========================================================
   // TRACK BY
-  // ==========================================
+  // =========================================================
 
-  trackByNewsId(index: number, news: News): number {
+  trackByNewsId(
+    index: number,
+    news: PublicNews
+  ): number {
+
     return news.id;
+
   }
+
 }
