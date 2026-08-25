@@ -2,6 +2,8 @@
 
   <div class="navbar-container">
 
+    <!-- MOBILE MENU BUTTON -->
+
     <button
       type="button"
       class="mobile-menu-btn"
@@ -15,15 +17,19 @@
     </button>
 
 
+    <!-- NAVIGATION -->
+
     <div
       class="nav-menu"
       [class.mobile-open]="isMobileMenuOpen"
     >
 
-      <!-- HOME ALWAYS EXISTS -->
+      <!-- =====================================================
+           HOME
+      ====================================================== -->
 
       <a
-        routerLink="/public"
+        routerLink="/"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeMobileMenu()"
@@ -32,50 +38,186 @@
       </a>
 
 
-      <!-- API CATEGORIES -->
-
-      <ng-container *ngFor="let category of visibleCategories">
-
-        <a
-          [routerLink]="['/public/category', category.slug]"
-          routerLinkActive="active"
-          (click)="closeMobileMenu()"
-        >
-          {{ category.name }}
-        </a>
-
-      </ng-container>
-
-
-      <!-- MORE -->
+      <!-- =====================================================
+           FIRST 10 CATEGORIES
+      ====================================================== -->
 
       <div
-        class="more-wrapper"
+        class="category-menu"
+        *ngFor="let category of visibleCategories"
+      >
+
+        <!-- CATEGORY BUTTON -->
+
+        <button
+          type="button"
+          class="category-btn"
+          [class.active]="openedCategoryId === category.id"
+          (click)="toggleCategory(category.id)"
+        >
+
+          <span>
+            {{ category.name }}
+          </span>
+
+          <span class="dropdown-arrow">
+
+            {{ openedCategoryId === category.id ? '▴' : '▾' }}
+
+          </span>
+
+        </button>
+
+
+        <!-- =================================================
+             SUBCATEGORY DROPDOWN
+        ================================================== -->
+
+        <div
+          class="subcategory-dropdown"
+          *ngIf="openedCategoryId === category.id"
+        >
+
+          <!-- LOADING -->
+
+          <div
+            class="subcategory-loading"
+            *ngIf="isSubcategoryLoading"
+          >
+            Loading...
+          </div>
+
+
+          <!-- NO SUBCATEGORIES -->
+
+          <div
+            class="no-subcategories"
+            *ngIf="
+              !isSubcategoryLoading &&
+              selectedSubcategories.length === 0
+            "
+          >
+            No subcategories
+          </div>
+
+
+          <!-- SUBCATEGORIES -->
+
+          <a
+            *ngFor="let subcategory of selectedSubcategories"
+            [routerLink]="[
+              '/subcategory',
+              subcategory.slug
+            ]"
+            (click)="closeCategory()"
+          >
+
+            {{ subcategory.name }}
+
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           MORE
+      ====================================================== -->
+
+      <div
+        class="more-menu"
         *ngIf="moreCategories.length > 0"
       >
 
         <button
           type="button"
           class="more-btn"
+          [class.active]="isMoreOpen"
           (click)="toggleMore()"
         >
-          More
-          <span>▾</span>
+          More ▾
         </button>
 
+
+        <!-- MORE DROPDOWN -->
 
         <div
           class="more-dropdown"
           *ngIf="isMoreOpen"
         >
 
-          <a
+          <div
+            class="more-category"
             *ngFor="let category of moreCategories"
-            [routerLink]="['/public/category', category.slug]"
-            (click)="closeMobileMenu()"
           >
-            {{ category.name }}
-          </a>
+
+            <button
+              type="button"
+              class="more-category-btn"
+              [class.active]="openedCategoryId === category.id"
+              (click)="toggleCategory(category.id)"
+            >
+
+              <span>
+                {{ category.name }}
+              </span>
+
+              <span>
+                {{ openedCategoryId === category.id ? '▴' : '▸' }}
+              </span>
+
+            </button>
+
+
+            <!-- MORE SUBCATEGORIES -->
+
+            <div
+              class="more-subcategory-dropdown"
+              *ngIf="openedCategoryId === category.id"
+            >
+
+              <!-- LOADING -->
+
+              <div
+                class="subcategory-loading"
+                *ngIf="isSubcategoryLoading"
+              >
+                Loading...
+              </div>
+
+
+              <!-- NO SUBCATEGORIES -->
+
+              <div
+                class="no-subcategories"
+                *ngIf="
+                  !isSubcategoryLoading &&
+                  selectedSubcategories.length === 0
+                "
+              >
+                No subcategories
+              </div>
+
+
+              <!-- SUBCATEGORIES -->
+
+              <a
+                *ngFor="let subcategory of selectedSubcategories"
+                [routerLink]="[
+                  '/subcategory',
+                  subcategory.slug
+                ]"
+                (click)="closeCategory()"
+              >
+
+                {{ subcategory.name }}
+
+              </a>
+
+            </div>
+
+          </div>
 
         </div>
 

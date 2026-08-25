@@ -1,17 +1,19 @@
-import {
-  Component,
-  AfterViewInit,
-  ChangeDetectorRef,
-  inject
-} from '@angular/core';
-
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
 
 import {
   PublicCategoryService,
   PublicCategory
 } from '../../core/services/public-category';
+
+import {
+  PublicSubcategoryService,
+  PublicSubcategory
+} from '../../core/services/public-subcategory';
 
 @Component({
   selector: 'app-public-navbar',
@@ -24,75 +26,258 @@ import {
   templateUrl: './public-navbar.html',
   styleUrl: './public-navbar.css'
 })
-export class PublicNavbar implements AfterViewInit {
+export class PublicNavbar {
 
   private readonly categoryService =
     inject(PublicCategoryService);
 
-  private readonly cdr =
+  private readonly subcategoryService =
+    inject(PublicSubcategoryService);
+
+  private readonly changeDetector =
     inject(ChangeDetectorRef);
 
+
+  // =========================================================
+  // MENU STATE
+  // =========================================================
+
   isMobileMenuOpen = false;
+
   isMoreOpen = false;
 
-  categories: PublicCategory[] = [];
+  openedCategoryId: number | null = null;
+
+
+  // =========================================================
+  // CATEGORIES
+  // =========================================================
 
   visibleCategories: PublicCategory[] = [];
 
   moreCategories: PublicCategory[] = [];
 
 
-  // Load categories after the initial view has been checked
-  ngAfterViewInit(): void {
+  // =========================================================
+  // SUBCATEGORIES
+  // =========================================================
+
+  selectedSubcategories: PublicSubcategory[] = [];
+
+  isSubcategoryLoading = false;
+
+
+  // =========================================================
+  // CONSTRUCTOR
+  // =========================================================
+
+  constructor() {
+
     this.loadCategories();
+
   }
 
 
-  loadCategories(): void {
+  // =========================================================
+  // LOAD CATEGORIES
+  // =========================================================
+
+  private loadCategories(): void {
 
     this.categoryService.getCategories().subscribe({
 
-      next: (data: PublicCategory[]) => {
+      next: (categories: PublicCategory[]) => {
 
-        console.log('Public Categories:', data);
-
-        // Sort categories by display order
-        const sorted = [...data].sort(
-          (a, b) => a.displayOrder - b.displayOrder
+        console.log(
+          'PUBLIC CATEGORIES:',
+          categories
         );
 
-        // All categories
-        this.categories = sorted;
+        const sortedCategories =
+          [...categories].sort(
+            (a, b) =>
+              a.displayOrder - b.displayOrder
+          );
 
-        // Show maximum 10 categories
-        this.visibleCategories = sorted.slice(0, 10);
 
-        // Remaining categories
-        this.moreCategories = sorted.slice(10);
+        this.visibleCategories =
+          sortedCategories.slice(0, 10);
 
-        // Tell Angular that the values have changed
-        this.cdr.detectChanges();
+
+        this.moreCategories =
+          sortedCategories.slice(10);
+
+
+        console.log(
+          'VISIBLE CATEGORIES:',
+          this.visibleCategories
+        );
+
+
+        console.log(
+          'MORE CATEGORIES:',
+          this.moreCategories
+        );
+
+
+        /*
+         * Tell Angular that the API response has
+         * changed the data used by the template.
+         */
+        this.changeDetector.detectChanges();
+
       },
-
 
       error: (error) => {
 
         console.error(
-          'Public Categories API Error:',
+          'PUBLIC CATEGORY API ERROR:',
           error
         );
 
-        this.categories = [];
-        this.visibleCategories = [];
-        this.moreCategories = [];
-
-        this.cdr.detectChanges();
       }
 
     });
 
   }
 
+
+  // =========================================================
+  // CATEGORY CLICK
+  // =========================================================
+
+  toggleCategory(categoryId: number): void {
+
+    console.log(
+      'CATEGORY CLICKED:',
+      categoryId
+    );
+
+
+    // -------------------------------------------------------
+    // CLOSE IF SAME CATEGORY IS CLICKED
+    // -------------------------------------------------------
+
+    if (
+      this.openedCategoryId === categoryId
+    ) {
+
+      this.openedCategoryId = null;
+
+      this.selectedSubcategories = [];
+
+      this.isSubcategoryLoading = false;
+
+      return;
+
+    }
+
+
+    // -------------------------------------------------------
+    // OPEN CATEGORY
+    // -------------------------------------------------------
+
+    this.openedCategoryId = categoryId;
+
+    this.isMoreOpen = false;
+
+    this.selectedSubcategories = [];
+
+    this.isSubcategoryLoading = true;
+
+
+    console.log(
+      'GETTING SUBCATEGORIES FOR CATEGORY:',
+      categoryId
+    );
+
+
+    // -------------------------------------------------------
+    // CALL API
+    // -------------------------------------------------------
+
+    this.subcategoryService
+      .getSubcategoriesByCategory(categoryId)
+      .subscribe({
+
+        next: (
+          subcategories: PublicSubcategory[]
+        ) => {
+
+          console.log(
+            'SUBCATEGORIES RECEIVED:',
+            subcategories
+          );
+
+
+          this.selectedSubcategories =
+            subcategories;
+
+
+          this.isSubcategoryLoading =
+            false;
+
+
+          this.changeDetector.detectChanges();
+
+
+          console.log(
+            'SELECTED SUBCATEGORIES:',
+            this.selectedSubcategories
+          );
+
+        },
+
+
+        error: (error) => {
+
+          console.error(
+            'SUBCATEGORY API ERROR:',
+            error
+          );
+
+
+          this.selectedSubcategories = [];
+
+          this.isSubcategoryLoading = false;
+
+
+          this.changeDetector.detectChanges();
+
+        }
+
+      });
+
+  }
+
+
+  // =========================================================
+  // MORE
+  // =========================================================
+
+  toggleMore(): void {
+
+    this.isMoreOpen =
+      !this.isMoreOpen;
+
+
+    this.openedCategoryId =
+      null;
+
+
+    this.selectedSubcategories =
+      [];
+
+
+    this.isSubcategoryLoading =
+      false;
+
+  }
+
+
+  // =========================================================
+  // MOBILE MENU
+  // =========================================================
 
   toggleMobileMenu(): void {
 
@@ -102,18 +287,40 @@ export class PublicNavbar implements AfterViewInit {
   }
 
 
+  // =========================================================
+  // CLOSE MOBILE MENU
+  // =========================================================
+
   closeMobileMenu(): void {
 
     this.isMobileMenuOpen = false;
+
     this.isMoreOpen = false;
+
+    this.openedCategoryId = null;
+
+    this.selectedSubcategories = [];
+
+    this.isSubcategoryLoading = false;
 
   }
 
 
-  toggleMore(): void {
+  // =========================================================
+  // CLOSE CATEGORY
+  // =========================================================
 
-    this.isMoreOpen =
-      !this.isMoreOpen;
+  closeCategory(): void {
+
+    this.openedCategoryId = null;
+
+    this.isMoreOpen = false;
+
+    this.isMobileMenuOpen = false;
+
+    this.selectedSubcategories = [];
+
+    this.isSubcategoryLoading = false;
 
   }
 
