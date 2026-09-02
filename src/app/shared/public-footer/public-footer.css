@@ -383,3 +383,33 @@
     align-items: flex-start;
   }
 }
+/* ==========================================
+   SEE MORE CATEGORIES
+========================================== */
+
+.see-more-categories {
+  display: block;
+
+  margin-top: 2px;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: #d71920;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition: color 0.2s ease;
+}
+
+.see-more-categories:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
