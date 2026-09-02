@@ -1,0 +1,114 @@
+<div class="search-page">
+  <!-- ==========================================
+       PAGE HEADER
+  =========================================== -->
+
+  <div class="search-header">
+    <h1>Search Results</h1>
+
+    <p *ngIf="searchKeyword">
+      Showing results for
+      <strong>"{{ searchKeyword }}"</strong>
+    </p>
+  </div>
+
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+
+  <div class="loading-card" *ngIf="isLoading">
+    <div class="loading-spinner"></div>
+
+    <p>Searching news...</p>
+  </div>
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+
+  <div class="error-message" *ngIf="!isLoading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- ==========================================
+       RESULTS
+  =========================================== -->
+
+  <div class="results-section" *ngIf="!isLoading && !errorMessage">
+    <!-- Result Count -->
+
+    <div class="result-count" *ngIf="newsList.length > 0">
+      <strong>{{ newsList.length }}</strong>
+      result{{ newsList.length === 1 ? '' : 's' }} found
+    </div>
+
+    <!-- News Grid -->
+
+    <div class="news-grid" *ngIf="newsList.length > 0">
+      <article class="news-card" *ngFor="let news of newsList">
+        <!-- Image -->
+
+        <a [routerLink]="['/public/news', news.slug]" class="news-image">
+          <img [src]="news.featuredImage || 'assets/images/default-news.jpg'" [alt]="news.title" />
+        </a>
+
+        <!-- Content -->
+
+        <div class="news-content">
+          <!-- Category -->
+
+          <span class="category-badge">
+            {{ news.categoryName }}
+          </span>
+
+          <!-- Title -->
+
+          <h2>
+            <a [routerLink]="['/public/news', news.slug]">
+              {{ news.title }}
+            </a>
+          </h2>
+
+          <!-- Description -->
+
+          <p class="description">
+            {{ news.shortDescription }}
+          </p>
+
+          <!-- Meta -->
+
+          <div class="news-meta">
+            <span> By {{ news.author || 'Unknown' }} </span>
+
+            <span class="dot"> • </span>
+
+            <span>
+              {{ news.publishDate | date: 'dd MMM yyyy' }}
+            </span>
+          </div>
+
+          <!-- Read More -->
+
+          <a [routerLink]="['/public/news', news.slug]" class="read-more"> Read More → </a>
+        </div>
+      </article>
+    </div>
+
+    <!-- ========================================
+         EMPTY STATE
+    ========================================= -->
+
+    <div class="empty-state" *ngIf="newsList.length === 0">
+      <div class="empty-icon">🔍</div>
+
+      <h2>No news found</h2>
+
+      <p>
+        We couldn't find any news matching
+        <strong>"{{ searchKeyword }}"</strong>.
+      </p>
+
+      <a routerLink="/public" class="back-home"> ← Back to Home </a>
+    </div>
+  </div>
+</div>

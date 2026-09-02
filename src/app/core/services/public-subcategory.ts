@@ -2,50 +2,30 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface PublicSubcategory {
+export interface PublicSubCategory {
   id: number;
   categoryId: number;
   categoryName: string;
   name: string;
   slug: string;
-  description?: string;
+  description: string | null;
+  displayOrder: number;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class PublicSubcategoryService {
-
+export class PublicSubCategoryService {
   private readonly http = inject(HttpClient);
 
-  // IMPORTANT:
-  // This must match your actual Swagger endpoint
-  private readonly apiUrl =
-    'https://localhost:7103/api/public/subcategories';
+  private readonly apiUrl = 'https://localhost:7103/api/publicsubcategories';
 
-  // =========================================================
-  // GET ALL SUBCATEGORIES
-  // =========================================================
-
-  getSubcategories(): Observable<PublicSubcategory[]> {
-
-    return this.http.get<PublicSubcategory[]>(
-      this.apiUrl
-    );
-
-  }
-
-  // =========================================================
+  // =====================================================
   // GET SUBCATEGORIES BY CATEGORY
-  // =========================================================
+  // GET /api/publicsubcategories/category/{categoryId}
+  // =====================================================
 
-  getSubcategoriesByCategory(
-    categoryId: number
-  ): Observable<PublicSubcategory[]> {
-
-    return this.http.get<PublicSubcategory[]>(
-      `${this.apiUrl}/category/${categoryId}`
-    );
-
+  getSubCategoriesByCategory(categoryId: number): Observable<PublicSubCategory[]> {
+    return this.http.get<PublicSubCategory[]>(`${this.apiUrl}/category/${categoryId}`);
   }
 }

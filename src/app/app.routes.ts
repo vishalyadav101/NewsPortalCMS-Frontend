@@ -66,7 +66,7 @@ import { RoleForm } from './pages/roles/role-form/role-form';
 import { RolePermissions } from './pages/roles/role-permissions/role-permissions';
 import { PublicNewsList } from './features/public-news/public-news-list/public-news-list';
 import { PublicNewsDetail } from './features/public-news/public-news-detail/public-news-detail';
-
+import { PublicSearch } from './pages/public-search/public-search/public-search';
 export const routes: Routes = [
   // ==========================================
   // AUTHENTICATION
@@ -77,11 +77,9 @@ export const routes: Routes = [
     component: Login,
   },
   {
-  path: 'register',
-  loadComponent: () =>
-    import('./features/auth/register/register')
-      .then((m) => m.Register),
-},
+    path: 'register',
+    loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
+  },
 
   // ==========================================
   // PUBLIC WEBSITE
@@ -107,25 +105,27 @@ export const routes: Routes = [
         path: 'news/:id',
         component: PublicNewsDetail,
       },
+      {
+        path: 'search',
+        component: PublicSearch,
+      },
+      // ========================================
+      // NEWS BY CATEGORY
+      // ========================================
 
-       // ========================================
-    // NEWS BY CATEGORY
-    // ========================================
+      {
+        path: 'category/:slug',
+        component: PublicNewsList,
+      },
 
-    {
-      path: 'category/:slug',
-      component: PublicNewsList,
-    },
+      // ========================================
+      // NEWS BY SUBCATEGORY
+      // ========================================
 
-
-    // ========================================
-    // NEWS BY SUBCATEGORY
-    // ========================================
-
-    {
-      path: 'subcategory/:slug',
-      component: PublicNewsList,
-    },
+      {
+        path: 'subcategory/:slug',
+        component: PublicNewsList,
+      },
 
       // PUBLIC STATIC PAGES
       {

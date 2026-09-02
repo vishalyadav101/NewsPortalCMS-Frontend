@@ -5,11 +5,24 @@
 
   <section class="page-header">
     <div class="container">
-      <span class="page-label">LATEST STORIES</span>
+      <span class="page-label">
+        @if (selectedCategory) {
+          CATEGORY
+        } @else {
+          LATEST STORIES
+        }
+      </span>
 
-      <h1>Latest News</h1>
+      <h1>
+        {{ selectedCategory?.name || 'Latest News' }}
+      </h1>
 
-      <p>Stay updated with the latest news, stories and important updates.</p>
+      <p>
+        {{
+          selectedCategory?.description ||
+            'Stay updated with the latest news, stories and important updates.'
+        }}
+      </p>
     </div>
   </section>
 
@@ -21,7 +34,11 @@
     <section class="loading-section">
       <div class="loader"></div>
 
-      <p>Loading latest news...</p>
+      <p>
+        Loading
+        {{ selectedCategory?.name || 'latest' }}
+        news...
+      </p>
     </section>
   }
 
@@ -35,7 +52,9 @@
 
       <h2>Unable to Load News</h2>
 
-      <p>{{ errorMessage }}</p>
+      <p>
+        {{ errorMessage }}
+      </p>
 
       <button type="button" (click)="loadNews()">Try Again</button>
     </section>
@@ -57,7 +76,13 @@
             <div>
               <span class="heading-line"></span>
 
-              <h2>All Latest News</h2>
+              <h2>
+                @if (selectedCategory) {
+                  All {{ selectedCategory.name }} News
+                } @else {
+                  All Latest News
+                }
+              </h2>
             </div>
 
             <span class="news-count"> {{ totalCount }} Stories </span>
@@ -70,7 +95,9 @@
           <div class="news-grid">
             @for (newsItem of newsList; track newsItem.id) {
               <article class="news-card">
-                <!-- IMAGE -->
+                <!-- ==================================
+                     IMAGE
+                =================================== -->
 
                 <a [routerLink]="['/public/news', newsItem.id]" class="news-image">
                   <img
@@ -84,19 +111,24 @@
                   </span>
                 </a>
 
-                <!-- CONTENT -->
+                <!-- ==================================
+                     CONTENT
+                =================================== -->
 
                 <div class="news-content">
-                  <!-- DATE -->
+                  <!-- DATE / VIEWS -->
 
                   <div class="news-meta">
                     <span>
                       {{ formatDate(newsItem.publishDate) }}
                     </span>
 
-                    <span>•</span>
+                    <span> • </span>
 
-                    <span> {{ newsItem.viewCount ?? 0 }} views </span>
+                    <span>
+                      {{ newsItem.viewCount ?? 0 }}
+                      views
+                    </span>
                   </div>
 
                   <!-- TITLE -->
@@ -116,7 +148,10 @@
                   <!-- AUTHOR -->
 
                   <div class="news-footer">
-                    <span> By {{ newsItem.author || 'Admin' }} </span>
+                    <span>
+                      By
+                      {{ newsItem.author || 'Admin' }}
+                    </span>
 
                     <a [routerLink]="['/public/news', newsItem.id]"> Read More → </a>
                   </div>
@@ -136,13 +171,13 @@
               </button>
 
               <div class="page-info">
-                <span>Page</span>
+                <span> Page </span>
 
                 <strong>
                   {{ pageNumber }}
                 </strong>
 
-                <span>of</span>
+                <span> of </span>
 
                 <strong>
                   {{ totalPages }}
@@ -166,7 +201,14 @@
 
         <h2>No News Available</h2>
 
-        <p>There are currently no published news articles available.</p>
+        <p>
+          @if (selectedCategory) {
+            There are currently no published news articles available in
+            {{ selectedCategory.name }}.
+          } @else {
+            There are currently no published news articles available.
+          }
+        </p>
       </section>
     }
   }

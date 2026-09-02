@@ -408,3 +408,194 @@
     display: none;
   }
 }
+/* =====================================================
+   CATEGORY NAVIGATION
+   ===================================================== */
+
+.category-nav {
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+  z-index: 20;
+}
+
+.category-nav-inner {
+  width: 100%;
+  min-height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0;
+  padding: 0 12px;
+
+  overflow-x: auto;
+  overflow-y: visible;
+
+  scrollbar-width: none;
+}
+
+.category-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+/* =====================================================
+   CATEGORY LINKS
+   ===================================================== */
+
+.category-link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 46px;
+
+  padding: 0 17px;
+
+  color: #111827;
+  background: transparent;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+/* =====================================================
+   HOVER
+   ===================================================== */
+
+.category-link:hover {
+  color: #e11d2e;
+  background: #fff5f5;
+}
+
+/* =====================================================
+   ACTIVE CATEGORY
+   ===================================================== */
+
+.category-link.active {
+  color: #e11d2e;
+}
+
+/* Red underline */
+
+.category-link.active::after {
+  content: '';
+
+  position: absolute;
+
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+
+  height: 3px;
+
+  background: #e11d2e;
+
+  border-radius: 3px 3px 0 0;
+}
+
+/* =====================================================
+   LOADING
+   ===================================================== */
+
+.category-loading {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 46px;
+
+  padding: 0 18px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* =====================================================
+   MORE
+   ===================================================== */
+
+.more-link {
+  margin-left: 4px;
+}
+
+/* =====================================================
+   DESKTOP
+   ===================================================== */
+
+@media (min-width: 1200px) {
+  .category-nav-inner {
+    overflow-x: visible;
+  }
+
+  .category-link {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 992px) {
+  .category-nav-inner {
+    justify-content: flex-start;
+  }
+
+  .category-link {
+    padding-left: 14px;
+    padding-right: 14px;
+
+    font-size: 13px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+  .category-nav-inner {
+    justify-content: flex-start;
+
+    min-height: 42px;
+
+    padding: 0 6px;
+  }
+
+  .category-link {
+    min-height: 42px;
+
+    padding: 0 12px;
+
+    font-size: 12px;
+  }
+
+  .category-link.active::after {
+    left: 10px;
+    right: 10px;
+  }
+
+  .category-loading {
+    min-height: 42px;
+
+    padding: 0 12px;
+
+    font-size: 12px;
+  }
+}

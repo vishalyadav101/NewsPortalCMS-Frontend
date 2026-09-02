@@ -136,9 +136,14 @@
     ========================================= -->
 
     <div class="header-search">
-      <input type="text" placeholder="Search news, categories, topics..." />
+      <input
+        type="text"
+        [(ngModel)]="searchKeyword"
+        placeholder="Search news, categories, topics..."
+        (keyup.enter)="searchNews()"
+      />
 
-      <button type="button" aria-label="Search">🔍</button>
+      <button type="button" aria-label="Search" (click)="searchNews()">🔍</button>
     </div>
 
     <!-- ========================================
@@ -157,4 +162,8 @@
       </a>
     </div>
   </div>
+
+  <!-- ==========================================
+       CATEGORY NAVIGATION
+  =========================================== -->
 </header>

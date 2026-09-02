@@ -1,8 +1,5 @@
-
 <nav class="public-navbar">
-
   <div class="navbar-container">
-
     <!-- =====================================================
          MOBILE MENU BUTTON
     ====================================================== -->
@@ -19,37 +16,29 @@
       <span></span>
     </button>
 
-
     <!-- =====================================================
          NAVIGATION
     ====================================================== -->
 
-    <div
-      class="nav-menu"
-      [class.mobile-open]="isMobileMenuOpen"
-    >
-
+    <div class="nav-menu" [class.mobile-open]="isMobileMenuOpen">
       <!-- =====================================================
            HOME
       ====================================================== -->
 
       <a
-        href="javascript:void(0)"
+        routerLink="/public"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         (click)="closeMobileMenu()"
       >
         Home
       </a>
 
-
       <!-- =====================================================
            FIRST 10 CATEGORIES
       ====================================================== -->
 
-      <div
-        class="category-menu"
-        *ngFor="let category of visibleCategories"
-      >
-
+      <div class="category-menu" *ngFor="let category of visibleCategories">
         <!-- CATEGORY BUTTON -->
 
         <button
@@ -58,7 +47,6 @@
           [class.active]="openedCategoryId === category.id"
           (click)="toggleCategory(category.id)"
         >
-
           <span>
             {{ category.name }}
           </span>
@@ -66,103 +54,64 @@
           <span class="dropdown-arrow">
             {{ openedCategoryId === category.id ? '▴' : '▾' }}
           </span>
-
         </button>
-
 
         <!-- =================================================
              SUBCATEGORY DROPDOWN
         ================================================== -->
 
-        <div
-          class="subcategory-dropdown"
-          *ngIf="openedCategoryId === category.id"
-        >
-
+        <div class="subcategory-dropdown" *ngIf="openedCategoryId === category.id">
           <!-- LOADING -->
 
-          <div
-            class="subcategory-loading"
-            *ngIf="isSubcategoryLoading"
-          >
-            Loading...
-          </div>
-
+          <div class="subcategory-loading" *ngIf="isSubcategoryLoading">Loading...</div>
 
           <!-- NO SUBCATEGORIES -->
 
           <div
             class="no-subcategories"
-            *ngIf="
-              !isSubcategoryLoading &&
-              selectedSubcategories.length === 0
-            "
+            *ngIf="!isSubcategoryLoading && selectedSubcategories.length === 0"
           >
             No subcategories
           </div>
 
-
           <!-- SUBCATEGORIES -->
 
-          <a
+          <button
+            type="button"
+            class="subcategory-item"
             *ngFor="let subcategory of selectedSubcategories"
-            [routerLink]="['/public/news']"
-            [queryParams]="{
-              subcategoryId: subcategory.id
-            }"
-            (click)="closeCategory()"
+            (click)="openSubcategory(subcategory.id)"
           >
             {{ subcategory.name }}
-          </a>
-
+          </button>
         </div>
-
       </div>
-
 
       <!-- =====================================================
            MORE
       ====================================================== -->
 
-      <div
-        class="more-menu"
-        *ngIf="moreCategories.length > 0"
-      >
-
+      <div class="more-menu" *ngIf="moreCategories.length > 0">
         <!-- MORE BUTTON -->
 
-        <button
-          type="button"
-          class="more-btn"
-          [class.active]="isMoreOpen"
-          (click)="toggleMore()"
-        >
-          More
+        <button type="button" class="more-btn" [class.active]="isMoreOpen" (click)="toggleMore()">
+          <span>More</span>
 
           <span>
             {{ isMoreOpen ? '▴' : '▾' }}
           </span>
         </button>
 
-
         <!-- =================================================
              MORE DROPDOWN
         ================================================== -->
 
-        <div
-          class="more-dropdown"
-          *ngIf="isMoreOpen"
-        >
-
+        <div class="more-dropdown" *ngIf="isMoreOpen">
           <!-- =================================================
                MORE CATEGORY
           ================================================== -->
 
-          <div
-            class="more-category"
-            *ngFor="let category of moreCategories"
-          >
-
+          <div class="more-category" *ngFor="let category of moreCategories">
             <!-- CATEGORY BUTTON -->
 
             <button
@@ -171,7 +120,6 @@
               [class.active]="openedCategoryId === category.id"
               (click)="toggleCategory(category.id)"
             >
-
               <span>
                 {{ category.name }}
               </span>
@@ -179,65 +127,40 @@
               <span class="more-category-arrow">
                 {{ openedCategoryId === category.id ? '▴' : '▸' }}
               </span>
-
             </button>
-
 
             <!-- =================================================
                  SUBCATEGORY DROPDOWN INSIDE MORE
             ================================================== -->
 
-            <div
-              class="more-subcategory-dropdown"
-              *ngIf="openedCategoryId === category.id"
-            >
-
+            <div class="more-subcategory-dropdown" *ngIf="openedCategoryId === category.id">
               <!-- LOADING -->
 
-              <div
-                class="subcategory-loading"
-                *ngIf="isSubcategoryLoading"
-              >
-                Loading...
-              </div>
-
+              <div class="subcategory-loading" *ngIf="isSubcategoryLoading">Loading...</div>
 
               <!-- NO SUBCATEGORIES -->
 
               <div
                 class="no-subcategories"
-                *ngIf="
-                  !isSubcategoryLoading &&
-                  selectedSubcategories.length === 0
-                "
+                *ngIf="!isSubcategoryLoading && selectedSubcategories.length === 0"
               >
                 No subcategories
               </div>
 
-
               <!-- SUBCATEGORIES -->
 
-              <a
+              <button
+                type="button"
+                class="subcategory-item"
                 *ngFor="let subcategory of selectedSubcategories"
-                [routerLink]="['/public/news']"
-                [queryParams]="{
-                  subcategoryId: subcategory.id
-                }"
-                (click)="closeCategory()"
+                (click)="openSubcategory(subcategory.id)"
               >
                 {{ subcategory.name }}
-              </a>
-
+              </button>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </nav>
