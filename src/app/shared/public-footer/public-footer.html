@@ -142,21 +142,32 @@
       </div>
 
       <!-- ======================================
-           CATEGORIES
-      ======================================= -->
+     CATEGORIES
+======================================= -->
 
       <div class="footer-column">
         <h4>Categories</h4>
 
-        <a href="#"> India </a>
+        @if (isLoadingCategories) {
+          <span>Loading...</span>
+        }
 
-        <a href="#"> World </a>
+        @if (!isLoadingCategories) {
+          @for (
+            category of showAllCategories ? categories : categories.slice(0, 3);
+            track category.id
+          ) {
+            <a [routerLink]="['/public/category', category.slug]">
+              {{ category.name }}
+            </a>
+          }
 
-        <a href="#"> Technology </a>
-
-        <a href="#"> Business </a>
-
-        <a href="#"> Sports </a>
+          @if (categories.length > 4) {
+            <button type="button" class="see-more-categories" (click)="toggleCategories()">
+              {{ showAllCategories ? 'See Less' : 'See More...' }}
+            </button>
+          }
+        }
       </div>
 
       <!-- ======================================
