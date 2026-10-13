@@ -254,7 +254,7 @@ export class NewsForm implements OnInit {
         // ==========================================
 
         this.selectedImagePreview = data.featuredImage
-          ? `https://localhost:7103${data.featuredImage}`
+          ? `https://newsportalcms-api.onrender.com${data.featuredImage}`
           : '';
 
         // ==========================================
@@ -262,7 +262,7 @@ export class NewsForm implements OnInit {
         // ==========================================
 
         this.selectedVideoPreview = data.featuredVideo
-          ? `https://localhost:7103${data.featuredVideo}`
+          ? `https://newsportalcms-api.onrender.com${data.featuredVideo}`
           : '';
 
         this.isLoading = false;

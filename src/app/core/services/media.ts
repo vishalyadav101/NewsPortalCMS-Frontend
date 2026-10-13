@@ -10,7 +10,7 @@ import { Media, MediaRequest } from '../models/media.model';
 export class MediaService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Media';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Media';
 
   getAll(): Observable<Media[]> {
     return this.http.get<Media[]>(this.apiUrl);

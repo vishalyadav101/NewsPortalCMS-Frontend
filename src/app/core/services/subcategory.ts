@@ -10,7 +10,7 @@ import { SubCategory, SubCategoryRequest } from '../models/subcategory.model';
 export class SubCategoryService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/SubCategory';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/SubCategory';
 
   // ==========================================
   // GET ALL SUB CATEGORIES

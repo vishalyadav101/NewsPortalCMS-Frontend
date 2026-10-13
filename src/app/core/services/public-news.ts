@@ -19,7 +19,7 @@ export class PublicNewsService {
   // =====================================================
 
   private readonly apiUrl =
-    'https://localhost:7103/api/publicnews';
+    'https://newsportalcms-api.onrender.com/api/publicnews';
 
   // =====================================================
   // GET LATEST NEWS

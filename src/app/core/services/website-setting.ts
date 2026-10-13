@@ -10,7 +10,7 @@ import { WebsiteSetting, WebsiteSettingRequest } from '../models/website-setting
 export class WebsiteSettingService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/WebsiteSetting';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/WebsiteSetting';
 
   // ==========================================
   // GET SETTINGS

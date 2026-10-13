@@ -752,6 +752,6 @@ export class WebsiteSettings implements OnInit {
       return path;
     }
 
-    return `https://localhost:7103${path}`;
+    return `https://newsportalcms-api.onrender.com${path}`;
   }
 }

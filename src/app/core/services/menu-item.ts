@@ -10,7 +10,7 @@ import { MenuItem, MenuItemRequest } from '../models/menu-item.model';
 export class MenuItemService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/MenuItem';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/MenuItem';
 
   getByMenu(menuId: number): Observable<MenuItem[]> {
     return this.http.get<MenuItem[]>(`${this.apiUrl}/menu/${menuId}`);

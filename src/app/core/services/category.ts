@@ -9,7 +9,7 @@ import { Category, CategoryRequest } from '../models/category.model';
 export class CategoryService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Category';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Category';
 
   getAll(): Observable<Category[]> {
     return this.http.get<Category[]>(this.apiUrl);

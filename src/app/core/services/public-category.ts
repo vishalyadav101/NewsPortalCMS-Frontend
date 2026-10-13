@@ -16,7 +16,7 @@ export interface PublicCategory {
 export class PublicCategoryService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/publiccategories';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/publiccategories';
 
   // =====================================================
   // GET ALL PUBLIC CATEGORIES

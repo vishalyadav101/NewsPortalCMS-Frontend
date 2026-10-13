@@ -10,7 +10,7 @@ import { StaticPage, StaticPageRequest } from '../models/staticpage.model';
 export class StaticPageService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/StaticPages';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/StaticPages';
 
   getAll(): Observable<StaticPage[]> {
     return this.http.get<StaticPage[]>(this.apiUrl);

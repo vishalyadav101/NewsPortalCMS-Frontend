@@ -16,7 +16,7 @@ export class Home implements OnInit {
 
   private readonly cdr = inject(ChangeDetectorRef);
 
-  private readonly apiBaseUrl = 'https://localhost:7103';
+  private readonly apiBaseUrl = 'https://newsportalcms-api.onrender.com';
 
   // ==========================================
   // STATE

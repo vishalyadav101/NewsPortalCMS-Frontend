@@ -10,7 +10,7 @@ import { Tag, TagRequest } from '../models/tag.model';
 export class TagService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Tag';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Tag';
 
   getAll(): Observable<Tag[]> {
     return this.http.get<Tag[]>(this.apiUrl);

@@ -193,7 +193,7 @@ export class AdvertisementForm implements OnInit {
       return imageUrl;
     }
 
-    return `https://localhost:7103${imageUrl}`;
+    return `https://newsportalcms-api.onrender.com${imageUrl}`;
   }
 
   save(): void {

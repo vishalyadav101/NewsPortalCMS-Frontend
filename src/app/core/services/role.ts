@@ -10,7 +10,7 @@ import { Role, RoleRequest } from '../models/role.model';
 export class RoleService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Role';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Role';
 
   // GET /api/Role
   getAll(): Observable<Role[]> {

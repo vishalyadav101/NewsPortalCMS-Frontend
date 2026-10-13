@@ -10,7 +10,7 @@ import { Comment, CommentRequest } from '../models/comment.model';
 export class CommentService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Comment';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Comment';
 
   getAll(): Observable<Comment[]> {
     return this.http.get<Comment[]>(this.apiUrl);

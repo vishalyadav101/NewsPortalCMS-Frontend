@@ -10,7 +10,7 @@ import { News, NewsRequest, NewsPagedResponse } from '../models/news.model';
 export class NewsService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/News';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/News';
 
   // =====================================================
   // GET ALL NEWS

@@ -199,7 +199,7 @@ export class PublicNewsDetail implements OnInit {
 
     const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
 
-    return `https://localhost:7103${cleanPath}`;
+    return `https://newsportalcms-api.onrender.com${cleanPath}`;
   }
 
   // ==========================================
@@ -259,6 +259,6 @@ export class PublicNewsDetail implements OnInit {
 
     const cleanPath = videoPath.startsWith('/') ? videoPath : `/${videoPath}`;
 
-    return `https://localhost:7103${cleanPath}`;
+    return `https://newsportalcms-api.onrender.com${cleanPath}`;
   }
 }

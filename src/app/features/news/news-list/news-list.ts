@@ -318,6 +318,6 @@ export class NewsList implements OnInit {
 
     const cleanPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
 
-    return `https://localhost:7103${cleanPath}`;
+    return `https://newsportalcms-api.onrender.com${cleanPath}`;
   }
 }

@@ -14,7 +14,7 @@ import {
 export class NotificationService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Notification';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Notification';
 
   getAll(): Observable<Notification[]> {
     return this.http.get<Notification[]>(this.apiUrl);

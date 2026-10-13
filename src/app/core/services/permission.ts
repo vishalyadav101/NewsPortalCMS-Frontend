@@ -10,7 +10,7 @@ import { Permission, PermissionRequest } from '../models/permission.model';
 export class PermissionService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Permission';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Permission';
 
   getAll(): Observable<Permission[]> {
     return this.http.get<Permission[]>(this.apiUrl);

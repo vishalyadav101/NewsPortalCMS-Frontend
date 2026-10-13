@@ -15,7 +15,7 @@ import {
 export class ReportService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Reports';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Reports';
 
   // GET /api/Reports/dashboard
   getDashboard(): Observable<ReportDashboard> {

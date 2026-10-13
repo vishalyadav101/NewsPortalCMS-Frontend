@@ -10,7 +10,7 @@ import { Seo, SeoRequest } from '../models/seo.model';
 export class SeoService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Seo';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Seo';
 
   // GET /api/Seo
   getAll(): Observable<Seo[]> {

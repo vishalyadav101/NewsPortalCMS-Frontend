@@ -10,7 +10,7 @@ import { AssignNewsTagRequest } from '../models/news-tag.model';
 export class NewsTagService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/NewsTag';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/NewsTag';
 
   getByNews(newsId: number): Observable<number[]> {
     return this.http.get<number[]>(`${this.apiUrl}/${newsId}`);

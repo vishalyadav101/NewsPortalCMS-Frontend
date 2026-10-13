@@ -14,7 +14,7 @@ export class AdvertisementService {
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl =
-    'https://localhost:7103/api/Advertisement';
+    'https://newsportalcms-api.onrender.com/api/Advertisement';
 
   getAll(): Observable<Advertisement[]> {
     return this.http.get<Advertisement[]>(this.apiUrl);

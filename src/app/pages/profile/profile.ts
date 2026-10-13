@@ -277,7 +277,7 @@ export class ProfileComponent implements OnInit {
       return imagePath;
     }
 
-    return `https://localhost:7103${imagePath}`;
+    return `https://newsportalcms-api.onrender.com${imagePath}`;
   }
 
   // ==========================================

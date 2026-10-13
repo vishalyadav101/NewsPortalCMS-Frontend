@@ -28,7 +28,7 @@ export interface CurrentUser {
 export class Auth {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Auth';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Auth';
 
   private readonly tokenKey = 'auth_token';
 

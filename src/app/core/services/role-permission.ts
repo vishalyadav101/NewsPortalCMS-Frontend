@@ -13,7 +13,7 @@ import {
 export class RolePermissionService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/RolePermission';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/RolePermission';
 
   // ==========================================
   // GET ASSIGNED PERMISSIONS BY ROLE

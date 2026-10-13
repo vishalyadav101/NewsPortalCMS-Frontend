@@ -10,7 +10,7 @@ import { User, UpdateUserRequest, UpdateUserStatusRequest } from '../models/user
 export class UserService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/User';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/User';
 
   getAll(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);

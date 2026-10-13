@@ -87,6 +87,6 @@ export class MediaList implements OnInit {
   }
 
   getFileUrl(path: string): string {
-    return `https://localhost:7103${path}`;
+    return `https://newsportalcms-api.onrender.com${path}`;
   }
 }

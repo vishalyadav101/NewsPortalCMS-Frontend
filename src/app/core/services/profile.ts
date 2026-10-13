@@ -10,7 +10,7 @@ import { Profile, UpdateProfileRequest } from '../models/profile.model';
 export class ProfileService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'https://localhost:7103/api/Profile';
+  private readonly apiUrl = 'https://newsportalcms-api.onrender.com/api/Profile';
 
   // GET /api/Profile
   getProfile(): Observable<Profile> {
