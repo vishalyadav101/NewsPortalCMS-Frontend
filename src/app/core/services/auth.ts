@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, map } from 'rxjs';
 
 export interface LoginRequest {
   userName: string;
@@ -15,6 +15,7 @@ export interface RegisterRequest {
   password: string;
   confirmPassword: string;
 }
+
 export interface CurrentUser {
   userId: string | null;
   name: string;
@@ -32,30 +33,29 @@ export class Auth {
 
   private readonly tokenKey = 'auth_token';
 
-  // ==========================================
   // LOGIN
-  // ==========================================
-
-  // =========================
-  // LOGIN
-  // =========================
-
   login(data: LoginRequest): Observable<string> {
     return this.http
       .post(`${this.apiUrl}/login`, data, {
         responseType: 'text',
       })
       .pipe(
-        tap((token) => {
+        map((response: string) => {
+          const token = response.trim().replace(/^"|"$/g, '');
+
+          if (token.split('.').length !== 3) {
+            throw new Error('Login API ne valid JWT token return nahi kiya.');
+          }
+
+          return token;
+        }),
+        tap((token: string) => {
           localStorage.setItem(this.tokenKey, token);
         }),
       );
   }
 
-  // =========================
   // REGISTER
-  // =========================
-
   register(data: RegisterRequest): Observable<any> {
     const formData = new FormData();
 
@@ -71,30 +71,17 @@ export class Auth {
     });
   }
 
-  // =========================
-  // TOKEN
-  // =========================
-
-  // ==========================================
   // GET TOKEN
-  // ==========================================
-
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  // ==========================================
   // LOGIN STATUS
-  // ==========================================
-
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  // ==========================================
   // GET CURRENT USER
-  // ==========================================
-
   getCurrentUser(): CurrentUser | null {
     const token = this.getToken();
 
@@ -109,10 +96,6 @@ export class Auth {
         return null;
       }
 
-      // ======================================
-      // CLAIM KEYS
-      // ======================================
-
       const nameIdentifierClaim =
         'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';
 
@@ -120,10 +103,7 @@ export class Auth {
 
       const roleClaim = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
-      // ======================================
       // USER ID
-      // ======================================
-
       const userId =
         payload[nameIdentifierClaim] ??
         payload['nameid'] ??
@@ -131,10 +111,7 @@ export class Auth {
         payload['userId'] ??
         null;
 
-      // ======================================
       // NAME
-      // ======================================
-
       const name =
         payload[nameClaim] ??
         payload['name'] ??
@@ -145,16 +122,10 @@ export class Auth {
         payload['UserName'] ??
         '';
 
-      // ======================================
       // EMAIL
-      // ======================================
-
       const email = payload['email'] ?? payload['Email'] ?? '';
 
-      // ======================================
       // USERNAME
-      // ======================================
-
       const userName =
         payload['unique_name'] ??
         payload['userName'] ??
@@ -165,16 +136,12 @@ export class Auth {
 
       const currentUser: CurrentUser = {
         userId: userId ? String(userId) : null,
-
         name: String(name),
-
         email: String(email),
-
         userName: String(userName),
       };
 
       console.log('Current User From JWT:', currentUser);
-
       console.log('JWT Role:', payload[roleClaim] ?? payload['role'] ?? '');
 
       return currentUser;
@@ -185,10 +152,7 @@ export class Auth {
     }
   }
 
-  // ==========================================
   // DECODE JWT
-  // ==========================================
-
   private decodeToken(token: string): Record<string, any> | null {
     try {
       const parts = token.split('.');
@@ -201,8 +165,10 @@ export class Auth {
 
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
 
+      const paddedBase64 = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
+
       const jsonPayload = decodeURIComponent(
-        atob(base64)
+        atob(paddedBase64)
           .split('')
           .map((char) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
           .join(''),
@@ -211,15 +177,11 @@ export class Auth {
       return JSON.parse(jsonPayload);
     } catch (error) {
       console.error('JWT decode error:', error);
-
       return null;
     }
   }
 
-  // ==========================================
   // LOGOUT
-  // ==========================================
-
   logout(): void {
     localStorage.removeItem(this.tokenKey);
   }
