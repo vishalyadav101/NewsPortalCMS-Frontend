@@ -68,6 +68,12 @@ import { PublicNewsList } from './features/public-news/public-news-list/public-n
 import { PublicNewsDetail } from './features/public-news/public-news-detail/public-news-detail';
 import { PublicSearch } from './pages/public-search/public-search/public-search';
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'public',
+    pathMatch: 'full',
+  },
+
   // ==========================================
   // AUTHENTICATION
   // ==========================================
@@ -511,6 +517,6 @@ export const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'dashboard',
+    redirectTo: 'public',
   },
 ];
